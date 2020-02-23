@@ -1,0 +1,63 @@
+﻿@model DealDouble.Entities.Auction
+<div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLongTitle">Auction Create</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<form id="editAuction">
+    <div class="modal-body">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <div class="row">
+                <div class="col-lg-4">
+                    <input type="hidden" name="AuctionID" value="@Model.AuctionID" />
+                    <label class="font-weight-bold">Title</label>
+                    <input type="text" name="Title" class="form-control" value="@Model.Title" />
+                </div>
+                <div class="col-lg-4">
+                    <label class="font-weight-bold">Description</label>
+                    <input type="text" name="Description" class="form-control" value="@Model.Description" />
+                </div>
+                <div class="col-lg-4">
+                    <label class="font-weight-bold">ActualAmount</label>
+                    <input type="number" name="ActualAmount" class="form-control" value="@Model.ActualAmount" />
+                </div>
+                <div class="col-lg-4">
+                    <label class="font-weight-bold">StartingTime</label>
+                    <input type="datetime" name="StartingTime" class="form-control" value="@Model.StartingTime" />
+                </div>
+                <div class="col-lg-4">
+                    <label class="font-weight-bold">EndingTime</label>
+                    <input type="datetime" name="EndTime" class="form-control" value="@Model.EndTime" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" id="btneditAuction" class="btn btn-primary">Update</button>
+    </div>
+</form>
+
+
+
+<script>
+    $("#btneditAuction").click(function () {
+        $.ajax({
+            method: 'post',
+            url: '@Url.Action("Edit","Auction")',
+            data: $("#editAuction").serialize()
+        }).done(function (response) {
+            $("#auctionCreateFrom").modal('toggle');
+            $("#listingArea").html(response);
+        }).fail(function (xhr, ajaxOptions, thrownError) {
+            alert(xhr.status);
+            console.log(thrownError);
+        });
+
+    })
+</script>
+
+
+

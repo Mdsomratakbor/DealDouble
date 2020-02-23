@@ -57,9 +57,17 @@
     <Compile Include="Migrations\202002191542503_auctionEntityAdd.designer.cs">
       <DependentUpon>202002191542503_auctionEntityAdd.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202002191601436_auction-ColumnEditEndingTime.cs" />
-    <Compile Include="Migrations\202002191601436_auction-ColumnEditEndingTime.designer.cs">
-      <DependentUpon>202002191601436_auction-ColumnEditEndingTime.cs</DependentUpon>
+    <Compile Include="Migrations\202002191733020_edit.cs" />
+    <Compile Include="Migrations\202002191733020_edit.designer.cs">
+      <DependentUpon>202002191733020_edit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002191734502_AddEndTime.cs" />
+    <Compile Include="Migrations\202002191734502_AddEndTime.designer.cs">
+      <DependentUpon>202002191734502_AddEndTime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002221541311_auctionspictures.cs" />
+    <Compile Include="Migrations\202002221541311_auctionspictures.designer.cs">
+      <DependentUpon>202002221541311_auctionspictures.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -78,8 +86,14 @@
     <EmbeddedResource Include="Migrations\202002191542503_auctionEntityAdd.resx">
       <DependentUpon>202002191542503_auctionEntityAdd.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202002191601436_auction-ColumnEditEndingTime.resx">
-      <DependentUpon>202002191601436_auction-ColumnEditEndingTime.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202002191733020_edit.resx">
+      <DependentUpon>202002191733020_edit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002191734502_AddEndTime.resx">
+      <DependentUpon>202002191734502_AddEndTime.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002221541311_auctionspictures.resx">
+      <DependentUpon>202002221541311_auctionspictures.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

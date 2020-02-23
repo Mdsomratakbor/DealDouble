@@ -11,8 +11,6 @@ namespace DealDouble.Entities
         public int AuctionID { get; set; }
         public string Title { get; set; }
 
-        public string PictureUrl { get; set; }
-
         public  string Description { get; set; }
 
         public decimal ActualAmount { get; set; }
@@ -20,5 +18,6 @@ namespace DealDouble.Entities
         public DateTime StartingTime { get; set; }
 
         public DateTime EndTime { get; set; }
+        public List<AuctionPicture> AuctionPictures { get; set; }
     }
 }

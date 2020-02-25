@@ -18,6 +18,8 @@ namespace DealDouble.Entities
         public DateTime StartingTime { get; set; }
 
         public DateTime EndTime { get; set; }
+        public Category Category { get; set; }
+        public int CategoryID { get; set; }
         public List<AuctionPicture> AuctionPictures { get; set; }
     }
 }

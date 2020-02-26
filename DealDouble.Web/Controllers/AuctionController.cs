@@ -34,7 +34,9 @@ namespace DealDouble.Web.Controllers
         [HttpGet]
         public ActionResult Create()
         {
-            return PartialView();
+            AuctionCrudeViewModel model = new AuctionCrudeViewModel();
+            model.Categories = CategoriesService.Instance.GetAllCategories();
+            return PartialView(model);
         }
         [HttpPost]
         public ActionResult Create(AuctionCrudeViewModel model)
@@ -47,9 +49,13 @@ namespace DealDouble.Web.Controllers
             auction.StartingTime = model.StartingTime;
             auction.EndTime = model.EndTime;
             auction.AuctionPictures = new List<AuctionPicture>();
-
-            var pictuerIDs = model.AuctionPictures.Split(new char[] {','}, StringSplitOptions.RemoveEmptyEntries).Select(x => int.Parse(x)).ToList();
-            auction.AuctionPictures.AddRange(pictuerIDs.Select(x => new AuctionPicture { PictureID = x }).ToList());
+            auction.CategoryID = model.CategoryID;
+            if(model.AuctionPictures != null)
+            {
+                var pictuerIDs = model.AuctionPictures.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(x => int.Parse(x)).ToList();
+                auction.AuctionPictures.AddRange(pictuerIDs.Select(x => new AuctionPicture { PictureID = x }).ToList());
+            }
+          
 
 
             AuctionService.Instance.SaveAuction(auction);
@@ -90,7 +96,7 @@ namespace DealDouble.Web.Controllers
         [HttpGet]
         public ActionResult Details(int id)
         {
-            var model = new AuctionCrudeViewModel();
+            var model = new AuctionDetailsViewModel();
             var auction = AuctionService.Instance.GetAuction(id);
             model.AuctionID = auction.AuctionID;
             model.Title = auction.Title;
@@ -100,6 +106,7 @@ namespace DealDouble.Web.Controllers
             model.PageTitle = "Auction-Details";
             model.PageDescription = "This Auction Details page";
             model.ActualAmount = auction.ActualAmount;
+            model.AuctionPictures = auction.AuctionPictures;
             
            
             return View(model);

@@ -29,14 +29,14 @@ namespace DealDouble.Services
         {
             using (var context = new Context())
             {
-                return context.Auctions.ToList();
+                return context.Auctions.Include(x => x.Category).Include(y => y.AuctionPictures).Include(z =>z.AuctionPictures.Select(w=> w.Picture)).ToList();
             }
         }
         public List<Auction> GetPromoAuction()
         {
             using (var context = new Context())
             {
-                return context.Auctions.Take(4).ToList();
+                return context.Auctions.Include(x => x.Category).Include(y => y.AuctionPictures).Include(z => z.AuctionPictures.Select(w => w.Picture)).Take(4).ToList();
             }
         }
         public Auction GetAuction(int id)
@@ -44,7 +44,7 @@ namespace DealDouble.Services
 
             using (var context = new Context())
             {
-                return context.Auctions.Find(id);
+                return context.Auctions.Where(x=>x.AuctionID == id).Include(x => x.Category).Include(y => y.AuctionPictures).Include(z => z.AuctionPictures.Select(w => w.Picture)).FirstOrDefault();
             }
         }
         public void SaveAuction(Auction auction)

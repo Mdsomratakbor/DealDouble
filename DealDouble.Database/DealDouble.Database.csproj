@@ -73,6 +73,10 @@
     <Compile Include="Migrations\202002251846157_addCategory.designer.cs">
       <DependentUpon>202002251846157_addCategory.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202002261429124_virtualaddinCategory.cs" />
+    <Compile Include="Migrations\202002261429124_virtualaddinCategory.designer.cs">
+      <DependentUpon>202002261429124_virtualaddinCategory.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -101,6 +105,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202002251846157_addCategory.resx">
       <DependentUpon>202002251846157_addCategory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002261429124_virtualaddinCategory.resx">
+      <DependentUpon>202002261429124_virtualaddinCategory.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

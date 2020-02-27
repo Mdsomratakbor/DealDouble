@@ -22,17 +22,6 @@ namespace DealDouble.Entities
         public DateTime EndTime { get; set; }
         
   
-        public virtual List<AuctionPicture> AuctionPictures { get; set; }
-
-        //public override Category Category
-        //{
-        //    get
-        //    {
-        //        if (membership == null)
-        //            membership = .Memberships.Find(CategoryID);
-        //        return membership;
-        //    }
-        //    set { membership = value; }
-        //}
+        public virtual List<AuctionPicture> AuctionPictures { get; set; }     
     }
 }

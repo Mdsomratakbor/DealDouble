@@ -1,4 +1,4 @@
-﻿@model DealDouble.Entities.Auction
+﻿@model DealDouble.Web.ViewModels.AuctionCrudeViewModel
 <div class="modal-header">
     <h5 class="modal-title" id="exampleModalLongTitle">Auction Create</h5>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -16,6 +16,16 @@
                     <input type="text" name="Title" class="form-control" value="@Model.Title" />
                 </div>
                 <div class="col-lg-4">
+                    <label class="font-weight-bold">Category</label>
+                    <select name="CategoryID" class="form-control">
+                        @foreach (var category in Model.Categories)
+                        {
+                            var selected = category.ID == Model.CategoryID ? "selected" : string.Empty;
+                            <option value="@category.ID" @selected>@category.Name</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-lg-4">
                     <label class="font-weight-bold">Description</label>
                     <input type="text" name="Description" class="form-control" value="@Model.Description" />
                 </div>
@@ -31,6 +41,20 @@
                     <label class="font-weight-bold">EndingTime</label>
                     <input type="datetime" name="EndTime" class="form-control" value="@Model.EndTime" />
                 </div>
+                <div class="col-lg-6">
+                    <label class="font-weight-bold">Pictures</label>
+                    <input type="file" id="auctionPictures" class="form-control" name="AuctionPictures" multiple />
+                </div>
+                <div class="col-lg-6 mt-1" id="pictuerArea">
+                    @if(Model.AuctionImage.Count>0 && Model.AuctionImage != null)
+                    {
+                        foreach (var picture in Model.AuctionImage)
+                        {
+                            <img class='image img-thumbnail' src="/Content/images/@picture.Picture.URL" style="height:150px; width:150px;" />
+                        }
+                    }
+                    <input type="hidden" id="pictueIDs" name="AuctionPictures" />
+                </div>
             </div>
         </div>
     </div>
@@ -43,7 +67,45 @@
 
 
 <script>
+    $("#auctionPictures").change(function () {
+        var element = this
+        var formData = new FormData();
+        var totalFiles = element.files.length;
+        for (var i = 0; i < totalFiles; i++) {
+            var files = element.files[i];
+            formData.append("Photo", files);
+        }
+        $.ajax({
+            method: "Post",
+            url: "@Url.Action("UploadImage", "Shared")",
+            dataType: 'json',
+        data: formData,
+        contentType: false,
+        processData: false
+
+    }).done(function (responses) {
+        if (responses.Success) {
+            for (var i = 0 ; i < responses.pictuerJSON.length; i++)
+            {
+                var picResponse = responses.pictuerJSON[i];
+                AttachNewImage(picResponse.pictureURL, picResponse.ID)
+            }
+        }
+        else {
+            alert("Image URL Not set");
+        }
+    }).fail(function (xhr, ajaxOptions, thrownError) {
+        alert(xhr.status);
+        console.log(thrownError);
+    });
+    });
     $("#btneditAuction").click(function () {
+        var imageIDs = [];
+        $("#pictuerArea .image").each(function () {
+            var imageID = $(this).attr("data-id");
+            imageIDs.push(imageID);
+        });
+        $("#pictueIDs").val(imageIDs.join());
         $.ajax({
             method: 'post',
             url: '@Url.Action("Edit","Auction")',

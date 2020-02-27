@@ -29,7 +29,7 @@ namespace DealDouble.Services
         {
             using (var context = new Context())
             {
-                return context.Categories.ToList();
+                return context.Categories.Include(x=>x.Auctions).ToList();
             }
         }
         //public List<Auction> GetPromoAuction()
@@ -39,40 +39,40 @@ namespace DealDouble.Services
         //        return context.Auctions.Take(4).ToList();
         //    }
         //}
-        //public Auction GetAuction(int id)
-        //{
+        public Category GetCategoryById(int id)
+        {
 
-        //    using (var context = new Context())
-        //    {
-        //        return context.Auctions.Find(id);
-        //    }
-        //}
-        //public void SaveAuction(Auction auction)
-        //{
-        //    using (var context = new Context())
-        //    {
-        //        context.Auctions.Add(auction);
-        //        context.SaveChanges();
-        //    }
-        //}
-        //public void UpdateAuction(Auction auction)
-        //{
-        //    using (var context = new Context())
-        //    {
-        //        context.Entry(auction).State = System.Data.Entity.EntityState.Modified;
-        //        context.SaveChanges();
-        //    }
+            using (var context = new Context())
+            {
+                return context.Categories.Find(id);
+            }
+        }
+        public void SaveCategory(Category category)
+        {
+            using (var context = new Context())
+            {
+                context.Categories.Add(category);
+                context.SaveChanges();
+            }
+        }
+        public void UpdateCategory(Category category)
+        {
+            using (var context = new Context())
+            {
+                context.Entry(category).State = System.Data.Entity.EntityState.Modified;
+                context.SaveChanges();
+            }
 
-        //}
-        //public void DeleteAuction(int id)
-        //{
-        //    using (var context = new Context())
-        //    {
-        //        var auction = context.Auctions.Find(id);
-        //        context.Entry(auction).State = System.Data.Entity.EntityState.Modified;
-        //        context.Auctions.Remove(auction);
-        //        context.SaveChanges();
-        //    }
-        //}
+         }
+        public void DeleteCategory(int id)
+        {
+            using (var context = new Context())
+            {
+                var category = context.Categories.Find(id);
+                context.Entry(category).State = System.Data.Entity.EntityState.Modified;
+                context.Categories.Remove(category);
+                context.SaveChanges();
+            }
+        }
     }
 }

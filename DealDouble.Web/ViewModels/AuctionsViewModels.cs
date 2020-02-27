@@ -10,6 +10,11 @@ namespace DealDouble.Web.ViewModels
     {
         public List<Auction> AllAuction { get; set; }
         public List<Auction> PromotedAuction { get; set; }
+        public List<Category> Categories { get; set; }
+        public string SearchTearm { get; set; }
+        public int CategoryID { get; set; }
+        public int PageSize { get; set; }
+        public Pager Pager { get; set; }
         
     }
     public class AuctionCrudeViewModel : PageViewModel
@@ -27,6 +32,7 @@ namespace DealDouble.Web.ViewModels
 
         public DateTime EndTime { get; set; }
         public string AuctionPictures { get; set; }
+        public List<AuctionPicture> AuctionImage { get; set; }
         public int CategoryID { get; set; }
         public List<Category> Categories { get; set; }
     }

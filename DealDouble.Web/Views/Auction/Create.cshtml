@@ -98,7 +98,6 @@
     });
 
     $("#saveAuction").click(function () {
-        debugger;
         var imageIDs = [];
         $("#pictuerArea .image").each(function(){
             var imageID = $(this).attr("data-id");
@@ -117,17 +116,7 @@
             console.log(thrownError);
         })
     });
-    function AttachNewImage(imageURL, imageID) {
-        debugger;
-        var $newHtml = $("#imageTemplate").clone();
-        $newHtml.find(".image").attr("src", "/Content/images/" + imageURL);
-        $newHtml.find(".image").attr("data-id", imageID);
-        $("#pictuerArea").append($newHtml.html());
-        $("#pictuerArea .image").click(function () {
-
-            $(this).remove();
-        })
-    }
+  
 
 </script>
 

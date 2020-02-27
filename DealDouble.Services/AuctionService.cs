@@ -24,12 +24,41 @@ namespace DealDouble.Services
         private static AuctionService instance { get; set; }
         #endregion
 
+        public int TotalItemsCount(int? categoryID, string searchTearm)
+        {
+            using (var context  = new Context())
+            {
+                var auctions = context.Auctions.AsQueryable();
+                if(string.IsNullOrEmpty(categoryID.ToString()) == false)
+                {
+                    auctions = auctions.Where(x => x.CategoryID == categoryID);
+                }
+                if (string.IsNullOrEmpty(searchTearm) == false)
+                {
+                    auctions = auctions.Where(x => x.Title.ToLower().Contains(searchTearm.ToLower()));
+                }
+                return auctions.Count();
+            }
 
-        public List<Auction> GetAllAuction()
+        }
+
+        public List<Auction> GetAllAuction(int? categoryID, string searchTearm, int pageNo, int pageSize)
         {
             using (var context = new Context())
             {
-                return context.Auctions.Include(x => x.Category).Include(y => y.AuctionPictures).Include(z =>z.AuctionPictures.Select(w=> w.Picture)).ToList();
+                var auctions = context.Auctions.Include(x => x.Category).Include(y => y.AuctionPictures).Include(z => z.AuctionPictures.Select(w => w.Picture)).AsQueryable();
+                if (categoryID.HasValue && categoryID.Value > 0)
+                {
+                    auctions = auctions.Where(category => category.CategoryID == categoryID);
+                }
+                if (string.IsNullOrEmpty(searchTearm) == false)
+                {
+                    auctions = auctions.Where(auction => auction.Title.ToLower().Contains(searchTearm.ToLower()));
+                }
+                // pageNo = pageNo ?? 1;
+                //or this is code
+                // pageNo = pageNo.HasValue ? pageNo.Value : 1;
+                return auctions.OrderByDescending(x => x.CategoryID).Skip((pageNo - 1) * pageSize).Take(pageSize).ToList();
             }
         }
         public List<Auction> GetPromoAuction()
@@ -44,7 +73,7 @@ namespace DealDouble.Services
 
             using (var context = new Context())
             {
-                return context.Auctions.Where(x=>x.AuctionID == id).Include(x => x.Category).Include(y => y.AuctionPictures).Include(z => z.AuctionPictures.Select(w => w.Picture)).FirstOrDefault();
+                return context.Auctions.Where(x => x.AuctionID == id).Include(x => x.Category).Include(y => y.AuctionPictures).Include(z => z.AuctionPictures.Select(w => w.Picture)).FirstOrDefault();
             }
         }
         public void SaveAuction(Auction auction)

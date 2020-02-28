@@ -16,28 +16,32 @@
               
                 <div class="col-md-2 float-right">
                     <label class="font-weight-bold"> Select Rows</label>
-                    <select name="CategoryID" class="form-control">
+                    <select name="pageSize" class="form-control" id="pageSize">
                         <option value="10">10</option>
-                        <option value="10">20</option>
-                        <option value="10">30</option>
-                        <option value="10">50</option>
-                        <option value="10">100</option>
+                        <option value="20">20</option>
+                        <option value="30">30</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
                     </select>
                 </div>
             
                 <div class="col-md-3 float-right">
                     <label class="font-weight-bold">Category</label>
-                    <select name="CategoryID" class="form-control">
+                    <select name="CategoryID" class="form-control" id="searchByCategory">
                         @foreach (var category in Model.Categories)
                         {
                             <option value="@category.ID">@category.Name</option>
                         }
                     </select>
                 </div>
-                <div class="col-md-4 float-right">
+                <div class="col-md-2 float-right ">
                     <label class="font-weight-bold">Search</label>
                     <input type="search" id="searchText" name="search" class="form-control" value="@Model.SearchTearm" />
               
+                </div>
+                <div class="col-md-2 mt-4">
+                    <button class="btn btn-md btn-danger" type="button" id="searchBtn">Search</button>
+                    <button class="btn btn-md btn-success" type="button" id="resetBtn">Reset</button>
                 </div>
                 <div class="col-md-3 float-right mt-4">
                     <button id="createAuction" class="btn  btn-success float-right mt-1" data-toggle="modal" data-target="#auctionCreateFrom"><i class="fas fa-plus"></i> Crate New Auction</button>
@@ -59,8 +63,10 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var data in Model.AllAuction)
-            {
+                @if (Model.AllAuction != null && Model.AllAuction.Count() > 0)
+                {
+                    foreach (var data in Model.AllAuction)
+                    {
                     <tr>
                         <td>@data.Title</td>
                         <td>@data.Category.Name</td>
@@ -74,6 +80,15 @@
                         </td>
 
                     </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td class="text-center" colspan="7">
+                            Not  results found
+                        </td>
+                    </tr>
                 }
             </tbody>
         </table>
@@ -83,27 +98,31 @@
 
                 <nav aria-label="Page navigation example">
                     <ul class="pagination">
-                        @if (Model.Pager.CurrentPage > 1)
-                           {
-                            <li class="page-item">
-                                <a class="page-link" href="@Url.Action("Index", "Auction", new { pageNo = Model.Pager.CurrentPage - 1, pageSize = Model.PageSize })" aria-label="Previous">
-                                    <span aria-hidden="true">&laquo;</span>
-                                </a>
-                            </li>
-                        }
-                        @for (var page = Model.Pager.StartPage; page <= Model.Pager.EndPage; page++)
+                        @if (Model.Pager != null)
                         {
-                            var activeClass = Model.Pager.CurrentPage == page ? "active bg-info" : string.Empty;
-                            <li class="page-item @activeClass"><a class="page-link" href="@Url.Action("Index","Auction",new {pageNo = page, pageSize = Model.PageSize })">@page</a></li>
+                            if (Model.Pager.CurrentPage > 1)
+                            {
+                                <li class="page-item">
+                                    <a class="page-link datalink" data-href="@Url.Action("Index", "Auction", new { pageNo = Model.Pager.CurrentPage - 1, pageSize = Model.PageSize })" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>
+                            }
+                            for (var page = Model.Pager.StartPage; page <= Model.Pager.EndPage; page++)
+                            {
+                                var activeClass = Model.Pager.CurrentPage == page ? "active bg-info" : string.Empty;
+                                <li class="page-item @activeClass"><a class="page-link datalink" data-href="@Url.Action("Index","Auction",new {pageNo = page, pageSize = Model.PageSize })">@page</a></li>
+                            }
+                            if (Model.Pager.CurrentPage < Model.Pager.TotalPages)
+                            {
+                                <li class="page-item">
+                                    <a class="page-link datalink" data-href="@Url.Action("Index", "Auction", new { pageNo = Model.Pager.CurrentPage + 1, pageSize = Model.PageSize })" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                            }
                         }
-                        @if (Model.Pager.CurrentPage < Model.Pager.TotalPages)
-                        {
-                            <li class="page-item">
-                                <a class="page-link" href="@Url.Action("Index", "Auction", new { pageNo = Model.Pager.CurrentPage + 1, pageSize = Model.PageSize })" aria-label="Next">
-                                    <span aria-hidden="true">&raquo;</span>
-                                </a>
-                            </li>
-                        }
+                       
                     </ul>
                 </nav>
             </div>
@@ -118,16 +137,85 @@
 
 
         <script>
-            function AttachNewImage(imageURL, imageID) {
-                var $newHtml = $("#imageTemplate").clone();
-                $newHtml.find(".image").attr("src", "/Content/images/" + imageURL);
-                $newHtml.find(".image").attr("data-id", imageID);
-                $("#pictuerArea").append($newHtml.html());
-                $("#pictuerArea .image").click(function () {
-
-                    $(this).remove();
+            $(".datalink").click(function () {
+                var url = $(this).attr("data-href");            
+                $.ajax({
+                    metod: "Get",
+                    url: url,
+                    data:{categoryID:'@Model.CategoryID', searchTearm:'@Model.SearchTearm', pageSize:'@Model.PageSize'}
+                }).done(function (response) {
+                    $("#listingArea").html(response);
+                    $("#pageSize option[selected]").removeAttr("selected");
+                    $("#pageSize option[value=" + @Model.PageSize + "]").attr("selected","selected");
+                    $("#searchByCategory option[selected]").removeAttr("selected");
+                    $("#searchByCategory option[value=" + @Model.CategoryID + "]").attr("selected","selected");
+                }).fail(function (xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status);
+                    alert(thrownError);
                 })
-            }
+
+            });
+            $("#resetBtn").click(function () {
+                var searchText = $("#searchText").val();
+                $.ajax({
+                    metod: "Get",
+                    url: "@Url.Action("Index", "Auction")",                  
+            }).done(function (response) {
+                $("#listingArea").html(response);
+            }).fail(function (xhr, ajaxOptions, thrownError) {
+                alert(xhr.status);
+                alert(thrownError);
+            })
+
+            });
+            $("#searchBtn").click(function () {
+                var searchText = $("#searchText").val();
+                $.ajax({
+                    metod: "Get",
+                    url: "@Url.Action("Index", "Auction")",
+                    data: { searchTearm: searchText, categoryID: '@Model.CategoryID', pageSize:'@Model.PageSize' }
+                }).done(function (response) {
+                    $("#listingArea").html(response);
+                    $("#searchByCategory option[selected]").removeAttr("selected");
+                    $("#searchByCategory option[value=" + @Model.CategoryID + "]").attr("selected", "selected");
+                }).fail(function (xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status);
+                    alert(thrownError);
+                })
+
+            });
+            $("#pageSize").change(function () {
+                var pageSize = $("#pageSize").val();
+                $.ajax({
+                    metod: "Get",
+                    url: "@Url.Action("Index", "Auction")",
+                    data: { pageSize:pageSize, categoryID: @Model.CategoryID, searchTearm: '@Model.SearchTearm' }
+            }).done(function (response) {
+                $("#listingArea").html(response);
+                $("#pageSize option[selected]").removeAttr("selected");
+                $("#pageSize option[value=" + pageSize + "]").attr("selected","selected");
+            }).fail(function (xhr, ajaxOptions, thrownError) {
+                alert(xhr.status);
+                alert(thrownError);
+            })
+
+            });
+            $("#searchByCategory").change(function () {
+                var categoryId = $("#searchByCategory").val();
+                $.ajax({
+                    metod: "Get",
+                    url: "@Url.Action("Index", "Auction")",
+                    data: { categoryID: categoryId, searchTearm: '@Model.SearchTearm', pageSize:'@Model.PageSize' }
+            }).done(function (response) {
+                $("#listingArea").html(response);
+                $("#searchByCategory option[selected]").removeAttr("selected");
+                $("#searchByCategory option[value=" + categoryId + "]").attr("selected","selected");
+            }).fail(function (xhr, ajaxOptions, thrownError) {
+                alert(xhr.status);
+                alert(thrownError);
+            })
+
+            });
             $("#createAuction").click(function () {
                 $.ajax({
                     metod: "Get",
@@ -187,7 +275,34 @@
                         alert(thrownError);
                     });
                 }
-            })
+            });
+
+            function AttachNewImage(imageURL, imageID) {
+                var $newHtml = $("#imageTemplate").clone();
+                $newHtml.find(".image").attr("src", "/Content/images/" + imageURL);
+                $newHtml.find(".image").attr("data-id", imageID);
+                $("#pictuerArea").append($newHtml.html());
+                RemovingImage();
+            }
+        
+            function ReloadListing() {
+                $.ajax({
+                    metod: "Get",
+                    url: "@Url.Action("Index", "Auction")",                  
+                }).done(function (response) {
+                    $("#listingArea").html(response);
+                }).fail(function (xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status);
+                    alert(thrownError);
+                })
+            }
+            function RemovingImage()
+            {
+                $("#pictuerArea .image").click(function () {
+
+                    $(this).remove();
+                })
+            }
         </script>
     </div>
 </div>

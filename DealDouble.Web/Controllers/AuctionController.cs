@@ -50,27 +50,43 @@ namespace DealDouble.Web.Controllers
             return PartialView(model);
         }
         [HttpPost]
-        public ActionResult Create(AuctionCrudeViewModel model)
+        public JsonResult Create(AuctionCrudeViewModel model)
         {
-            var auction = new Auction();
-            auction.AuctionID = model.AuctionID;
-            auction.Title = model.Title;
-            auction.Description = model.Description;
-            auction.ActualAmount = model.ActualAmount;
-            auction.StartingTime = model.StartingTime;
-            auction.EndTime = model.EndTime;
-            auction.AuctionPictures = new List<AuctionPicture>();
-            auction.CategoryID = model.CategoryID;
-            if(model.AuctionPictures != null)
+            JsonResult result = new JsonResult();
+            result.JsonRequestBehavior = JsonRequestBehavior.AllowGet; 
+            try
             {
-                var pictuerIDs = model.AuctionPictures.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(x => int.Parse(x)).ToList();
-                auction.AuctionPictures.AddRange(pictuerIDs.Select(x => new AuctionPicture { PictureID = x }).ToList());
+                var auction = new Auction();
+                if (ModelState.IsValid)
+                {
+                    auction.AuctionID = model.AuctionID;
+                    auction.Title = model.Title;
+                    auction.Description = model.Description;
+                    auction.ActualAmount = model.ActualAmount;
+                    auction.StartingTime = model.StartingTime;
+                    auction.EndTime = model.EndTime;
+                    auction.AuctionPictures = new List<AuctionPicture>();
+                    auction.CategoryID = model.CategoryID;
+                    if (model.AuctionPictures != null)
+                    {
+                        var pictuerIDs = model.AuctionPictures.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(x => int.Parse(x)).ToList();
+                        auction.AuctionPictures.AddRange(pictuerIDs.Select(x => new AuctionPicture { PictureID = x }).ToList());
+                    }
+                    AuctionService.Instance.SaveAuction(auction);
+                    result.Data = new { Success = true };
+                }
+                else
+                {
+                    result.Data = new { Success = false, Error = "Unable to save Autons. Please enter valid data ."};
+                }
+                return result;            
             }
-          
-
-
-            AuctionService.Instance.SaveAuction(auction);
-            return RedirectToAction("Index");
+            catch(Exception ex)
+            {
+                result.Data = new { Error = ex.Message};
+                return result;
+            }
+           
         }
 
         [HttpGet]

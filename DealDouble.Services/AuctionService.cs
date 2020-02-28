@@ -29,7 +29,7 @@ namespace DealDouble.Services
             using (var context  = new Context())
             {
                 var auctions = context.Auctions.AsQueryable();
-                if(string.IsNullOrEmpty(categoryID.ToString()) == false)
+                if(categoryID > 0)
                 {
                     auctions = auctions.Where(x => x.CategoryID == categoryID);
                 }
@@ -76,19 +76,31 @@ namespace DealDouble.Services
                 return context.Auctions.Where(x => x.AuctionID == id).Include(x => x.Category).Include(y => y.AuctionPictures).Include(z => z.AuctionPictures.Select(w => w.Picture)).FirstOrDefault();
             }
         }
-        public void SaveAuction(Auction auction)
+        public string SaveAuction(Auction auction)
         {
             using (var context = new Context())
             {
-                context.Auctions.Add(auction);
-                context.SaveChanges();
+                try
+                {
+                    context.Auctions.Add(auction);
+                    context.SaveChanges();
+                    return "Data Save Successfull";
+                }
+                catch(Exception ex)
+                {
+                    return  ex.Message;
+                }
+             
             }
         }
         public void UpdateAuction(Auction auction)
         {
             using (var context = new Context())
             {
-                context.Entry(auction).State = System.Data.Entity.EntityState.Modified;
+                var existingAuction = context.Auctions.Find(auction.AuctionID);
+                context.AuctionPictures.RemoveRange(existingAuction.AuctionPictures);
+                context.Entry(existingAuction).CurrentValues.SetValues(auction);
+                context.AuctionPictures.AddRange(auction.AuctionPictures);
                 context.SaveChanges();
             }
 

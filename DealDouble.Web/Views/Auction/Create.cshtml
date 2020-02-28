@@ -47,6 +47,9 @@
                 <div class="col-lg-6 mt-1" id="pictuerArea">
                 <input type="hidden" id="pictueIDs" name="AuctionPictures"/>
                 </div>
+                <div id="formError" class="form-group bg-danger mt-3" style="display:none">
+
+                </div>
             </div>
         </div>
 
@@ -77,16 +80,12 @@
 
         }).done(function (responses) {
             if (responses.Success) {
-                //var picIDs = "";
                 for (var i = 0 ; i < responses.pictuerJSON.length; i++)
                 {
                    
                     var picResponse = responses.pictuerJSON[i];
                     AttachNewImage(picResponse.pictureURL, picResponse.ID)
-                         
-                    //picIDs = picIDs + "," + picResponse.ID;
                 }
-                //$("#pictueIDs").val(picIDs);
             }
             else {
                 alert("Image URL Not set");
@@ -96,25 +95,52 @@
             console.log(thrownError);
         });
     });
+    $("#submitAuction").validate({
+        rules: {
+            Title:{
+                required: true,
+                minlength: 15,
+                maxlength: 150
+            }
+        },
+        messages: {
+            Title: {
+                required: "Title is required",
+                minlength: "Minimum length is 15",
+                maxlength: "Maximum lenth is 150"
+            }
+        }
+    })
 
     $("#saveAuction").click(function () {
-        var imageIDs = [];
-        $("#pictuerArea .image").each(function(){
-            var imageID = $(this).attr("data-id");
-            imageIDs.push(imageID);
-        });
-        $("#pictueIDs").val(imageIDs.join());
-        $.ajax({
-            method: 'Post',
-            url: '@Url.Action("Create","Auction")',
-            data: $("#submitAuction").serialize()
-        }).done(function (response) {
-            $("#auctionCreateFrom").modal('toggle');
-            $("#listingArea").html(response);
-        }).fail(function (xhr, ajaxOptions, thrownError) {
-            alert(xhr.status);
-            console.log(thrownError);
-        })
+        if (("#submitAuction").valid()){
+            var imageIDs = [];
+            $("#pictuerArea .image").each(function () {
+                var imageID = $(this).attr("data-id");
+                imageIDs.push(imageID);
+            });
+            $("#pictueIDs").val(imageIDs.join());
+            $.ajax({
+                method: 'Post',
+                url: '@Url.Action("Create","Auction")',
+                data: $("#submitAuction").serialize()
+            }).done(function (response) {
+                if (response.Success == true) {
+                    ReloadListing();
+                    $("#auctionCreateFrom").modal('toggle');
+                }
+                else {
+                    $("#formError").html(response.Error);
+                    $("#formError").show();
+
+                }
+
+            }).fail(function (xhr, ajaxOptions, thrownError) {
+                alert(xhr.status);
+                console.log(thrownError);
+            })
+        }
+     
     });
   
 

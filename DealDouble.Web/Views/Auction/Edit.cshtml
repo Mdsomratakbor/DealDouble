@@ -50,7 +50,7 @@
                     {
                         foreach (var picture in Model.AuctionImage)
                         {
-                            <img class='image img-thumbnail' src="/Content/images/@picture.Picture.URL" style="height:150px; width:150px;" />
+                            <img class="image img-thumbnail" src="/Content/images/@picture.Picture.URL" style="height:150px; width:150px;" />
                         }
                     }
                     <input type="hidden" id="pictueIDs" name="AuctionPictures" />
@@ -67,6 +67,7 @@
 
 
 <script>
+    RemovingImage();
     $("#auctionPictures").change(function () {
         var element = this
         var formData = new FormData();

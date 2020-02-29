@@ -41,6 +41,14 @@
       <HintPath>..\packages\EntityFramework.6.4.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.1\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -81,6 +89,14 @@
     <Compile Include="Migrations\202002281230481_validationAdd.designer.cs">
       <DependentUpon>202002281230481_validationAdd.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202002291637032_UpdateUsermanage.cs" />
+    <Compile Include="Migrations\202002291637032_UpdateUsermanage.designer.cs">
+      <DependentUpon>202002291637032_UpdateUsermanage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002291804080_addBidEntity.cs" />
+    <Compile Include="Migrations\202002291804080_addBidEntity.designer.cs">
+      <DependentUpon>202002291804080_addBidEntity.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -115,6 +131,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202002281230481_validationAdd.resx">
       <DependentUpon>202002281230481_validationAdd.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002291637032_UpdateUsermanage.resx">
+      <DependentUpon>202002291637032_UpdateUsermanage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002291804080_addBidEntity.resx">
+      <DependentUpon>202002291804080_addBidEntity.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

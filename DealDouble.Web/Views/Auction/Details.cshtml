@@ -29,7 +29,7 @@
                             var active = auctionpicture == firstAuctionPicture ? "active" : string.Empty;
                             var picURL = "/Content/images/" + auctionpicture.Picture.URL;
                             <div class="carousel-item @active">
-                                <img class="d-block img-fluid" src="@picURL" alt="First slide">
+                                <img class="d-block img-fluid" src="@picURL" alt="First slide" style="height:400px;width:100%;">
                             </div>
                             i++;
                         }                                          
@@ -52,6 +52,9 @@
                 <p class="card-text">@Model.Description</p>
                 <span class="text-warning">&#9733; &#9733; &#9733; &#9733; &#9734;</span>
                 4.0 stars
+            </div>
+            <div class="card-footer text-muted">
+                <button class="btn btn-primary" id="btnBid">Bid Now</button>
             </div>
         </div>
         <!-- /.card -->
@@ -78,5 +81,25 @@
     </div>
     <!-- /.col-lg-9 -->
     </div>
+<script>
+    $("#btnBid").click(function () {
+        $.ajax({
+            method:'Post',
+            url: "@Url.Action("AddBid","Bids")",
+            data:{Id:'@Model.AuctionID'}
+        }).done(function (response) {
+            if (response.Success) {
+                window.location.reload();
+            }
+            else {
+                console.log(response.Message);
+                alert(response.Message);
+            }
+        }).fail(function (xhr, ajaxOptions, thrownError) {
+            alert(xhr.status);
+            console.log(thrownError);
+        })
+    });
+</script>
 
 

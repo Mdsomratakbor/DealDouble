@@ -97,6 +97,18 @@
     <Compile Include="Migrations\202002291804080_addBidEntity.designer.cs">
       <DependentUpon>202002291804080_addBidEntity.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202003021446440_addAmountDatatype.cs" />
+    <Compile Include="Migrations\202003021446440_addAmountDatatype.designer.cs">
+      <DependentUpon>202003021446440_addAmountDatatype.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003021535584_CommentsEntityAdd.cs" />
+    <Compile Include="Migrations\202003021535584_CommentsEntityAdd.designer.cs">
+      <DependentUpon>202003021535584_CommentsEntityAdd.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003021724053_addRating.cs" />
+    <Compile Include="Migrations\202003021724053_addRating.designer.cs">
+      <DependentUpon>202003021724053_addRating.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -137,6 +149,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202002291804080_addBidEntity.resx">
       <DependentUpon>202002291804080_addBidEntity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003021446440_addAmountDatatype.resx">
+      <DependentUpon>202003021446440_addAmountDatatype.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003021535584_CommentsEntityAdd.resx">
+      <DependentUpon>202003021535584_CommentsEntityAdd.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003021724053_addRating.resx">
+      <DependentUpon>202003021724053_addRating.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

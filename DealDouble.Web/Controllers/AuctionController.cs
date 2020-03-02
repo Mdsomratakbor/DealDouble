@@ -134,7 +134,9 @@ namespace DealDouble.Web.Controllers
         [HttpGet]
         public ActionResult Details(int id)
         {
-            var model = new AuctionDetailsViewModel();
+            try
+            {
+                 var model = new AuctionDetailsViewModel();
             var auction = AuctionService.Instance.GetAuction(id);
             model.AuctionID = auction.AuctionID;
             model.Title = auction.Title;
@@ -145,9 +147,21 @@ namespace DealDouble.Web.Controllers
             model.PageDescription = "This Auction Details page";
             model.ActualAmount = auction.ActualAmount;
             model.AuctionPictures = auction.AuctionPictures;
+            model.BidsAmount = auction.ActualAmount + auction.Bids.Sum(x => x.BidAmount);
+            var latestBider = auction.Bids.OrderByDescending(x => x.TimeStamp).FirstOrDefault();
+            model.LatestBider = latestBider != null ? latestBider.User : null;
+            model.EntityID = (int)EntityEnum.Auctions;
+            model.Comments = SharedService.Instance.GetCommetns(model.EntityID, model.AuctionID);
+            
             
            
             return View(model);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+           
         }
       
 

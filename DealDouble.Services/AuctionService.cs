@@ -73,7 +73,7 @@ namespace DealDouble.Services
 
             using (var context = new Context())
             {
-                return context.Auctions.Where(x => x.AuctionID == id).Include(x => x.Category).Include(y => y.AuctionPictures).Include(z => z.AuctionPictures.Select(w => w.Picture)).FirstOrDefault();
+                return context.Auctions.Where(x => x.AuctionID == id).Include(x => x.Category).Include(y => y.AuctionPictures).Include(z => z.AuctionPictures.Select(w => w.Picture)).Include(o => o.Bids).Include(p => p.Bids.Select(q => q.User)).FirstOrDefault();
             }
         }
         public string SaveAuction(Auction auction)

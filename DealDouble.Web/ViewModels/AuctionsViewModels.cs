@@ -56,6 +56,10 @@ namespace DealDouble.Web.ViewModels
         public DateTime? StartingTime { get; set; }
 
         public DateTime? EndTime { get; set; }
+        public Decimal BidsAmount { get; set; }
+        public DealDoubleUser LatestBider { get; set; }
+        public List<Comment> Comments { get; set; }
+        public int EntityID { get; set; }
 
 
         public  List<AuctionPicture> AuctionPictures { get; set; }

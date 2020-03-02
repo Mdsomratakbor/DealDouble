@@ -48,7 +48,13 @@
 
             <div class="card-body">
                 <h3 class="card-title">@Model.Title</h3>
-                <h4>$@Model.ActualAmount</h4>
+                <h4>$@Model.BidsAmount 
+                  @if(Model.LatestBider != null)
+                  {
+                     <span>@Model.LatestBider.UserName</span>
+                  }
+            
+                </h4>
                 <p class="card-text">@Model.Description</p>
                 <span class="text-warning">&#9733; &#9733; &#9733; &#9733; &#9734;</span>
                 4.0 stars
@@ -58,22 +64,69 @@
             </div>
         </div>
         <!-- /.card -->
-
         <div class="card card-outline-secondary my-4">
             <div class="card-header">
                 Product Reviews
             </div>
             <div class="card-body">
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
-                <small class="text-muted">Posted by Anonymous on 3/1/17</small>
-                <hr>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
-                <small class="text-muted">Posted by Anonymous on 3/1/17</small>
-                <hr>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
-                <small class="text-muted">Posted by Anonymous on 3/1/17</small>
-                <hr>
-                <a href="#" class="btn btn-success">Leave a Review</a>
+               
+                @if (Model.Comments != null && Model.Comments.Count > 0)
+                {
+                    foreach (var comment in Model.Comments)
+                    {
+                        var defaultStar = 5 - comment.Rating;
+                        <div class="row">
+
+
+                            <div class="col-md-2">
+                                <img src="https://image.ibb.co/jw55Ex/def_face.jpg" class="img img-rounded img-fluid" />
+                                <p class="text-secondary text-center">@comment.TimeStamp</p>
+                            </div>
+                            <div class="col-md-10">
+                               
+                                
+                                <span class="text-warning float-right">
+                                    @for (var i = 0; i < comment.Rating; i++)
+                                    {
+                                        <i class="fa fa-star"></i>
+                                    }
+                                    @for (var i = 0; i < defaultStar; i++)
+                                    {
+                                        <i class="fa fa-star-o"></i>
+                                    }
+
+                                </span>
+                                <p><a href="#"><strong>@comment.UserId</strong></a></p>
+                                <p>@comment.Text</p>
+                            </div>
+                        </div>
+                        <hr>
+                    }
+                }
+                else
+                {
+                    <b>There are no comments in this Auction</b>  
+                    <hr />
+                }
+
+                <form id="commentFrom">
+                    <input type="hidden" name="EntityID" value="@Model.EntityID" />
+                    <input type="hidden" name="RecordID" value="@Model.AuctionID"/>
+                    <div class="form-group">
+                        <label class="">Write your comment</label>
+                        <span class="text-warning float-right">
+                        <i class="rating fa fa-star" data-value="1"></i>
+                        <i class="rating fa fa-star-o" data-value="2"></i>
+                        <i class="rating fa fa-star-o" data-value="3"></i>
+                        <i class="rating fa fa-star-o" data-value="4"></i>
+                        <i class="rating fa fa-star-o"data-value="5"></i>
+                            <input type="hidden" name="Rating" id="ratingStar" value="1"/>
+                        </span>
+                        <textarea class="form-control" id="commentsArea" name="Text" rows="3" placeholder="Write your comment here"></textarea>
+                    </div>
+
+                    <button href="#" class="btn btn-success" id="btnComment" type="button">Leave a Review</button>
+                </form>
             </div>
         </div>
         <!-- /.card -->
@@ -82,24 +135,52 @@
     <!-- /.col-lg-9 -->
     </div>
 <script>
-    $("#btnBid").click(function () {
+    $(".rating").hover(function () {
+        $(".rating").addClass("fa-star-o").removeClass("fa-star");
+        $(this).addClass("fa-star").removeClass("fa-star-o");
+        $(this).prevAll(".rating").addClass("fa-star").removeClass("fa-star-o");
+    })
+    $(".rating").click(function () {
+        var ratingStart = $(this).attr("data-value");
+        $("#ratingStar").val(ratingStart);
+    })
+    $("#btnComment").click(function(){
         $.ajax({
-            method:'Post',
-            url: "@Url.Action("AddBid","Bids")",
-            data:{Id:'@Model.AuctionID'}
+            method: 'Post',
+            url:"@Url.Action("LeavComment", "Shared")",
+            data: $("#commentFrom").serialize()
         }).done(function (response) {
             if (response.Success) {
                 window.location.reload();
             }
             else {
+                alert("error");
                 console.log(response.Message);
-                alert(response.Message);
             }
         }).fail(function (xhr, ajaxOptions, thrownError) {
             alert(xhr.status);
             console.log(thrownError);
-        })
-    });
+        });
+
+    })
+        $("#btnBid").click(function () {
+            $.ajax({
+                method:'Post',
+                url: "@Url.Action("AddBid","Bids")",
+                data:{Id:'@Model.AuctionID'}
+            }).done(function (response) {
+                if (response.Success) {
+                    window.location.reload();
+                }
+                else {
+                    console.log(response.Message);
+                    alert(response.Message);
+                }
+            }).fail(function (xhr, ajaxOptions, thrownError) {
+                alert(xhr.status);
+                console.log(thrownError);
+            })
+        });
 </script>
 
 

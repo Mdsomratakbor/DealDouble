@@ -10,9 +10,9 @@ namespace DealDouble.Entities
     {
         public int AuctionID { get; set; }
         public Auction Auction { get; set; }
-        public DealDoubleUser User { get; set; }
+        public virtual DealDoubleUser User { get; set; }
         public string UserID { get; set; }
-        public double BidAmount { get; set; }
+        public decimal BidAmount { get; set; }
         public DateTime TimeStamp { get; set; }
     }
 }

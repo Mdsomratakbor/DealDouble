@@ -30,5 +30,22 @@ namespace DealDouble.Services
                 return picture.ID;
             }
         }
+        public bool LeaveComment(Comment comment)
+        {
+            using (var context= new Context())
+            {
+                context.Comments.Add(comment);
+                return context.SaveChanges() > 0;
+            }
+
+        }
+        public List<Comment> GetCommetns(int EntityID, int RecordID)
+        {
+            using (var context = new Context())
+            {  
+                return context.Comments.Where(x=>x.EntityID == EntityID && x.RecordID == RecordID).ToList();
+            }
+
+        }
     }
 }

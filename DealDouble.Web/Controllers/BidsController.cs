@@ -37,7 +37,7 @@ namespace DealDouble.Web.Controllers
             }
             else
             {
-                result.Data = new { Success = false, Message = "User neet to login for Bids" };
+                result.Data = new { Success = false, Message = "User need to login for Bids" };
             }
        
             return result;

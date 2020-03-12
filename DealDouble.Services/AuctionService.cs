@@ -55,9 +55,6 @@ namespace DealDouble.Services
                 {
                     auctions = auctions.Where(auction => auction.Title.ToLower().Contains(searchTearm.ToLower()));
                 }
-                // pageNo = pageNo ?? 1;
-                //or this is code
-                // pageNo = pageNo.HasValue ? pageNo.Value : 1;
                 return auctions.OrderByDescending(x => x.CategoryID).Skip((pageNo - 1) * pageSize).Take(pageSize).ToList();
             }
         }

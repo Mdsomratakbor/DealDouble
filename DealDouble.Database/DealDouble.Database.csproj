@@ -42,11 +42,11 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.3\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.1\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.3\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -61,55 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Context.cs" />
-    <Compile Include="Migrations\202002191542503_auctionEntityAdd.cs" />
-    <Compile Include="Migrations\202002191542503_auctionEntityAdd.designer.cs">
-      <DependentUpon>202002191542503_auctionEntityAdd.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202002191733020_edit.cs" />
-    <Compile Include="Migrations\202002191733020_edit.designer.cs">
-      <DependentUpon>202002191733020_edit.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202002191734502_AddEndTime.cs" />
-    <Compile Include="Migrations\202002191734502_AddEndTime.designer.cs">
-      <DependentUpon>202002191734502_AddEndTime.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202002221541311_auctionspictures.cs" />
-    <Compile Include="Migrations\202002221541311_auctionspictures.designer.cs">
-      <DependentUpon>202002221541311_auctionspictures.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202002251846157_addCategory.cs" />
-    <Compile Include="Migrations\202002251846157_addCategory.designer.cs">
-      <DependentUpon>202002251846157_addCategory.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202002261429124_virtualaddinCategory.cs" />
-    <Compile Include="Migrations\202002261429124_virtualaddinCategory.designer.cs">
-      <DependentUpon>202002261429124_virtualaddinCategory.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202002281230481_validationAdd.cs" />
-    <Compile Include="Migrations\202002281230481_validationAdd.designer.cs">
-      <DependentUpon>202002281230481_validationAdd.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202002291637032_UpdateUsermanage.cs" />
-    <Compile Include="Migrations\202002291637032_UpdateUsermanage.designer.cs">
-      <DependentUpon>202002291637032_UpdateUsermanage.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202002291804080_addBidEntity.cs" />
-    <Compile Include="Migrations\202002291804080_addBidEntity.designer.cs">
-      <DependentUpon>202002291804080_addBidEntity.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202003021446440_addAmountDatatype.cs" />
-    <Compile Include="Migrations\202003021446440_addAmountDatatype.designer.cs">
-      <DependentUpon>202003021446440_addAmountDatatype.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202003021535584_CommentsEntityAdd.cs" />
-    <Compile Include="Migrations\202003021535584_CommentsEntityAdd.designer.cs">
-      <DependentUpon>202003021535584_CommentsEntityAdd.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202003021724053_addRating.cs" />
-    <Compile Include="Migrations\202003021724053_addRating.designer.cs">
-      <DependentUpon>202003021724053_addRating.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="DealDoubleDBInitializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -121,44 +73,6 @@
       <Project>{ECD720AA-D99E-40CD-BCD6-23E5F45B0E97}</Project>
       <Name>DealDouble.Entities</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\202002191542503_auctionEntityAdd.resx">
-      <DependentUpon>202002191542503_auctionEntityAdd.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202002191733020_edit.resx">
-      <DependentUpon>202002191733020_edit.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202002191734502_AddEndTime.resx">
-      <DependentUpon>202002191734502_AddEndTime.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202002221541311_auctionspictures.resx">
-      <DependentUpon>202002221541311_auctionspictures.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202002251846157_addCategory.resx">
-      <DependentUpon>202002251846157_addCategory.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202002261429124_virtualaddinCategory.resx">
-      <DependentUpon>202002261429124_virtualaddinCategory.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202002281230481_validationAdd.resx">
-      <DependentUpon>202002281230481_validationAdd.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202002291637032_UpdateUsermanage.resx">
-      <DependentUpon>202002291637032_UpdateUsermanage.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202002291804080_addBidEntity.resx">
-      <DependentUpon>202002291804080_addBidEntity.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202003021446440_addAmountDatatype.resx">
-      <DependentUpon>202003021446440_addAmountDatatype.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202003021535584_CommentsEntityAdd.resx">
-      <DependentUpon>202003021535584_CommentsEntityAdd.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202003021724053_addRating.resx">
-      <DependentUpon>202003021724053_addRating.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

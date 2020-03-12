@@ -1,26 +1,23 @@
-﻿using DealDouble.Entities;
+﻿using System.Data.Entity;
+using DealDouble.Entities;
 using Microsoft.AspNet.Identity.EntityFramework;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DealDouble.Database
 {
     public class Context : IdentityDbContext<DealDoubleUser>
     {
+        
         public Context():base("name = DealDoubleConnectionString")
         {
-
+           System.Data.Entity.Database.SetInitializer<Context>(new DealDoubleDBInitializer());
         }
-        public DbSet<Auction> Auctions { get; set; }
+       
         public DbSet<AuctionPicture> AuctionPictures { get; set; }
         public DbSet<Picture> Pictures { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Bid> Bids { get; set; }
         public DbSet<Comment> Comments { get; set; }
+        public DbSet<Auction> Auctions { get; set; }
         public static Context Create()
         {
             return new Context();

@@ -26,6 +26,8 @@ namespace DealDouble.Entities
         public DateTime? StartingTime { get; set; }
 
         public Nullable<DateTime> EndTime { get; set; }
+
+        public string Summary { get; set; }
         
   
         public virtual List<AuctionPicture> AuctionPictures { get; set; }    

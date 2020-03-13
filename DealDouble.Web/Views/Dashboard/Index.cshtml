@@ -1,0 +1,38 @@
+﻿@model DealDouble.Web.ViewModels.DashboardViewModels
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+<div class="jumbotron jumbotron-fluid">
+    <div class="container">
+        <h1 class="display-4">Hi, @User.Identity.Name!</h1>
+        <p class="lead">This is a dashboard for controling everything in your website.</p>
+    </div>
+</div>
+<div class="card-deck">
+    <div class="card">
+        <div class="card-body text-center text-primary">
+            <h5 class="card-title display-4">@Model.UserCount</h5>
+        </div>
+        <div class="card-footer display-4 text-center">
+            <a href="@Url.Action("Index","Users")">Users</a>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body text-center text-primary">
+            <h5 class="card-title display-4">@Model.AuctionCount</h5>
+        </div>
+        <div class="card-footer display-4 text-center">
+            <a href="@Url.Action("Index","Users")">Auctions</a>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body text-center text-primary">
+            <h5 class="card-title display-4">@Model.BidCount</h5>
+        </div>
+        <div class="card-footer display-4 text-center">
+            <a href="@Url.Action("Index","Users")">Bids</a>
+        </div>
+    </div>
+</div>
+

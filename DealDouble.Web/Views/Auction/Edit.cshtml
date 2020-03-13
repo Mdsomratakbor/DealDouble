@@ -41,11 +41,15 @@
                     <label class="font-weight-bold">EndingTime</label>
                     <input type="datetime" name="EndTime" class="form-control" value="@Model.EndTime" />
                 </div>
-                <div class="col-lg-6">
+                <div class="col-lg-4">
+                    <label class="font-weight-bold">Summary</label>
+                    <input type="text" class="form-control" name="Summary" />
+                </div>
+                <div class="col-lg-4">
                     <label class="font-weight-bold">Pictures</label>
                     <input type="file" id="auctionPictures" class="form-control" name="AuctionPictures" multiple />
                 </div>
-                <div class="col-lg-6 mt-1" id="pictuerArea">
+                <div class="col-lg-4 mt-1" id="pictuerArea">
                     @if(Model.AuctionImage.Count>0 && Model.AuctionImage != null)
                     {
                         foreach (var picture in Model.AuctionImage)

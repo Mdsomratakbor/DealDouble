@@ -31,14 +31,14 @@ namespace DealDouble.Web.Controllers
             }
             model.PageTitle = "Auctions";
             model.PageDescription = "This auctions list";
-            if (Request.IsAjaxRequest())
-            {
-                return PartialView(model);
-            }
-            else
-            {
+            //if (Request.IsAjaxRequest())
+            //{
+            //    return View(model);
+            //}
+            //else
+            //{
                 return View(model);
-            }
+            //}
             
         }
 
@@ -66,6 +66,7 @@ namespace DealDouble.Web.Controllers
                     auction.StartingTime = model.StartingTime;
                     auction.EndTime = model.EndTime;
                     auction.AuctionPictures = new List<AuctionPicture>();
+                    auction.Summary = model.Summary ;
                     auction.CategoryID = model.CategoryID;
                     if (model.AuctionPictures != null)
                     {
@@ -103,6 +104,7 @@ namespace DealDouble.Web.Controllers
             model.EndTime = auction.EndTime;
             model.ActualAmount = auction.ActualAmount;
             model.AuctionImage = auction.AuctionPictures;
+            model.Summary = auction.Summary;
             return PartialView(model);
         }
         [HttpPost]

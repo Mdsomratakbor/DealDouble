@@ -41,6 +41,7 @@ namespace DealDouble.Web.ViewModels
         public List<AuctionPicture> AuctionImage { get; set; }
         public int CategoryID { get; set; }
         public List<Category> Categories { get; set; }
+        public string Summary { get; set; }
     }
     public class AuctionDetailsViewModel : PageViewModel
     {
@@ -60,6 +61,7 @@ namespace DealDouble.Web.ViewModels
         public DealDoubleUser LatestBider { get; set; }
         public List<Comment> Comments { get; set; }
         public int EntityID { get; set; }
+        public string Summary { get; set; }
 
 
         public  List<AuctionPicture> AuctionPictures { get; set; }

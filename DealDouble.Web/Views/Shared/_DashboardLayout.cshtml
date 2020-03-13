@@ -1,0 +1,98 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Simple Sidebar - Start Bootstrap Template</title>
+    <!-- Bootstrap core CSS -->
+    <link href="~/Content/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="~/Content/Dashboard/css/dashboard.css" rel="stylesheet" />
+    <script src="~/Content/vendor/jquery/jquery.min.js"></script>
+    <script src="~/Content/vendor/jquery/jquery.validate.min.js"></script>
+    <link href="~/Content/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="d-flex" id="wrapper">
+        <!-- Sidebar -->
+        <div class="bg-light border-right" id="sidebar-wrapper">
+            <div class="sidebar-heading"><i class="fa fa-check-circle-o" aria-hidden="true"></i> Deal Double </div>
+            <div class="list-group list-group-flush">
+                <a href="@Url.Action("Index","Home")" class="list-group-item list-group-item-action bg-light">
+                    <i class="fa fa-home" aria-hidden="true"></i> Home
+                </a>
+                <a href="@Url.Action("Index","Dashboard")" class="list-group-item list-group-item-action bg-light">
+                    <i class="fa fa-tachometer" aria-hidden="true"></i> Dashboard
+                </a>
+                <a href="@Url.Action("Index","Category")" class="list-group-item list-group-item-action bg-light">
+                    <i class="fa fa-sitemap" aria-hidden="true"></i> Categories
+                </a>
+                <a href="@Url.Action("Index","Auction")" class="list-group-item list-group-item-action bg-light">
+                    <i class="fa fa-shirtsinbulk" aria-hidden="true"></i> Auctions
+                </a>
+                <a href="@Url.Action("Index","Bids")" class="list-group-item list-group-item-action bg-light">
+                    <i class="fa fa-briefcase" aria-hidden="true"></i> Bids
+                </a>
+                <a href="@Url.Action("Index","Users")" class="list-group-item list-group-item-action bg-light">
+                    <i class="fa fa-comments" aria-hidden="true"></i> Comments
+                </a>
+                <a href="@Url.Action("Index","Users")" class="list-group-item list-group-item-action bg-light">
+                    <i class="fa fa-users" aria-hidden="true"></i> Users
+                </a>
+                <a href="@Url.Action("Index","Roles")" class="list-group-item list-group-item-action bg-light">
+                    <i class="fa fa-user-plus" aria-hidden="true"></i> Roles
+                </a>
+            </div>
+        </div>
+        <!-- /#sidebar-wrapper -->
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+                <button class="btn btn-primary" id="menu-toggle"><i class="fa fa-bars" aria-hidden="true"></i></button>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" style="cursor:pointer" id="logoutBtn">Logout</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("Login","Account")">Login</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </nav>
+            <div class="container-fluid p-3">
+                @RenderBody()
+            </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+        <!-- /#wrapper -->
+        <form id="logoutForm" method="post" action="@Url.Action("LogOff","Account")">
+            @Html.AntiForgeryToken()
+        </form>
+    </div>
+    <!-- /#wrapper -->
+
+    <script src="~/Content/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Menu Toggle Script -->
+    <script>
+    $("#menu-toggle").click(function(e) {
+      e.preventDefault();
+      $("#wrapper").toggleClass("toggled");
+    });
+    $("#logoutBtn").click(function () {
+        $("#logoutForm").submit();
+    })
+    </script>
+</body>
+</html>

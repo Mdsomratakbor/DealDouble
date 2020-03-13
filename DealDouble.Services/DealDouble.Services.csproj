@@ -91,6 +91,7 @@
     <Compile Include="BidsServices.cs" />
     <Compile Include="CategoriesService.cs" />
     <Compile Include="AuctionService.cs" />
+    <Compile Include="DashboardServices.cs" />
     <Compile Include="DealDoubleSignInManager.cs" />
     <Compile Include="DealDoubleUserManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

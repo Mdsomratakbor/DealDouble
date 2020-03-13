@@ -1,24 +1,19 @@
-﻿@model DealDouble.Web.ViewModels.AuctionsViewModel
+﻿@model DealDouble.Web.ViewModels.UserViewModel
 @{
-    ViewBag.Title = "Auction List";
-    if (!Request.IsAjaxRequest())
-    {
-        Layout = "~/Views/Shared/_DashboardLayout.cshtml";
-    }
-
+    ViewBag.Title = "Users";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }
-
 <div class="row">
 
     <div id="listingArea" class="col-lg-12">
         <div class="row">
-            <h2 class="font-weight-bold float-left">Auctions</h2>
+            <h2 class="font-weight-bold float-left">Users</h2>
         </div>
 
         <div class="col-md-12 mt-2">
             <div class="row">
-           
-              
+
+
                 <div class="col-md-2 float-right">
                     <label class="font-weight-bold"> Select Rows</label>
                     <select name="pageSize" class="form-control" id="pageSize">
@@ -29,28 +24,29 @@
                         <option value="100">100</option>
                     </select>
                 </div>
-            
+
                 <div class="col-md-3 float-right">
-                    <label class="font-weight-bold">Category</label>
-                    <select name="CategoryID" class="form-control" id="searchByCategory">
-                        @foreach (var category in Model.Categories)
+                    <label class="font-weight-bold">Select Role</label>
+                    <select name="RoleID" class="form-control" id="searchByRole">
+                        <option>Select Role....</option>
+                        @foreach (var role in Model.Roles)
                         {
-                            <option value="@category.ID">@category.Name</option>
+                            <option value="@role.Id">@role.Name</option>
                         }
                     </select>
                 </div>
                 <div class="col-md-2 float-right ">
                     <label class="font-weight-bold">Search</label>
                     <input type="search" id="searchText" name="search" class="form-control" value="@Model.SearchTearm" />
-              
+
                 </div>
                 <div class="col-md-2 mt-4">
                     <button class="btn btn-md btn-danger" type="button" id="searchBtn">Search</button>
                     <button class="btn btn-md btn-success" type="button" id="resetBtn">Reset</button>
                 </div>
-                <div class="col-md-3 float-right mt-4">
+                @*<div class="col-md-3 float-right mt-4">
                     <button id="createAuction" class="btn  btn-success float-right mt-1" data-toggle="modal" data-target="#auctionCreateFrom"><i class="fas fa-plus"></i> Crate New Auction</button>
-                </div>
+                </div>*@
             </div>
 
 
@@ -72,19 +68,19 @@
                 {
                     foreach (var data in Model.AllAuction)
                     {
-                    <tr>
-                        <td>@data.Title</td>
-                        <td>@data.Category.Name</td>
-                        <td>@data.Description</td>
-                        <td>@data.ActualAmount</td>
-                        <td>@data.StartingTime</td>
-                        <td>@data.EndTime</td>
-                        <td>
-                            <button class="editButton btn btn-sm btn-primary" data-id="@data.AuctionID" data-toggle="modal" data-target="#auctionCreateFrom"> Edit </button>
-                            <button class="deleteButton btn btn-sm btn-danger" data-id="@data.AuctionID"> Delete </button>
-                        </td>
+                        <tr>
+                            <td>@data.Title</td>
+                            <td>@data.Category.Name</td>
+                            <td>@data.Description</td>
+                            <td>@data.ActualAmount</td>
+                            <td>@data.StartingTime</td>
+                            <td>@data.EndTime</td>
+                            <td>
+                                <button class="editButton btn btn-sm btn-primary" data-id="@data.AuctionID" data-toggle="modal" data-target="#auctionCreateFrom"> Edit </button>
+                                <button class="deleteButton btn btn-sm btn-danger" data-id="@data.AuctionID"> Delete </button>
+                            </td>
 
-                    </tr>
+                        </tr>
                     }
                 }
                 else
@@ -127,7 +123,7 @@
                                 </li>
                             }
                         }
-                       
+
                     </ul>
                 </nav>
             </div>
@@ -143,17 +139,17 @@
 
         <script>
             $(".datalink").click(function () {
-                var url = $(this).attr("data-href");            
+                var url = $(this).attr("data-href");
                 $.ajax({
                     metod: "Get",
                     url: url,
-                    data:{categoryID:'@Model.CategoryID', searchTearm:'@Model.SearchTearm', pageSize:'@Model.PageSize'}
+                    data:{categoryID:'@Model.RoleID', searchTearm:'@Model.SearchTearm', pageSize:'@Model.PageSize'}
                 }).done(function (response) {
                     $("#listingArea").html(response);
                     $("#pageSize option[selected]").removeAttr("selected");
                     $("#pageSize option[value=" + @Model.PageSize + "]").attr("selected","selected");
                     $("#searchByCategory option[selected]").removeAttr("selected");
-                    $("#searchByCategory option[value=" + @Model.CategoryID + "]").attr("selected","selected");
+                    $("#searchByCategory option[value=" + @Model.RoleID + "]").attr("selected","selected");
                 }).fail(function (xhr, ajaxOptions, thrownError) {
                     alert(xhr.status);
                     alert(thrownError);
@@ -164,13 +160,13 @@
                 var searchText = $("#searchText").val();
                 $.ajax({
                     metod: "Get",
-                    url: "@Url.Action("Index", "Auction")",                  
-            }).done(function (response) {
-                $("#listingArea").html(response);
-            }).fail(function (xhr, ajaxOptions, thrownError) {
-                alert(xhr.status);
-                alert(thrownError);
-            })
+                    url: "@Url.Action("Index", "Auction")",
+                }).done(function (response) {
+                    $("#listingArea").html(response);
+                }).fail(function (xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status);
+                    alert(thrownError);
+                })
 
             });
             $("#searchBtn").click(function () {
@@ -178,11 +174,11 @@
                 $.ajax({
                     metod: "Get",
                     url: "@Url.Action("Index", "Auction")",
-                    data: { searchTearm: searchText, categoryID: '@Model.CategoryID', pageSize:'@Model.PageSize' }
+                    data: { searchTearm: searchText, categoryID: '@Model.RoleID', pageSize:'@Model.PageSize' }
                 }).done(function (response) {
                     $("#listingArea").html(response);
                     $("#searchByCategory option[selected]").removeAttr("selected");
-                    $("#searchByCategory option[value=" + @Model.CategoryID + "]").attr("selected", "selected");
+                    $("#searchByCategory option[value=" + @Model.RoleID + "]").attr("selected", "selected");
                 }).fail(function (xhr, ajaxOptions, thrownError) {
                     alert(xhr.status);
                     alert(thrownError);
@@ -194,15 +190,15 @@
                 $.ajax({
                     metod: "Get",
                     url: "@Url.Action("Index", "Auction")",
-                    data: { pageSize:pageSize, categoryID: @Model.CategoryID, searchTearm: '@Model.SearchTearm' }
-            }).done(function (response) {
-                $("#listingArea").html(response);
-                $("#pageSize option[selected]").removeAttr("selected");
-                $("#pageSize option[value=" + pageSize + "]").attr("selected","selected");
-            }).fail(function (xhr, ajaxOptions, thrownError) {
-                alert(xhr.status);
-                alert(thrownError);
-            })
+                    data: { pageSize:pageSize, categoryID: @Model.RoleID, searchTearm: '@Model.SearchTearm' }
+                }).done(function (response) {
+                    $("#listingArea").html(response);
+                    $("#pageSize option[selected]").removeAttr("selected");
+                    $("#pageSize option[value=" + pageSize + "]").attr("selected","selected");
+                }).fail(function (xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status);
+                    alert(thrownError);
+                })
 
             });
             $("#searchByCategory").change(function () {
@@ -211,14 +207,14 @@
                     metod: "Get",
                     url: "@Url.Action("Index", "Auction")",
                     data: { categoryID: categoryId, searchTearm: '@Model.SearchTearm', pageSize:'@Model.PageSize' }
-            }).done(function (response) {
-                $("#listingArea").html(response);
-                $("#searchByCategory option[selected]").removeAttr("selected");
-                $("#searchByCategory option[value=" + categoryId + "]").attr("selected","selected");
-            }).fail(function (xhr, ajaxOptions, thrownError) {
-                alert(xhr.status);
-                alert(thrownError);
-            })
+                }).done(function (response) {
+                    $("#listingArea").html(response);
+                    $("#searchByCategory option[selected]").removeAttr("selected");
+                    $("#searchByCategory option[value=" + categoryId + "]").attr("selected","selected");
+                }).fail(function (xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status);
+                    alert(thrownError);
+                })
 
             });
             $("#createAuction").click(function () {
@@ -289,11 +285,11 @@
                 $("#pictuerArea").append($newHtml.html());
                 RemovingImage();
             }
-        
+
             function ReloadListing() {
                 $.ajax({
                     metod: "Get",
-                    url: "@Url.Action("Index", "Auction")",                  
+                    url: "@Url.Action("Index", "Auction")",
                 }).done(function (response) {
                     $("#listingArea").html(response);
                 }).fail(function (xhr, ajaxOptions, thrownError) {
@@ -319,6 +315,8 @@
         </div>
     </div>
 </div>
+
+
 
 
 

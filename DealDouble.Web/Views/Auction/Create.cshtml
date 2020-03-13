@@ -40,7 +40,11 @@
                     <label class="font-weight-bold">EndingTime</label>
                     <input type="datetime" class="form-control" name="EndTime" />
                 </div>
-                <div class="col-lg-6">
+                <div class="col-lg-4">
+                <label class="font-weight-bold">Summary</label>
+                <input type="text" class="form-control" name="Summary" />
+                </div>
+                <div class="col-lg-4">
                     <label class="font-weight-bold">Pictures</label>
                     <input type="file" id="auctionPictures" class="form-control" name="AuctionPictures" multiple/>
                 </div>
@@ -113,7 +117,7 @@
     })
 
     $("#saveAuction").click(function () {
-        if (("#submitAuction").valid()){
+        //if (("#submitAuction").validate()) {
             var imageIDs = [];
             $("#pictuerArea .image").each(function () {
                 var imageID = $(this).attr("data-id");
@@ -139,7 +143,7 @@
                 alert(xhr.status);
                 console.log(thrownError);
             })
-        }
+        //}
      
     });
   

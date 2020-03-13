@@ -1,0 +1,54 @@
+﻿<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="@Url.Action("Index","Home")">
+            <i class="fa fa-check-circle-o" aria-hidden="true"></i> Deal Double
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">        
+                <li class="nav-item">
+                    <a class="nav-link" href="#"> <i class="fa fa-shirtsinbulk" aria-hidden="true"></i> Auctions</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="fa fa-sitemap" aria-hidden="true"></i> Categories</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="fa fa-question-circle" aria-hidden="true"></i> Help</a>
+                </li>
+
+                @if (User.Identity.IsAuthenticated)
+                {
+                    if (User.IsInRole("Admin"))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("Index","Dashboard")"> <i class="fa fa-tachometer" aria-hidden="true"></i> Dashboard</a>
+
+                        </li>
+                    }
+                    <li class="nav-item">
+                        <span class="nav-link" id="btnLogOff"> <i class="fa fa-sign-in" aria-hidden="true"></i> LogOff </span>
+
+                    </li>
+                }
+                else
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Login","Account")"> <i class="fa fa-sign-in" aria-hidden="true"></i> Login</a>
+                    </li>
+                }
+
+            </ul>
+        </div>
+    </div>
+</nav>
+<form id="FromlogOff" method="post" action="@Url.Action("LogOff","Account")">
+    @Html.AntiForgeryToken()
+</form>
+<script>
+    $('#btnLogOff').click(function () {
+        $('#FromlogOff').submit();
+    })
+</script>
+

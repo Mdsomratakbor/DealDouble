@@ -11,6 +11,10 @@ namespace DealDouble.Entities
 {
     public class DealDoubleUser : IdentityUser
     {
+        public string FullName { get; set; }
+        public string City { get; set; }
+        public string Address { get; set; }
+        public string Country { get; set; }
         // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit http://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<DealDoubleUser> manager)
         {

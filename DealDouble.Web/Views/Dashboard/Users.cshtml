@@ -1,7 +1,8 @@
 ﻿@model DealDouble.Web.ViewModels.UserViewModel
 @{
     ViewBag.Title = "Users";
-    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+   
+        Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }
 <div class="row">
 
@@ -54,30 +55,26 @@
         <table class="table  table-striped table-hover mt-3">
             <thead class="bg-info">
                 <tr>
-                    <th>Title</th>
-                    <th>Category</th>
-                    <th>Description</th>
-                    <th>Amount</th>
-                    <th>Start Time</th>
-                    <th>End Time</th>
+                    <th>Name</th>
+                    <th>UserName</th>
+                    <th>Role</th>
+                    <th>Email</th>
                     <th>Action</th>
                 </tr>
             </thead>
             <tbody>
-                @if (Model.AllAuction != null && Model.AllAuction.Count() > 0)
+                @if (Model.Users != null && Model.Users.Count() > 0)
                 {
-                    foreach (var data in Model.AllAuction)
+                    foreach (var data in Model.Users)
                     {
                         <tr>
-                            <td>@data.Title</td>
-                            <td>@data.Category.Name</td>
-                            <td>@data.Description</td>
-                            <td>@data.ActualAmount</td>
-                            <td>@data.StartingTime</td>
-                            <td>@data.EndTime</td>
+                            <td>@data.UserName</td>
+                            <td>@data.UserName</td>
+                            <td>@data.Roles.Count()</td>
+                            <td>@data.Email</td>
+                   
                             <td>
-                                <button class="editButton btn btn-sm btn-primary" data-id="@data.AuctionID" data-toggle="modal" data-target="#auctionCreateFrom"> Edit </button>
-                                <button class="deleteButton btn btn-sm btn-danger" data-id="@data.AuctionID"> Delete </button>
+                                 <button class="deleteButton btn btn-sm btn-danger" data-id="@data.Id"> More Details </button>
                             </td>
 
                         </tr>
@@ -104,7 +101,7 @@
                             if (Model.Pager.CurrentPage > 1)
                             {
                                 <li class="page-item">
-                                    <a class="page-link datalink" data-href="@Url.Action("Index", "Auction", new { pageNo = Model.Pager.CurrentPage - 1, pageSize = Model.PageSize })" aria-label="Previous">
+                                    <a class="page-link datalink" data-href="@Url.Action("Index", "Dashboard", new { pageNo = Model.Pager.CurrentPage - 1, pageSize = Model.PageSize })" aria-label="Previous">
                                         <span aria-hidden="true">&laquo;</span>
                                     </a>
                                 </li>
@@ -112,12 +109,12 @@
                             for (var page = Model.Pager.StartPage; page <= Model.Pager.EndPage; page++)
                             {
                                 var activeClass = Model.Pager.CurrentPage == page ? "active bg-info" : string.Empty;
-                                <li class="page-item @activeClass"><a class="page-link datalink" data-href="@Url.Action("Index","Auction",new {pageNo = page, pageSize = Model.PageSize })">@page</a></li>
+                                <li class="page-item @activeClass"><a class="page-link datalink" data-href="@Url.Action("Index","Dashboard",new {pageNo = page, pageSize = Model.PageSize })">@page</a></li>
                             }
                             if (Model.Pager.CurrentPage < Model.Pager.TotalPages)
                             {
                                 <li class="page-item">
-                                    <a class="page-link datalink" data-href="@Url.Action("Index", "Auction", new { pageNo = Model.Pager.CurrentPage + 1, pageSize = Model.PageSize })" aria-label="Next">
+                                    <a class="page-link datalink" data-href="@Url.Action("Index", "Dashboard", new { pageNo = Model.Pager.CurrentPage + 1, pageSize = Model.PageSize })" aria-label="Next">
                                         <span aria-hidden="true">&raquo;</span>
                                     </a>
                                 </li>
@@ -143,13 +140,13 @@
                 $.ajax({
                     metod: "Get",
                     url: url,
-                    data:{categoryID:'@Model.RoleID', searchTearm:'@Model.SearchTearm', pageSize:'@Model.PageSize'}
+                    data:{roleID:'@Model.RoleID', searchTearm:'@Model.SearchTearm', pageSize:'@Model.PageSize'}
                 }).done(function (response) {
                     $("#listingArea").html(response);
                     $("#pageSize option[selected]").removeAttr("selected");
                     $("#pageSize option[value=" + @Model.PageSize + "]").attr("selected","selected");
-                    $("#searchByCategory option[selected]").removeAttr("selected");
-                    $("#searchByCategory option[value=" + @Model.RoleID + "]").attr("selected","selected");
+                    $("#searchByRole option[selected]").removeAttr("selected");
+                    $("#searchByRole option[value=" + @Model.RoleID + "]").attr("selected", "selected");
                 }).fail(function (xhr, ajaxOptions, thrownError) {
                     alert(xhr.status);
                     alert(thrownError);
@@ -173,12 +170,12 @@
                 var searchText = $("#searchText").val();
                 $.ajax({
                     metod: "Get",
-                    url: "@Url.Action("Index", "Auction")",
-                    data: { searchTearm: searchText, categoryID: '@Model.RoleID', pageSize:'@Model.PageSize' }
+                    url: "@Url.Action("Users", "Dashboard")",
+                    data: { roleID:'@Model.RoleID', searchTearm:searchText, pageSize:'@Model.PageSize' }
                 }).done(function (response) {
                     $("#listingArea").html(response);
-                    $("#searchByCategory option[selected]").removeAttr("selected");
-                    $("#searchByCategory option[value=" + @Model.RoleID + "]").attr("selected", "selected");
+                    $("#searchByRole option[selected]").removeAttr("selected");
+                    $("#searchByRole option[value=" + @Model.RoleID + "]").attr("selected", "selected");
                 }).fail(function (xhr, ajaxOptions, thrownError) {
                     alert(xhr.status);
                     alert(thrownError);
@@ -189,8 +186,8 @@
                 var pageSize = $("#pageSize").val();
                 $.ajax({
                     metod: "Get",
-                    url: "@Url.Action("Index", "Auction")",
-                    data: { pageSize:pageSize, categoryID: @Model.RoleID, searchTearm: '@Model.SearchTearm' }
+                    url: "@Url.Action("Users", "Dashboard")",
+                    data: { roleID:'@Model.RoleID', searchTearm:'@Model.SearchTearm', pageSize:pageSize }
                 }).done(function (response) {
                     $("#listingArea").html(response);
                     $("#pageSize option[selected]").removeAttr("selected");
@@ -201,16 +198,16 @@
                 })
 
             });
-            $("#searchByCategory").change(function () {
-                var categoryId = $("#searchByCategory").val();
+            $("#searchByRole").change(function () {
+                var roleId = $("#searchByRole").val();
                 $.ajax({
                     metod: "Get",
-                    url: "@Url.Action("Index", "Auction")",
-                    data: { categoryID: categoryId, searchTearm: '@Model.SearchTearm', pageSize:'@Model.PageSize' }
+                    url: "@Url.Action("Users", "Dashboard")",
+                    data: { roleID:roleId, searchTearm:'@Model.SearchTearm', pageSize:'@Model.PageSize' }
                 }).done(function (response) {
                     $("#listingArea").html(response);
-                    $("#searchByCategory option[selected]").removeAttr("selected");
-                    $("#searchByCategory option[value=" + categoryId + "]").attr("selected","selected");
+                    $("#searchByRole option[selected]").removeAttr("selected");
+                    $("#searchByRole option[value=" + roleId + "]").attr("selected", "selected");
                 }).fail(function (xhr, ajaxOptions, thrownError) {
                     alert(xhr.status);
                     alert(thrownError);
@@ -231,19 +228,6 @@
 
             });
 
-            $("#createAuction").click(function () {
-                $.ajax({
-                    metod: "Get",
-                    url: "@Url.Action("Create", "Auction")",
-                }).done(function (response) {
-                    $("#contentArea").html(response);
-                    $("#auctionCreateFrom").modal('toggle');
-                }).fail(function (xhr, ajaxOptions, thrownError) {
-                    alert(xhr.status);
-                    alert(thrownError);
-                })
-
-            });
 
             $(".editButton").click(function () {
                 var dataId = $(this).attr("data-id")

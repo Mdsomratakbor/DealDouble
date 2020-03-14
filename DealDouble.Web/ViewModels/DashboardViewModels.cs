@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Identity.EntityFramework;
+﻿using DealDouble.Entities;
+using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,5 +21,6 @@ namespace DealDouble.Web.ViewModels
         public int PageNo { get; set; }
         public Pager Pager { get; set; }
         public int PageSize { get; set; }
+        public List<DealDoubleUser> Users { get; set; }
     }
 }

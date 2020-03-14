@@ -1,4 +1,5 @@
 ﻿using DealDouble.Database;
+using DealDouble.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,6 +43,8 @@ namespace DealDouble.Services
                 return contaxt.Bids.Count();
             }
         }
+
+     
 
     }
 }

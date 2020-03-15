@@ -1,0 +1,19 @@
+﻿@model DealDouble.Web.ViewModels.UserDetailsViewModel
+@{
+    ViewBag.Title = "UserDetails";
+    if (!Request.IsAjaxRequest())
+    {
+        Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+    }
+}
+
+<h2>UserDetails</h2>
+<div class="container">
+@if (Model != null && Model.User != null)
+{
+    <h1>@Model.User.FullName</h1>
+}
+</div>
+
+
+

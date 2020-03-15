@@ -1,14 +1,18 @@
 ﻿@model DealDouble.Web.ViewModels.UserViewModel
-@{
-    ViewBag.Title = "Users";
-   
-        Layout = "~/Views/Shared/_DashboardLayout.cshtml";
-}
-<div class="row">
+<div id="listingArea" class="col-lg-12">
+    @{
+        ViewBag.Title = "Users";
+        if (!Request.IsAjaxRequest())
+        {
+            Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+        }
 
-    <div id="listingArea" class="col-lg-12">
-        <div class="row">
-            <h2 class="font-weight-bold float-left">Users</h2>
+    }
+    <div class="row">
+
+
+        <div class="col-md-12 mt-1 ">
+            <h3 class="font-weight-bold float-left">Users</h3>
         </div>
 
         <div class="col-md-12 mt-2">
@@ -16,7 +20,6 @@
 
 
                 <div class="col-md-2 float-right">
-                    <label class="font-weight-bold"> Select Rows</label>
                     <select name="pageSize" class="form-control" id="pageSize">
                         <option value="10">10</option>
                         <option value="20">20</option>
@@ -27,27 +30,27 @@
                 </div>
 
                 <div class="col-md-3 float-right">
-                    <label class="font-weight-bold">Select Role</label>
                     <select name="RoleID" class="form-control" id="searchByRole">
-                        <option>Select Role....</option>
+                        <option value="0" disabled selected>
+                           Select Role
+                        </option>
                         @foreach (var role in Model.Roles)
                         {
                             <option value="@role.Id">@role.Name</option>
                         }
                     </select>
                 </div>
-                <div class="col-md-2 float-right ">
-                    <label class="font-weight-bold">Search</label>
-                    <input type="search" id="searchText" name="search" class="form-control" value="@Model.SearchTearm" />
 
+                <div class="col-md-2 float-right">
+                    <input type="search" id="searchText" name="search" placeholder="Search" class="form-control" value="@Model.SearchTearm" >
                 </div>
-                <div class="col-md-2 mt-4">
-                    <button class="btn btn-md btn-danger" type="button" id="searchBtn">Search</button>
+                <div class="col-md-2">
+                    <button class="btn btn-md btn-danger" type="button" id="searchBtn"><i class="fa fa-search"></i></button>
                     <button class="btn btn-md btn-success" type="button" id="resetBtn">Reset</button>
                 </div>
                 @*<div class="col-md-3 float-right mt-4">
-                    <button id="createAuction" class="btn  btn-success float-right mt-1" data-toggle="modal" data-target="#auctionCreateFrom"><i class="fas fa-plus"></i> Crate New Auction</button>
-                </div>*@
+                        <button id="createAuction" class="btn  btn-success float-right mt-1" data-toggle="modal" data-target="#auctionCreateFrom"><i class="fas fa-plus"></i> Crate New Auction</button>
+                    </div>*@
             </div>
 
 
@@ -68,13 +71,13 @@
                     foreach (var data in Model.Users)
                     {
                         <tr>
-                            <td>@data.UserName</td>
+                            <td>@data.FullName</td>
                             <td>@data.UserName</td>
                             <td>@data.Roles.Count()</td>
                             <td>@data.Email</td>
-                   
+
                             <td>
-                                 <button class="deleteButton btn btn-sm btn-danger" data-id="@data.Id"> More Details </button>
+                                <a href="@Url.Action("UserDetails","Dashboard",new {userId = @data.Id})" class="btn btn-sm btn-danger"><i class="fa fa-edit"></i> More Details </a>
                             </td>
 
                         </tr>
@@ -140,11 +143,12 @@
                 $.ajax({
                     metod: "Get",
                     url: url,
-                    data:{roleID:'@Model.RoleID', searchTearm:'@Model.SearchTearm', pageSize:'@Model.PageSize'}
+                    data: { roleID: '@Model.RoleID', searchTearm: '@Model.SearchTearm', pageSize: '@Model.PageSize' }
                 }).done(function (response) {
+                    $("#listingArea").html('');
                     $("#listingArea").html(response);
                     $("#pageSize option[selected]").removeAttr("selected");
-                    $("#pageSize option[value=" + @Model.PageSize + "]").attr("selected","selected");
+                    $("#pageSize option[value=" + @Model.PageSize + "]").attr("selected", "selected");
                     $("#searchByRole option[selected]").removeAttr("selected");
                     $("#searchByRole option[value=" + @Model.RoleID + "]").attr("selected", "selected");
                 }).fail(function (xhr, ajaxOptions, thrownError) {
@@ -171,7 +175,7 @@
                 $.ajax({
                     metod: "Get",
                     url: "@Url.Action("Users", "Dashboard")",
-                    data: { roleID:'@Model.RoleID', searchTearm:searchText, pageSize:'@Model.PageSize' }
+                    data: { roleID: '@Model.RoleID', searchTearm: searchText, pageSize: '@Model.PageSize' }
                 }).done(function (response) {
                     $("#listingArea").html(response);
                     $("#searchByRole option[selected]").removeAttr("selected");
@@ -187,11 +191,11 @@
                 $.ajax({
                     metod: "Get",
                     url: "@Url.Action("Users", "Dashboard")",
-                    data: { roleID:'@Model.RoleID', searchTearm:'@Model.SearchTearm', pageSize:pageSize }
+                    data: { roleID: '@Model.RoleID', searchTearm: '@Model.SearchTearm', pageSize: pageSize }
                 }).done(function (response) {
                     $("#listingArea").html(response);
                     $("#pageSize option[selected]").removeAttr("selected");
-                    $("#pageSize option[value=" + pageSize + "]").attr("selected","selected");
+                    $("#pageSize option[value=" + pageSize + "]").attr("selected", "selected");
                 }).fail(function (xhr, ajaxOptions, thrownError) {
                     alert(xhr.status);
                     alert(thrownError);
@@ -203,7 +207,7 @@
                 $.ajax({
                     metod: "Get",
                     url: "@Url.Action("Users", "Dashboard")",
-                    data: { roleID:roleId, searchTearm:'@Model.SearchTearm', pageSize:'@Model.PageSize' }
+                    data: { roleID: roleId, searchTearm: '@Model.SearchTearm', pageSize: '@Model.PageSize' }
                 }).done(function (response) {
                     $("#listingArea").html(response);
                     $("#searchByRole option[selected]").removeAttr("selected");
@@ -281,8 +285,7 @@
                     alert(thrownError);
                 })
             }
-            function RemovingImage()
-            {
+            function RemovingImage() {
                 $("#pictuerArea .image").click(function () {
 
                     $(this).remove();

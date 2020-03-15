@@ -7,7 +7,7 @@ using System.Web;
 
 namespace DealDouble.Web.ViewModels
 {
-    public class DashboardViewModels
+    public class DashboardViewModels:PageViewModel
     {
         public int UserCount { get; set; }
         public int AuctionCount { get; set; }
@@ -22,5 +22,11 @@ namespace DealDouble.Web.ViewModels
         public Pager Pager { get; set; }
         public int PageSize { get; set; }
         public List<DealDoubleUser> Users { get; set; }
+    }
+
+    public class UserDetailsViewModel : PageViewModel
+    {
+        public DealDoubleUser User { get; set; }
+
     }
 }

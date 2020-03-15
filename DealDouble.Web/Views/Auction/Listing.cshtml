@@ -1,0 +1,79 @@
+﻿@model DealDouble.Web.ViewModels.AuctionsViewModel
+
+<table class="table  table-striped table-hover mt-3">
+    <thead class="bg-info">
+        <tr>
+            <th>Title</th>
+            <th>Category</th>
+            <th>Description</th>
+            <th>Amount</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.AllAuction != null && Model.AllAuction.Count() > 0)
+        {
+            foreach (var data in Model.AllAuction)
+            {
+                <tr>
+                    <td>@data.Title</td>
+                    <td>@data.Category.Name</td>
+                    <td>@data.Description</td>
+                    <td>@data.ActualAmount</td>
+                    <td>@data.StartingTime</td>
+                    <td>@data.EndTime</td>
+                    <td>
+                        <button class="editButton btn btn-sm btn-primary" data-id="@data.AuctionID" data-toggle="modal" data-target="#auctionCreateFrom"> <i class="fa fa-edit"></i> </button>
+                        <button class="deleteButton btn btn-sm btn-danger" data-id="@data.AuctionID"> <i class="fa fa-trash"></i> </button>
+                    </td>
+
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td class="text-center" colspan="7">
+                    Not  results found
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="row">
+    <div class="offset-4">
+
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                @if (Model.Pager != null)
+                {
+                    if (Model.Pager.CurrentPage > 1)
+                    {
+                        <li class="page-item">
+                            <a class="page-link datalink" data-href="@Url.Action("Index", "Auction", new { pageNo = Model.Pager.CurrentPage - 1, pageSize = Model.PageSize })" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                    }
+                    for (var page = Model.Pager.StartPage; page <= Model.Pager.EndPage; page++)
+                    {
+                        var activeClass = Model.Pager.CurrentPage == page ? "active bg-info" : string.Empty;
+                        <li class="page-item @activeClass"><a class="page-link datalink" data-href="@Url.Action("Index","Auction",new {pageNo = page, pageSize = Model.PageSize })">@page</a></li>
+                    }
+                    if (Model.Pager.CurrentPage < Model.Pager.TotalPages)
+                    {
+                        <li class="page-item">
+                            <a class="page-link datalink" data-href="@Url.Action("Index", "Auction", new { pageNo = Model.Pager.CurrentPage + 1, pageSize = Model.PageSize })" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    }
+                }
+
+            </ul>
+        </nav>
+    </div>
+</div>

@@ -31,15 +31,35 @@ namespace DealDouble.Web.Controllers
             }
             model.PageTitle = "Auctions";
             model.PageDescription = "This auctions list";
-            //if (Request.IsAjaxRequest())
-            //{
-            //    return View(model);
-            //}
-            //else
-            //{
+            if (Request.IsAjaxRequest()){
+                return PartialView(model);
+            }
+            else
+            {
                 return View(model);
-            //}
+
+            }
+                
+           
             
+        }
+        public PartialViewResult Listing(int? categoryId, string search, int? pageNo)
+        {
+            var pageSize = 5;
+            pageNo = pageNo ?? 1;
+
+            var auctionsModel = new AuctionsViewModel();
+
+            auctionsModel.AllAuction = AuctionService.Instance.GetAllAuction(categoryId, search, pageNo.Value, pageSize);
+
+            var totalAuctions = AuctionService.Instance.TotalItemsCount(categoryId, search);
+
+            auctionsModel.Pager = new Pager(totalAuctions, pageNo, pageSize);
+
+            auctionsModel.CategoryID = categoryId.Value;
+            auctionsModel.SearchTearm = search;
+
+            return PartialView(auctionsModel);
         }
 
         [HttpGet]

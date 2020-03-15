@@ -600,6 +600,8 @@
     <Content Include="Views\Dashboard\Index.cshtml" />
     <Content Include="Views\Shared\_DashboardLayout.cshtml" />
     <Content Include="Views\Dashboard\Users.cshtml" />
+    <Content Include="Views\Auction\Listing.cshtml" />
+    <Content Include="Views\Dashboard\UserDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

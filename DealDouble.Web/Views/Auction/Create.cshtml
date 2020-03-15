@@ -1,4 +1,4 @@
-﻿@model DealDouble.Web.ViewModels.AuctionCrudeViewModel 
+﻿@model DealDouble.Web.ViewModels.AuctionCrudeViewModel
 <div class="modal-header">
     <h5 class="modal-title" id="exampleModalLongTitle">Auction Create</h5>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -9,7 +9,7 @@
     <div class="modal-body">
         <div class="col-lg-12 col-md-12 col-sm-12">
             <div class="row">
-                <div class="col-lg-4" >
+                <div class="col-lg-4">
                     <label class="font-weight-bold">Title</label>
                     <input type="text" class="form-control" name="Title" />
                 </div>
@@ -41,15 +41,21 @@
                     <input type="datetime" class="form-control" name="EndTime" />
                 </div>
                 <div class="col-lg-4">
-                <label class="font-weight-bold">Summary</label>
-                <input type="text" class="form-control" name="Summary" />
+                    <label class="font-weight-bold">Summary</label>
+                    <input type="text" class="form-control" name="Summary" />
                 </div>
                 <div class="col-lg-4">
+
                     <label class="font-weight-bold">Pictures</label>
-                    <input type="file" id="auctionPictures" class="form-control" name="AuctionPictures" multiple/>
+                    <div class="input-group">                 
+                        <div class="custom-file">
+                            <input type="file" id="auctionPictures" class="custom-file-input" name="AuctionPictures" multiple />
+                            <label class="custom-file-label" for="auctionPictures">Choose file</label>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-lg-6 mt-1" id="pictuerArea">
-                <input type="hidden" id="pictueIDs" name="AuctionPictures"/>
+                    <input type="hidden" id="pictueIDs" name="AuctionPictures" />
                 </div>
                 <div id="formError" class="form-group bg-danger mt-3" style="display:none">
 
@@ -84,9 +90,8 @@
 
         }).done(function (responses) {
             if (responses.Success) {
-                for (var i = 0 ; i < responses.pictuerJSON.length; i++)
-                {
-                   
+                for (var i = 0 ; i < responses.pictuerJSON.length; i++) {
+
                     var picResponse = responses.pictuerJSON[i];
                     AttachNewImage(picResponse.pictureURL, picResponse.ID)
                 }
@@ -101,7 +106,7 @@
     });
     $("#submitAuction").validate({
         rules: {
-            Title:{
+            Title: {
                 required: true,
                 minlength: 15,
                 maxlength: 150
@@ -118,35 +123,35 @@
 
     $("#saveAuction").click(function () {
         //if (("#submitAuction").validate()) {
-            var imageIDs = [];
-            $("#pictuerArea .image").each(function () {
-                var imageID = $(this).attr("data-id");
-                imageIDs.push(imageID);
-            });
-            $("#pictueIDs").val(imageIDs.join());
-            $.ajax({
-                method: 'Post',
-                url: '@Url.Action("Create","Auction")',
-                data: $("#submitAuction").serialize()
-            }).done(function (response) {
-                if (response.Success == true) {
-                    ReloadListing();
-                    $("#auctionCreateFrom").modal('toggle');
-                }
-                else {
-                    $("#formError").html(response.Error);
-                    $("#formError").show();
+        var imageIDs = [];
+        $("#pictuerArea .image").each(function () {
+            var imageID = $(this).attr("data-id");
+            imageIDs.push(imageID);
+        });
+        $("#pictueIDs").val(imageIDs.join());
+        $.ajax({
+            method: 'Post',
+            url: '@Url.Action("Create","Auction")',
+            data: $("#submitAuction").serialize()
+        }).done(function (response) {
+            if (response.Success == true) {
+                ReloadListing();
+                $("#auctionCreateFrom").modal('toggle');
+            }
+            else {
+                $("#formError").html(response.Error);
+                $("#formError").show();
 
-                }
+            }
 
-            }).fail(function (xhr, ajaxOptions, thrownError) {
-                alert(xhr.status);
-                console.log(thrownError);
-            })
+        }).fail(function (xhr, ajaxOptions, thrownError) {
+            alert(xhr.status);
+            console.log(thrownError);
+        })
         //}
-     
+
     });
-  
+
 
 </script>
 

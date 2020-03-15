@@ -5,11 +5,13 @@ using Microsoft.AspNet.Identity.Owin;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
 namespace DealDouble.Web.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class DashboardController : Controller
     {
         private DealDoubleUserManager _userManager;
@@ -83,7 +85,25 @@ namespace DealDouble.Web.Controllers
             var skipCount = (pageNo.Value - 1) * pageSize;
             model.Users = users.OrderByDescending(x => x.Id).Skip(skipCount).Take(pageSize).ToList();
             model.Pager = new Pager(users.Count(), pageNo, pageSize);
+            if (Request.IsAjaxRequest())
+            {
+                return PartialView(model);
+            }
+            else
+            {
+                return View(model);
+            }
+          
+        }
 
+        public async Task<ActionResult> UserDetails(string userId)
+        {
+            UserDetailsViewModel model = new UserDetailsViewModel();
+            var user =  await UserManager.FindByIdAsync(userId);
+            if (user != null)
+            {
+                model.User = user;
+            }
             return View(model);
         }
     }

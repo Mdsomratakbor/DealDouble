@@ -33,74 +33,243 @@
             </a>
         </div>
         <!--Slider End-->
-       
-            <div class="card-deck">
-                <div class="card-group">
+
+        <div class="row">
+            <div class="col-lg-12">
+
+
+                <div class="border p-2">
+                    <div class="float-left">
+                        <select id="sltCategories" class="form-control">
+                            <option data-url="/search" value="0">All Categories</option>
+                            <option data-url="/search/beds" value="16">
+                                Beds
+                            </option>
+                            <option data-url="/search/bikes" value="5">
+                                Bikes
+                            </option>
+                            <option data-url="/search/cameras" value="11">
+                                Cameras
+                            </option>
+                            <option data-url="/search/cars" value="4">
+                                Cars
+                            </option>
+                            <option data-url="/search/chairs" value="15">
+                                Chairs
+                            </option>
+                            <option data-url="/search/computers" value="7">
+                                Computers
+                            </option>
+                            <option data-url="/search/electronics" value="2">
+                                Electronics
+                            </option>
+                            <option data-url="/search/fashion" value="19">
+                                Fashion
+                            </option>
+                            <option data-url="/search/furniture" value="13">
+                                Furniture
+                            </option>
+                            <option data-url="/search/home-appliances" value="12">
+                                Home Appliances
+                            </option>
+                            <option data-url="/search/jewellery" value="23">
+                                Jewellery
+                            </option>
+                            <option data-url="/search/laptops" value="8">
+                                Laptops
+                            </option>
+                            <option data-url="/search/men-s-clothing" value="22">
+                                Men's Clothing
+                            </option>
+                            <option data-url="/search/mobiles" value="9">
+                                Mobiles
+                            </option>
+                            <option data-url="/search/office-furniture" value="18">
+                                Office Furniture
+                            </option>
+                            <option data-url="/search/sofa" value="14">
+                                Sofa
+                            </option>
+                            <option data-url="/search/tables" value="17">
+                                Tables
+                            </option>
+                            <option data-url="/search/tablets" value="10">
+                                Tablets
+                            </option>
+                            <option data-url="/search/travel" value="24">
+                                Travel
+                            </option>
+                            <option data-url="/search/trucks" value="6">
+                                Trucks
+                            </option>
+                            <option data-url="/search/uncategorized" value="1">
+                                Uncategorized
+                            </option>
+                            <option data-url="/search/undergarments" value="20">
+                                Undergarments
+                            </option>
+                            <option data-url="/search/vehicles" value="3">
+                                Vehicles
+                            </option>
+                            <option data-url="/search/women-s-clothing" value="21">
+                                Women's Clothing
+                            </option>
+                        </select>
+
+                    </div>
+                    <div class="float-right">
+                        <form class="form-inline" action="/search">
+                            <input name="q" type="search" placeholder="Search Products" class="form-control mr-sm-2" required="">
+
+                            <div class="btn-group" role="group">
+                                <button type="submit" class="btn btn-outline-success my-2 my-sm-0">Search</button>
+                                <a href="/search" class="btn btn-outline-secondary my-2 my-sm-0">Reset</a>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <div id="productsList" class="col-lg-12">
+
+                <div class="card-group mb-4">
                     @foreach (var auction in Model.PromotedAuction)
                     {
                         var picURL = auction.AuctionPictures != null && auction.AuctionPictures.Count > 0 ? "/Content/images/" + auction.AuctionPictures.First().Picture.URL : "http://placehold.it/700x400";
-                        <div class="col-lg-3 col-md-6 mb-4 p-0">
-                        <div class="card h-100">
-                            <div class="card-header">
-                                <a href="@Url.Action("Details","Auction",new { id= auction.AuctionID })"><img class="card-img-top" src="@picURL" alt=""></a>
+
+                           <div class="card border-top-0 rounded-0">
+                            <div class="p-4 d-flex align-items-center" style="height:350px;">
+                                <a href="@Url.Action("Details","Auction",new { id= auction.AuctionID })"><img class="card-img-top img-fluid" src="@picURL" alt=""></a>
                             </div>
+                            <hr>
                             <div class="card-body">
-                                <h4 class="card-title">
+                                <h5 class="card-title">
                                     <a href="@Url.Action("Details","Auction", new {id = auction.AuctionID })">@auction.Title</a>
-                                </h4>
-                                <h5>$@auction.ActualAmount</h5>
-                                <p class="card-text">@auction.Description</p>
+                                </h5>
+                                <p class="card-text">
+                                    @auction.Description
+                                </p>
                             </div>
+                            <ul class="list-group list-group-flush ">
+                                <li class="list-group-item">
+                                    <i class="fa fa-tags mr-1"></i>
+                                    <a href="#" class="card-link">
+                                        @auction.Category.Name
+                                    </a>
+
+
+                                </li>
+                            </ul>
                             <div class="card-footer">
-                                <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+                                <div class="row">
+                                    <div class="col-7">
+                                        <label class="input-group-text border-0 bg-light" title="Product Price">
+                                            <i class="fa fa-money mr-1"></i> $@auction.ActualAmount
+                                        </label>
+                                    </div>
+                                    <div class="col-5">
+                                        <div class="input-group itemCartHolder">
+                                            <div class="input-group-append">
+                                                <button data-id="" type="button" class="btnAddToCart btn btn-primary btn-sm" title="Add to Cart">
+                                                    <i class="fa fa-usd mr-1"></i>Bid Now
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                            </div>
+           
+                     
+
                     }
+
                 </div>
 
-            </div>
 
 
-
-
-
-
-       
-
-
-            <div class="card-deck">
-                <div class="card-group">
+                <div class="card-group mb-4">
                     @foreach (var auction in Model.AllAuction)
                     {
                         var picURL = auction.AuctionPictures != null && auction.AuctionPictures.Count > 0 ? "/Content/images/" + auction.AuctionPictures.First().Picture.URL : "http://placehold.it/700x400";
-                        <div class="col-lg-3 col-md-6 mb-4 p-0">
-                            <div class="card h-100">
-                                <div class="card-header">
 
-                                    <a href="#"><img class="card-img-top" src="@picURL" alt=""></a>
-                                </div>
-                                <div class="card-body">
-                                    <h4 class="card-title">
-                                        <a href="@Url.Action("Details","Auction", new {id = auction.AuctionID })">@auction.Title</a>
-                                    </h4>
-                                    <h5>$@auction.ActualAmount</h5>
-                                    <p class="card-text">@auction.Description</p>
-                                </div>
-                                <div class="card-footer">
-                                    <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+                        <div class="card " relf-item="1">
+                            <div class="p-4 d-flex align-items-center" style="height:350px;">
+                                <a href="@Url.Action("Details","Auction",new { id= auction.AuctionID })"><img class="card-img-top img-fluid" src="@picURL" alt=""></a>
+
+                            </div>
+                            <hr>
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <a href="@Url.Action("Details","Auction", new {id = auction.AuctionID })">@auction.Title</a>
+                                </h5>
+                                <p class="card-text">
+                                    @auction.Description
+                                </p>
+                            </div>
+                            <ul class="list-group list-group-flush ">
+                                <li class="list-group-item">
+                                    <i class="fa fa-tags mr-1"></i>
+                                    <a href="@Url.Action("Details","Auction", new {id = auction.AuctionID })" class="card-link">
+                                        @auction.Category.Name
+                                    </a>
+                                    <i class="fa fa-angle-right mx-1"></i>
+                                    <a href="/search/chairs" class="card-link">
+                                        @auction.Category.Name
+                                    </a>
+                                </li>
+                            </ul>
+                            <div class="card-footer">
+                                <div class="row">
+                                    <div class="col-7">
+                                        <label class="input-group-text border-0 bg-light" title="Product Price">
+                                            <i class="fa fa-moneymr-1"></i> $@auction.ActualAmount
+                                        </label>
+                                    </div>
+                                    <div class="col-5">
+                                        <div class="input-group itemCartHolder">
+                                            <div class="input-group-append">
+                                                <button data-id="3" type="button" class="btnAddToCart btn btn-primary" title="Bid Now">
+                                                    <i class="fa fa-usd mr-1"></i> Bid Now
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                           
-                       
+
                     }
 
                 </div>
-      
 
 
+                <nav>
+                    <ul class="pagination justify-content-center">
 
+                        <li class="page-item disabled">
+                            <span class="page-link disabled">Previous</span>
+                        </li>
+
+                        <li class="page-item active">
+                            <a href="/search">
+                                <span class="page-link">1</span>
+                            </a>
+                        </li>
+                        <li class="page-item ">
+                            <a href="/search?pageno=2">
+                                <span class="page-link">2</span>
+                            </a>
+                        </li>
+
+                        <li class="page-item">
+                            <a href="/search?pageno=2">
+                                <span class="page-link">Next</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
         </div>
         <!-- /.row -->
 

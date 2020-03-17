@@ -1,0 +1,115 @@
+﻿@model DealDouble.Web.ViewModels.UserRolesViewModel
+
+@if (Model != null && Model.UserRoles != null)
+{
+
+    if (Model.UserRoles.Count > 0)
+    {
+        <div class="col-md-12">
+            <h4>Current User Roles</h4>
+            <hr />
+        </div>
+        var i = 1;
+        <table class="table table-hover table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Role Name</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var userRoles in Model.UserRoles)
+                {
+                    <tr>
+                        <th scope="row">@i</th>
+                        <td>@userRoles.Name</td>
+                        <td><button class="btn btn-danger roleDelete" data-id="@userRoles.Id"><i class="fa fa-trash"></i></button></td>
+                    </tr>
+                    i++;
+                }
+
+            </tbody>
+        </table>
+    }
+}
+else
+{
+    <div class="alert alert-danger" role="alert">
+        This user don't have any roles
+    </div>
+}
+@{
+    var userCanHaveRole = Model.AvailableRoles.Where(x => Model.UserRoles.FirstOrDefault(y => y.Id == x.Id) == null).ToList();
+    if (userCanHaveRole.Count() > 0 && userCanHaveRole != null)
+    {
+        <h5>Assing New Roles</h5>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <td>
+                        <select class="form-control" id="userRolesAssing">
+                            <option value="" disabled selected>Please selected</option>
+                            @foreach (var role in Model.AvailableRoles.Where(x => Model.UserRoles.FirstOrDefault(y => y.Id == x.Id) == null))
+                            {
+                                <option value="@role.Id">@role.Name</option>
+                            }
+                        </select>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-success btn-sm" id="btnAssingRole">Assing</button>
+                    </td>
+                </tr>
+            </tbody>
+
+        </table>
+    }
+
+}
+<script>
+    $('#btnAssingRole').click(function () {
+        var roleId = $('#userRolesAssing').val();
+        if (roleId != undefined && roleId != null) {
+            $.ajax({
+                method: 'post',
+                url: '@Url.Action("AssingUserRole","Dashboard",new { userId = Model.User.Id })',
+                data: {roleId: roleId}
+            }).done(function (response) {
+                setTimeout(function () {
+                    $('#data-holder').html(response)
+                }, 200)
+            }).fail(function (error) {
+                alert(error);
+                console.log(error);
+            })
+        }
+        else {
+            alert('Please select role');
+        }
+    })
+    $('.roleDelete').click(function () {
+        if (confirm("Are you sure to delete this user role")) {
+
+        var roleId = $(this).attr('data-id');
+        if (roleId != undefined && roleId != null) {
+            $.ajax({
+                method: 'post',
+                url: '@Url.Action("DeleteUserRole", "Dashboard",new { userId = Model.User.Id })',
+                data: { roleId: roleId }
+            }).done(function (response) {
+                setTimeout(function () {
+                    $('#data-holder').html(response)
+                }, 200)
+            }).fail(function (error) {
+                alert(error);
+                console.log(error);
+            })
+        }
+        else {
+            alert('sorry problem !!');
+        }
+
+        }
+    })
+</script>

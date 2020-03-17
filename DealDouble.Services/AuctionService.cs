@@ -112,5 +112,13 @@ namespace DealDouble.Services
                 context.SaveChanges();
             }
         }
+
+        public List<Auction> GetCommentAuction(List<int> auctionIds)
+        {
+            using (var contaxt = new Context())
+            {
+                return auctionIds.Select(x => contaxt.Auctions.Find(x)).ToList();
+            }
+        }
     }
 }

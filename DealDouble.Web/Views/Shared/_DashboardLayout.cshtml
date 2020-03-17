@@ -41,8 +41,8 @@
                 <a href="@Url.Action("Users","Dashboard")" class="list-group-item list-group-item-action bg-light">
                     <i class="fa fa-users" aria-hidden="true"></i> Users
                 </a>
-                <a href="@Url.Action("Index","Roles")" class="list-group-item list-group-item-action bg-light">
-                    <i class="fa fa-user-plus" aria-hidden="true"></i> Roles
+                <a href="@Url.Action("UserRoleListing", "Dashboard")" class="list-group-item list-group-item-action bg-light">
+                <i class="fa fa-user-plus" aria-hidden="true"></i> Roles
                 </a>
             </div>
         </div>
@@ -58,15 +58,15 @@
                     <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
                         @if (User.Identity.IsAuthenticated)
                         {
-                            <li class="nav-item">
-                                <a class="nav-link" style="cursor:pointer" id="logoutBtn">Logout</a>
-                            </li>
+                        <li class="nav-item">
+                            <a class="nav-link" style="cursor:pointer" id="logoutBtn"><i class="fa fa-sign-in"></i> Logout</a>
+                        </li>
                         }
                         else
                         {
-                            <li class="nav-item">
-                                <a class="nav-link" href="@Url.Action("Login","Account")">Login</a>
-                            </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("Login","Account")"><i class="fa fa-sign-in"></i> Login</a>
+                        </li>
                         }
                     </ul>
                 </div>
@@ -86,13 +86,13 @@
     <script src="~/Content/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- Menu Toggle Script -->
     <script>
-    $("#menu-toggle").click(function(e) {
-      e.preventDefault();
-      $("#wrapper").toggleClass("toggled");
-    });
-    $("#logoutBtn").click(function () {
-        $("#logoutForm").submit();
-    })
+        $("#menu-toggle").click(function (e) {
+            e.preventDefault();
+            $("#wrapper").toggleClass("toggled");
+        });
+        $("#logoutBtn").click(function () {
+            $("#logoutForm").submit();
+        })
     </script>
 </body>
 </html>

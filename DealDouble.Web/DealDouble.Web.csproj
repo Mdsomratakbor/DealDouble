@@ -391,6 +391,7 @@
     <Content Include="Content\images\fbb1ac9f-a94d-4743-8e74-917d18390648.jfif" />
     <Content Include="Content\images\fd10a857-e6d2-491f-91a6-f261146ec5fc.jpg" />
     <Content Include="Content\images\fe2a2d94-53e5-4e1f-81f6-8b423110f924.jpg" />
+    <Content Include="Content\images\images.png" />
     <Content Include="Content\vendor\bootstrap\css\bootstrap-grid.css" />
     <Content Include="Content\vendor\bootstrap\css\bootstrap-grid.min.css" />
     <Content Include="Content\vendor\bootstrap\css\bootstrap-reboot.css" />
@@ -602,6 +603,10 @@
     <Content Include="Views\Dashboard\Users.cshtml" />
     <Content Include="Views\Auction\Listing.cshtml" />
     <Content Include="Views\Dashboard\UserDetails.cshtml" />
+    <Content Include="Views\Dashboard\_UserDetails.cshtml" />
+    <Content Include="Views\Dashboard\_UserRoles.cshtml" />
+    <Content Include="Views\Dashboard\UserRoleListing.cshtml" />
+    <Content Include="Views\Dashboard\_UserComments.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

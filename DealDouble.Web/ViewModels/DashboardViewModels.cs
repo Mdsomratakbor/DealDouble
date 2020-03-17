@@ -29,4 +29,20 @@ namespace DealDouble.Web.ViewModels
         public DealDoubleUser User { get; set; }
 
     }
+    public class UserRolesViewModel : PageViewModel
+    {
+        public List<IdentityRole> AvailableRoles { get; set; }
+        public List<IdentityRole> UserRoles { get; set; }
+        public DealDoubleUser User { get; set; }
+        public Pager Pager { get; set; }
+        public string SearchTearm { get; set; }
+        public int PageSize { get;  set; }
+    }
+
+    public class UserCommentsViewModel : PageViewModel
+    {
+        public List<Auction> CommentedActions { get; set; }
+        public List<Comment> Comment { get; set; }
+        public DealDoubleUser User { get; set; }
+    }
 }

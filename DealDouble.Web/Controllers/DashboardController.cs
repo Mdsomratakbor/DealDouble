@@ -1,4 +1,5 @@
-﻿using DealDouble.Services;
+﻿using DealDouble.Entities;
+using DealDouble.Services;
 using DealDouble.Web.ViewModels;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
@@ -93,18 +94,127 @@ namespace DealDouble.Web.Controllers
             {
                 return View(model);
             }
-          
+
         }
 
-        public async Task<ActionResult> UserDetails(string userId)
+        public async Task<ActionResult> UserDetails(string userId, bool isPartial = false)
         {
             UserDetailsViewModel model = new UserDetailsViewModel();
-            var user =  await UserManager.FindByIdAsync(userId);
+            var user = await UserManager.FindByIdAsync(userId);
             if (user != null)
             {
                 model.User = user;
             }
-            return View(model);
+            if (isPartial || Request.IsAjaxRequest())
+            {
+                return PartialView("_UserDetails", model);
+            }
+            else
+            {
+                return View(model);
+            }
+        }
+
+        public async Task<ActionResult> UserRoles(string userId, bool isPartial = false)
+        {
+            UserRolesViewModel model = new UserRolesViewModel();
+            model.AvailableRoles = RoleManager.Roles.ToList();
+
+            if (!string.IsNullOrEmpty(userId))
+            {
+                var user = await UserManager.FindByIdAsync(userId);
+                model.User = await UserManager.FindByIdAsync(userId);
+                if (user != null)
+                {
+                    model.UserRoles = user.Roles.Select(userRoles => model.AvailableRoles.FirstOrDefault(role => role.Id == userRoles.RoleId)).ToList();
+                }
+            }
+
+            return PartialView("_UserRoles", model);
+        }
+
+
+        public async Task<ActionResult> AssingUserRole(string userId, string roleId)
+        {
+            if (!string.IsNullOrEmpty(userId) && !string.IsNullOrEmpty(roleId))
+            {
+                var user = await UserManager.FindByIdAsync(userId);
+                var role = await RoleManager.FindByIdAsync(roleId);
+                if(user!= null && role != null)
+                {
+                        await UserManager.AddToRolesAsync(userId, role.Name);                  
+                   
+                }
+
+            }
+            return RedirectToAction("UserRoles", new { userId = userId });
+        }
+
+        public async Task<ActionResult> DeleteUserRole(string userId, string roleId)
+        {
+            if (!string.IsNullOrEmpty(userId) && !string.IsNullOrEmpty(roleId))
+            {
+                var user = await UserManager.FindByIdAsync(userId);
+                var role = await RoleManager.FindByIdAsync(roleId);
+                if (user != null && role != null)
+                {
+                    await UserManager.RemoveFromRoleAsync(userId, role.Name);
+
+                }
+
+            }
+            return RedirectToAction("UserRoles", new { userId = userId });
+        }
+
+
+
+        public ActionResult UserRoleListing(string searchTearm, int? pageNo, int pageSize = 10)
+        {
+            UserRolesViewModel model = new UserRolesViewModel();
+            pageNo = pageNo.HasValue ? pageNo.Value > 0 ? pageNo.Value : 1 : 1;
+            model.PageTitle = "Users";
+            model.PageDescription = "User List";
+            model.SearchTearm = searchTearm;
+            model.PageSize = pageSize;
+            var roles = RoleManager.Roles.ToList();
+            if (!string.IsNullOrEmpty(searchTearm))
+            {
+                roles = roles.Where(x => x.Name.ToLower().Contains(searchTearm.ToLower())).ToList();
+            }
+            var skipCount = (pageNo.Value - 1) * pageSize;
+            model.AvailableRoles = roles.OrderByDescending(x => x.Id).Skip(skipCount).Take(pageSize).ToList();
+            model.Pager = new Pager(roles.Count(), pageNo, pageSize);
+            if (Request.IsAjaxRequest())
+            {
+                return PartialView(model);
+            }
+            else
+            {
+                return View(model);
+            }
+
+        }
+
+
+
+        public async Task<ActionResult> UserComments(string userId, bool isPartial = false)
+        {
+            UserCommentsViewModel model = new UserCommentsViewModel();
+            if (!string.IsNullOrEmpty(userId))
+            {
+                model.User = await UserManager.FindByIdAsync(userId);
+                if (model.User != null)
+                {
+                    model.Comment = DashboardServices.Instance.GetCommentByUser(userId, (int)EntityEnum.Auctions);
+                    if (model.Comment != null && model.Comment.Count > 0)
+                    {
+                        var auctionIDs = model.Comment.Select(x => x.RecordID).ToList();
+                        model.CommentedActions = AuctionService.Instance.GetCommentAuction(auctionIDs);
+                    }
+                }
+            }
+
+            return PartialView("_UserComments", model);
         }
     }
 }

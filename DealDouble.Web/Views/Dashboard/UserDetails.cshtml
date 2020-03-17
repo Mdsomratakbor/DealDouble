@@ -7,13 +7,94 @@
     }
 }
 
-<h2>UserDetails</h2>
-<div class="container">
+
+<div class="col-md-12">
+    <h3 class="font-weight-bold float-left">User Details</h3>
+    <br />
+    <hr />
+</div>
+
 @if (Model != null && Model.User != null)
 {
-    <h1>@Model.User.FullName</h1>
-}
-</div>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-header">
+
+                    <img src="~/Content/images/images.png" class="img-fluid img-thumbnail" />
+                </div>
+                <div class="card-body">
+
+
+                    @if (!string.IsNullOrEmpty(Model.User.FullName))
+                    {
+                        <span class="font-weight-bold"><i class="fa fa-user"></i> @Model.User.FullName  </span><hr />
+                    }
+                    @if (!string.IsNullOrEmpty(Model.User.UserName))
+                    {
+                        <span><i class="fa fa-user"></i> @Model.User.UserName</span><hr />
+                    }
+                    @if (!string.IsNullOrEmpty(Model.User.Address))
+                    {
+                        <span><i class="fa fa-location-arrow"></i> @Model.User.Address</span>
+                    }
+
+                </div>
+
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="card">
+                <nav>
+                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                        <a class="data-link nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#" role="tab" aria-controls="nav-home" data-href="@Url.Action("UserDetails", "Dashboard", new { userId = Model.User.Id })" aria-selected="true">Info</a>
+
+                        <a class="data-link nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#" role="tab" aria-controls="nav-profile" data-href="@Url.Action("UserRoles", "Dashboard", new { userId = Model.User.Id })" aria-selected="false">Roles</a>
+
+                        <a class="data-link nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#" role="tab" aria-controls="nav-contact" data-href="@Url.Action("UserBids", "Dashboard", new { userId = Model.User.Id })" aria-selected="false">Bids</a>
+
+                        <a class="data-link nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#" role="tab" aria-controls="nav-contact" data-href="@Url.Action("UserComments", "Dashboard", new { userId = Model.User.Id })" aria-selected="false">Comments</a>
+                    </div>
+                </nav>
+                <div class="card-body" id="data-holder">
+                    @{
+                        Html.RenderPartial("_UserDetails", Model);
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $('.data-link').click(function () {
+            var url = $(this).attr("data-href");
+            if (url != undefined && url != "") {
+                $('.data-link').removeClass('active');
+                $(this).addClass('active');
+                $.ajax({
+                    url: url
+                }).done(function (response) {
+                    setTimeout(function () {
+                        $('#data-holder').html(response)
+                    },200)
+                   
+
+                }).fail(function (error) {
+                    alert(error);
+                    console.log(error);
+                })
+            }
+
+        })
+    </script>
+                        }
+                        else
+                        {
+                            <div class="alert alert-danger" role="alert">
+                                No data found
+                            </div>
+                        }
+
+
 
 
 

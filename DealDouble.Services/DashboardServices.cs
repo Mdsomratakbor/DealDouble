@@ -44,7 +44,15 @@ namespace DealDouble.Services
             }
         }
 
-     
+        public List<Comment> GetCommentByUser(string userId, int entityId)
+        {
+            using (var contaxt = new Context())
+            {
+                return contaxt.Comments.Where(x => x.UserId == userId).Where(x=>x.EntityID == entityId).OrderByDescending(x => x.TimeStamp).ToList();
+            }
+        }
+
+
 
     }
 }

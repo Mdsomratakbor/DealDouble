@@ -1,0 +1,86 @@
+﻿@model DealDouble.Web.ViewModels.ParentCategoryViewModel
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<form id="editcategory">
+    <div class="modal-body">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <div class="row">
+                <div class="col-lg-4">
+                    <input type="hidden" name="ID" value="@Model.ID" />
+                    <label class="font-weight-bold">Name</label>
+                    <input type="text" name="ParentCategoryName" class="form-control" value="@Model.ParentCategoryName" />
+                </div>
+                <div class="col-lg-4">
+                    <label class="font-weight-bold">Description</label>
+                    <input type="text" name="Description" class="form-control" value="@Model.Description" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" id="btneditcategory" class="btn btn-primary">Update</button>
+    </div>
+</form>
+<script>
+    $("#editcategory").validate({
+        rules: {
+            ParentCategoryName: {
+                required: true,
+                minlength: 5,
+                maxlength: 30
+            },
+            Description: {
+                required: true,
+                minlength: 10,
+                maxlength: 150
+            }
+        },
+        messages: {
+            ParentCategoryName: {
+                required: "Name is required",
+                minlength: "Minimum length is 5",
+                maxlength: "Maximum lenth is 30"
+            },
+            Description: {
+                minlength: "Minimum length is 10",
+                maxlength: "Maximum lenth is 150"
+            }
+        }
+    })
+    $("#btneditcategory").click(function () {
+        if ($("#editcategory").valid()) {
+            $.ajax({
+                method: 'Post',
+                url: '@Url.Action("Edit","ParentCategory")',
+                data: $("#editcategory").serialize()
+            }).done(function (response) {
+                $("#categoryCreateFrom").modal('toggle');
+                setTimeout(function () {
+                    $("#listingArea").html(response);
+                },100)
+               
+                swal({
+                    icon: "success",
+                    title: "Data Update Successfully"
+                });
+            }).fail(function (xhr, ajaxOptions, thrownError) {
+                alert(xhr.status);
+                console.log(thrownError);
+            })
+        }
+    });
+
+
+</script>
+
+
+
+
+
+
+
+

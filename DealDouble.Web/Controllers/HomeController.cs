@@ -19,6 +19,7 @@ namespace DealDouble.Web.Controllers
             pageNo = pageNo.HasValue ? pageNo.Value > 0 ? pageNo.Value : 1 : 1;
             pageSize = pageSize.HasValue ? pageSize.Value > 10 ? pageSize.Value : 10 : 10;
             model.AllAuction = AuctionService.Instance.GetAllAuction(categoryID, searchTearm, pageNo.Value, pageSize.Value);
+            model.Categories = CategoriesService.Instance.GetAllCategories();
             model.PromotedAuction = AuctionService.Instance.GetPromoAuction();
             return View(model);
         }

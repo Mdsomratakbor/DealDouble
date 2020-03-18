@@ -211,6 +211,7 @@
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\ParentCategoryController.cs" />
     <Compile Include="Controllers\SharedController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -223,6 +224,7 @@
     <Compile Include="ViewModels\BaseViewModels.cs" />
     <Compile Include="ViewModels\CategoriesViewModels.cs" />
     <Compile Include="ViewModels\DashboardViewModels.cs" />
+    <Compile Include="ViewModels\ParentCategoryViewModels.cs" />
     <Compile Include="ViewModels\SharedViewModels.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -407,6 +409,7 @@
     <Content Include="Content\vendor\jquery\jquery.slim.js" />
     <Content Include="Content\vendor\jquery\jquery.slim.min.js" />
     <Content Include="Content\vendor\jquery\jquery.validate.min.js" />
+    <Content Include="Content\vendor\sweetalert\sweetalert.min.js" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\ai.0.22.9-build00167.js" />
@@ -455,6 +458,7 @@
     <Content Include="Content\vendor\bootstrap\js\bootstrap.min.js.map" />
     <Content Include="Content\vendor\jquery\jquery.min.map" />
     <Content Include="Content\vendor\jquery\jquery.slim.min.map" />
+    <Content Include="Content\vendor\sweetalert\sweetalert.js.map" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
     <Content Include="Scripts\jquery-3.0.0.min.js" />
@@ -607,6 +611,9 @@
     <Content Include="Views\Dashboard\_UserRoles.cshtml" />
     <Content Include="Views\Dashboard\UserRoleListing.cshtml" />
     <Content Include="Views\Dashboard\_UserComments.cshtml" />
+    <Content Include="Views\ParentCategory\Index.cshtml" />
+    <Content Include="Views\ParentCategory\Create.cshtml" />
+    <Content Include="Views\ParentCategory\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

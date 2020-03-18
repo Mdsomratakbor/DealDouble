@@ -74,6 +74,18 @@
     <Compile Include="Migrations\202003141803158_addUserColumn.designer.cs">
       <DependentUpon>202003141803158_addUserColumn.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202003181419145_addParentCategory.cs" />
+    <Compile Include="Migrations\202003181419145_addParentCategory.designer.cs">
+      <DependentUpon>202003181419145_addParentCategory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003181430110_addParentCategoryDescription.cs" />
+    <Compile Include="Migrations\202003181430110_addParentCategoryDescription.designer.cs">
+      <DependentUpon>202003181430110_addParentCategoryDescription.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003181434057_addParentCategorySubCategory.cs" />
+    <Compile Include="Migrations\202003181434057_addParentCategorySubCategory.designer.cs">
+      <DependentUpon>202003181434057_addParentCategorySubCategory.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -96,6 +108,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202003141803158_addUserColumn.resx">
       <DependentUpon>202003141803158_addUserColumn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003181419145_addParentCategory.resx">
+      <DependentUpon>202003181419145_addParentCategory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003181430110_addParentCategoryDescription.resx">
+      <DependentUpon>202003181430110_addParentCategoryDescription.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003181434057_addParentCategorySubCategory.resx">
+      <DependentUpon>202003181434057_addParentCategorySubCategory.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

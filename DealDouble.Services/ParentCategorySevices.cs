@@ -9,47 +9,46 @@ using System.Data.Entity;
 
 namespace DealDouble.Services
 {
-    public class CategoriesService
+    public class ParentCategorySevices
     {
 
         #region Singletone
-        public static CategoriesService Instance
+        public static ParentCategorySevices Instance
         {
             get
             {
-                if (instance == null) instance = new CategoriesService();
+                if (instance == null) instance = new ParentCategorySevices();
                 return instance;
             }
         }
-        private static CategoriesService instance { get; set; }
+        private static ParentCategorySevices instance { get; set; }
         #endregion
 
 
-        public List<Category> GetAllCategories()
+        public List<ParentCategory> GetAllParentCategories()
         {
             using (var context = new Context())
             {
-                return context.Categories.Include(x=>x.Auctions).ToList();
+                return context.ParentCategories.Include(x=>x.Categories).ToList();
             }
         }
-
-        public Category GetCategoryById(int id)
+        public ParentCategory GetCategoryById(int id)
         {
 
             using (var context = new Context())
             {
-                return context.Categories.Find(id);
+                return context.ParentCategories.Find(id);
             }
         }
-        public void SaveCategory(Category category)
+        public void SaveCategory(ParentCategory category)
         {
             using (var context = new Context())
             {
-                context.Categories.Add(category);
+                context.ParentCategories.Add(category);
                 context.SaveChanges();
             }
         }
-        public void UpdateCategory(Category category)
+        public void UpdateCategory(ParentCategory category)
         {
             using (var context = new Context())
             {
@@ -62,9 +61,9 @@ namespace DealDouble.Services
         {
             using (var context = new Context())
             {
-                var category = context.Categories.Find(id);
+                var category = context.ParentCategories.Find(id);
                 context.Entry(category).State = System.Data.Entity.EntityState.Modified;
-                context.Categories.Remove(category);
+                context.ParentCategories.Remove(category);
                 context.SaveChanges();
             }
         }

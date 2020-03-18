@@ -15,6 +15,7 @@ namespace DealDouble.Database
         public DbSet<AuctionPicture> AuctionPictures { get; set; }
         public DbSet<Picture> Pictures { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<ParentCategory> ParentCategories { get; set; }
         public DbSet<Bid> Bids { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Auction> Auctions { get; set; }

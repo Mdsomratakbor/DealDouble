@@ -68,6 +68,7 @@
     <Compile Include="Comment.cs" />
     <Compile Include="DealDoubleUser.cs" />
     <Compile Include="EntityEnums.cs" />
+    <Compile Include="ParentCategory.cs" />
     <Compile Include="Picture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

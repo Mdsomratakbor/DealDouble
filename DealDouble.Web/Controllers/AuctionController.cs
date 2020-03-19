@@ -31,6 +31,7 @@ namespace DealDouble.Web.Controllers
             }
             model.PageTitle = "Auctions";
             model.PageDescription = "This auctions list";
+            
             if (Request.IsAjaxRequest()){
                 return PartialView(model);
             }

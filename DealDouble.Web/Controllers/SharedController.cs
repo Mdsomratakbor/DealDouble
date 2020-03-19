@@ -43,6 +43,25 @@ namespace DealDouble.Web.Controllers
             }
             return result;
         }
+        public JsonResult UploadSliderImage()
+        {
+            JsonResult result = new JsonResult();
+            result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+            List<object> pictuerJSON = new List<object>();
+            try
+            {
+                var picture = Request.Files[0];
+                    var fileName = Guid.NewGuid() + Path.GetExtension(picture.FileName);
+                    var path = Path.Combine(Server.MapPath("~/Content/images"), fileName);
+                    picture.SaveAs(path);
+                result.Data = new { Success = true, fileName };
+            }
+            catch (Exception ex)
+            {
+                result.Data = new { Success = false, Message = ex.Message };
+            }
+            return result;
+        }
 
         [HttpPost]
         public JsonResult LeavComment(CommentViewModel model)

@@ -86,6 +86,26 @@
     <Compile Include="Migrations\202003181434057_addParentCategorySubCategory.designer.cs">
       <DependentUpon>202003181434057_addParentCategorySubCategory.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202003191314520_addSliderImage.cs" />
+    <Compile Include="Migrations\202003191314520_addSliderImage.designer.cs">
+      <DependentUpon>202003191314520_addSliderImage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003191319063_addSliderImageIsActive.cs" />
+    <Compile Include="Migrations\202003191319063_addSliderImageIsActive.designer.cs">
+      <DependentUpon>202003191319063_addSliderImageIsActive.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003191341308_addSliderImageI.cs" />
+    <Compile Include="Migrations\202003191341308_addSliderImageI.designer.cs">
+      <DependentUpon>202003191341308_addSliderImageI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003191347089_addSliderImageIds.cs" />
+    <Compile Include="Migrations\202003191347089_addSliderImageIds.designer.cs">
+      <DependentUpon>202003191347089_addSliderImageIds.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003191437092_addSliderImageName.cs" />
+    <Compile Include="Migrations\202003191437092_addSliderImageName.designer.cs">
+      <DependentUpon>202003191437092_addSliderImageName.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -117,6 +137,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202003181434057_addParentCategorySubCategory.resx">
       <DependentUpon>202003181434057_addParentCategorySubCategory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003191314520_addSliderImage.resx">
+      <DependentUpon>202003191314520_addSliderImage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003191319063_addSliderImageIsActive.resx">
+      <DependentUpon>202003191319063_addSliderImageIsActive.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003191341308_addSliderImageI.resx">
+      <DependentUpon>202003191341308_addSliderImageI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003191347089_addSliderImageIds.resx">
+      <DependentUpon>202003191347089_addSliderImageIds.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003191437092_addSliderImageName.resx">
+      <DependentUpon>202003191437092_addSliderImageName.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

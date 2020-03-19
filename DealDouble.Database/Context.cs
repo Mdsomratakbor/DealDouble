@@ -19,6 +19,7 @@ namespace DealDouble.Database
         public DbSet<Bid> Bids { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Auction> Auctions { get; set; }
+        public DbSet<SliderImage> SliderImages { get; set; }
         public static Context Create()
         {
             return new Context();

@@ -71,6 +71,7 @@
     <Compile Include="ParentCategory.cs" />
     <Compile Include="Picture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SliderImage.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

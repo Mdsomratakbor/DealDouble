@@ -211,6 +211,7 @@
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\SliderImage.cs" />
     <Compile Include="Controllers\ParentCategoryController.cs" />
     <Compile Include="Controllers\SharedController.cs" />
     <Compile Include="Global.asax.cs">
@@ -226,6 +227,7 @@
     <Compile Include="ViewModels\DashboardViewModels.cs" />
     <Compile Include="ViewModels\ParentCategoryViewModels.cs" />
     <Compile Include="ViewModels\SharedViewModels.cs" />
+    <Compile Include="ViewModels\SliderImageViewModels.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-grid.css" />
@@ -614,6 +616,9 @@
     <Content Include="Views\ParentCategory\Index.cshtml" />
     <Content Include="Views\ParentCategory\Create.cshtml" />
     <Content Include="Views\ParentCategory\Edit.cshtml" />
+    <Content Include="Views\SliderImage\Index.cshtml" />
+    <Content Include="Views\SliderImage\Create.cshtml" />
+    <Content Include="Views\SliderImage\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

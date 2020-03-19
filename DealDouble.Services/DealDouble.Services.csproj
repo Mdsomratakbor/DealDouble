@@ -89,6 +89,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BidsServices.cs" />
+    <Compile Include="SliderImageServices.cs" />
     <Compile Include="ParentCategorySevices.cs" />
     <Compile Include="CategoriesService.cs" />
     <Compile Include="AuctionService.cs" />

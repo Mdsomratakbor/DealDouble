@@ -1,0 +1,131 @@
+﻿@model DealDouble.Web.ViewModels.SliderImageViewModel
+@if (Model != null)
+    {
+        var IsActive = Model.IsActive == true ? "checked" : string.Empty;
+<div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLongTitle">New Parent Category Create</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<form id="submitSliderImage">
+    <div class="modal-body">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <div class="row">
+                <input type="hidden" name="ID" value="@Model.ID" />
+                <div class="col-lg-6">
+                    <label class="font-weight-bold">Upload Image</label>
+                    <div class="custom-file">
+                        <input type="file" id="sliderPicture" class="custom-file-input" name="AuctionPictures" multiple />
+                        <label class="custom-file-label" for="auctionPictures">Choose Image</label>
+                        <input type="hidden" name="ImageName" id="sliderImage" value="@Model.ImageName" />
+                        <label class="alert alert-success">Image Size Maximum 1100px and Minimum 350px</label>
+                        <label class="alert alert-danger mb-1">Leave image no change</label>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <label class="font-weight-bold" for="Description">Description</label>
+                    <textarea type="text" class="form-control" name="Description">@Model.Description</textarea>
+                </div>
+                <div class="row">
+                    <div id="pictuerArea" class="col-md-6">
+                        <img src="/Content/images/@Model.ImageName" id="sliderImageshow" class="img img-fluid img-thumbnail" name="ImageName" style="height:200px; width:200px;" />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="font-weight-bold">Is Active ?</label>
+
+                        <input type="checkbox" name="IsActive" value="true" @IsActive />
+                    </div>
+                </div>
+               
+                
+
+            </div>
+        </div>
+
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button id="saveImage" class="btn btn-primary" type="button">Save</button>
+    </div>
+</form>
+}
+else
+{
+    <div class="alert alert-danger">
+        No data found
+
+    </div>
+}
+<script>
+    $("#sliderPicture").change(function () {
+        var element = this
+        var formData = new FormData();
+        var totalFiles = element.files.length;
+        for (var i = 0; i < totalFiles; i++) {
+            var files = element.files[i];
+            formData.append("Photo", files);
+        }
+        $.ajax({
+            method: "Post",
+            url: "@Url.Action("UploadSliderImage", "Shared")",
+            dataType: 'json',
+        data: formData,
+        contentType: false,
+        processData: false
+
+    }).done(function (responses) {
+        if (responses.Success) {
+            $('#sliderImage').val(responses.fileName);
+            $('#sliderImageshow').attr('src','/Content/images/'+responses.fileName);
+        }
+        else {
+            alert("Image URL Not set");
+        }
+    }).fail(function (xhr, ajaxOptions, thrownError) {
+        alert(xhr.status);
+        console.log(thrownError);
+    });
+    });
+    $("#submitSliderImage").validate({
+        rules: {
+            Description: {
+                minlength: 10,
+                maxlength: 100
+            }
+        },
+        messages: {
+            Description: {
+                minlength: "Minimum length is 10",
+                maxlength: "Maximum lenth is 100"
+            }
+        }
+    })
+    $("#saveImage").click(function () {
+        if ($("#submitSliderImage").valid()) {
+        $.ajax({
+            method: 'Post',
+            url: '@Url.Action("Edit", "SliderImage")',
+            data: $("#submitSliderImage").serialize()
+        }).done(function (response) {
+            $("#myModal").modal('toggle');
+            setTimeout(function () {
+                $("#listingArea").html(response);
+            },100)
+            swal({
+                icon: "success",
+                title:"Data Update Successfully"
+            });
+        }).fail(function (xhr, ajaxOptions, thrownError) {
+            alert(xhr.status);
+            console.log(thrownError);
+        })
+    }
+    });
+
+
+</script>
+
+
+

@@ -21,6 +21,7 @@ namespace DealDouble.Web.Controllers
             model.AllAuction = AuctionService.Instance.GetAllAuction(categoryID, searchTearm, pageNo.Value, pageSize.Value);
             model.Categories = CategoriesService.Instance.GetAllCategories();
             model.PromotedAuction = AuctionService.Instance.GetPromoAuction();
+            model.SliderImages = SliderImageServices.Instance.GetAllSliderImage();
             return View(model);
         }
 

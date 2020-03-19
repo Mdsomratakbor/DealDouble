@@ -16,7 +16,7 @@ namespace DealDouble.Web.ViewModels
         public int CategoryID { get; set; }
         public int PageSize { get; set; }
         public Pager Pager { get; set; }
-        
+        public List<SliderImage> SliderImages { get; set; }
     }
     public class AuctionCrudeViewModel : PageViewModel
     {

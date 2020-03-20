@@ -1,6 +1,6 @@
 ﻿@model DealDouble.Web.ViewModels.CategoryCRUDViewModel
 <div class="modal-header">
-    <h5 class="modal-title" id="exampleModalLongTitle">New Category Create</h5>
+    <h5 class="modal-title" id="exampleModalLongTitle">New SubCategory Create</h5>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>
@@ -12,6 +12,16 @@
                 <div class="col-lg-5">
                     <label class="font-weight-bold">Name</label>
                     <input type="text" class="form-control" name="Name" />
+                </div>
+                <div class="col-lg-5">
+                    <label class="font-weight-bold">Category</label>
+                   <select name="ParentCategoryID" class="form-control">
+                       <option disabled selected>Select SubCateogry</option>
+                       @foreach (var data in Model.ParentCategories)
+                       {
+                           <option value="@data.ID">@data.ParentCategoryName</option>
+                       }
+                   </select>
                 </div>
                 <div class="col-lg-6">
                     <label class="font-weight-bold">Description</label>
@@ -29,6 +39,31 @@
 </form>
 
 <script>
+    $("#submitCategory").validate({
+        rules: {
+            Name: {
+                required: true,
+                minlength: 5,
+                maxlength: 30
+            },
+            Description: {
+                required: true,
+                minlength: 10,
+                maxlength: 150
+            }
+        },
+        messages: {
+            Name: {
+                required: "Name is required",
+                minlength: "Minimum length is 5",
+                maxlength: "Maximum lenth is 30"
+            },
+            Description: {
+                minlength: "Minimum length is 10",
+                maxlength: "Maximum lenth is 150"
+            }
+        }
+    })
     $("#saveCategory").click(function () {
         $.ajax({
             method: 'Post',
@@ -36,7 +71,14 @@
             data: $("#submitCategory").serialize()
         }).done(function (response) {
             $("#categoryCreateFrom").modal('toggle');
-            $("#listingArea").html(response);
+            window.setTimeout(function () {
+                $("#listingArea").html(response);
+            })
+            swal({
+                icon: "success",
+                title: "Data Save Successfully"
+            });
+           
         }).fail(function (xhr, ajaxOptions, thrownError) {
             alert(xhr.status);
             console.log(thrownError);

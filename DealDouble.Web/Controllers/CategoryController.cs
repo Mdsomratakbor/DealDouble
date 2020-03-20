@@ -1,4 +1,5 @@
 ﻿using DealDouble.Entities;
+using DealDouble.Entities.Enums;
 using DealDouble.Services;
 using DealDouble.Web.ViewModels;
 using System;
@@ -9,16 +10,24 @@ using System.Web.Mvc;
 
 namespace DealDouble.Web.Controllers
 {
+    [Authorize]
     public class CategoryController : Controller
     {
         // GET: Category
         [HttpGet]
-        public ActionResult Index()
+        public ActionResult Index(string searchTearm, int? pageSize, int? pageNo)
         {
             CategoryList model = new CategoryList();
-            model.Categories = CategoriesService.Instance.GetAllCategories();
+            pageSize = pageSize.HasValue?pageSize.Value>10?pageSize.Value:10:10;
+            pageNo = pageNo.HasValue ? pageNo.Value > 1 ? pageNo.Value : 1 : 1;
+            model.Categories = CategoriesService.Instance.GetAllCategories(searchTearm, pageSize.Value, pageNo.Value);
             model.PageTitle = "Categories";
             model.PageDescription = "This is Categories list";
+            var totalCategory = CategoriesService.Instance.TotalCategories(searchTearm);
+            model.Pager = new Pager(totalCategory, pageNo.Value, pageSize.Value);
+            model.PageSize = pageSize.Value;
+            model.PageNo = pageNo.Value;
+            model.SearchTearm = searchTearm;
             if (Request.IsAjaxRequest())
             {
                 return PartialView(model);
@@ -32,13 +41,16 @@ namespace DealDouble.Web.Controllers
         [HttpGet]
         public ActionResult Create()
         {
-            return PartialView();
+            CategoryCRUDViewModel model = new CategoryCRUDViewModel();
+            model.ParentCategories = ParentCategorySevices.Instance.GetAllParentCategories();
+            return PartialView(model);
         }
         [HttpPost]
         public ActionResult Create(CategoryCRUDViewModel model)
         {
             var newCategory = new Category();
             newCategory.Name = model.Name;
+            newCategory.ParentCategoryID = model.ParentCategoryID;
             newCategory.Description = model.Description;
             CategoriesService.Instance.SaveCategory(newCategory);
             return RedirectToAction("Index");
@@ -49,6 +61,8 @@ namespace DealDouble.Web.Controllers
             var model = new CategoryCRUDViewModel();
             var category = CategoriesService.Instance.GetCategoryById(id);
             model.ID = category.ID;
+            model.ParentCategoryID = category.ParentCategoryID;
+            model.ParentCategories = ParentCategorySevices.Instance.GetAllParentCategories();
             model.Name = category.Name;
             model.Description = category.Description;
             return PartialView(model);

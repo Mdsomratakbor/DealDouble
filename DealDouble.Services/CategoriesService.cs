@@ -40,7 +40,7 @@ namespace DealDouble.Services
                var categories =   context.Categories.Include(x => x.Auctions).ToList();
                 if (!string.IsNullOrEmpty(searchTearm))
                 {
-                    categories = categories.Where(x => x.Name.ToLower().Contains(searchTearm.ToLower()) && x.Description.ToLower().Contains(searchTearm.ToLower())).ToList();
+                    categories = categories.Where(x => x.Name.ToLower().Contains(searchTearm.ToLower())).ToList();
                 }
                 return categories.OrderByDescending(x => x.ID).Skip((pageNo - 1) * pageSize).Take(pageSize).ToList();
             }
@@ -53,7 +53,7 @@ namespace DealDouble.Services
                 var categories = context.Categories.Include(x => x.Auctions).ToList();
                 if (!string.IsNullOrEmpty(searchTearm))
                 {
-                    categories = categories.Where(x => x.Name.ToLower().Contains(searchTearm.ToLower()) && x.Description.ToLower().Contains(searchTearm.ToLower())).ToList();
+                    categories = categories.Where(x => x.Name.ToLower().Contains(searchTearm.ToLower())).ToList();
                 }
                 return categories.Count();
             }

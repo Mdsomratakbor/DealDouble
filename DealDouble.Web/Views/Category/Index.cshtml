@@ -49,20 +49,29 @@
                     <th>Action</th>
                 </tr>
             </thead>
+           
             <tbody>
-                @foreach (var data in Model.Categories)
-            {
-                    <tr>
-                        <td>@data.Name</td>
-                        <td>@data.Description</td>
-                        <td>@data.Auctions.Count()</td>
-                        <td>
-                            <button class="editButton btn btn-sm btn-primary" data-id="@data.ID" data-toggle="modal" data-target="#categoryCreateFrom"><i class="fa fa-edit"></i></button>
-                            <button class="deleteButton btn btn-sm btn-danger" data-id="@data.ID"><i class="fa fa-trash"></i></button>
-                        </td>
+                @if (Model.Categories != null && Model.Categories.Count > 0)
+                {
+                    foreach (var data in Model.Categories)
+                    {
+                        <tr>
+                            <td>@data.Name</td>
+                            <td>@data.Description</td>
+                            <td>@data.Auctions.Count()</td>
+                            <td>
+                                <button class="editButton btn btn-sm btn-primary" data-id="@data.ID" data-toggle="modal" data-target="#categoryCreateFrom"><i class="fa fa-edit"></i></button>
+                                <button class="deleteButton btn btn-sm btn-danger" data-id="@data.ID"><i class="fa fa-trash"></i></button>
+                            </td>
 
-                    </tr>
+                        </tr>
+                    }
                 }
+                else
+                {
+                    <tr><td colspan="5"><div class="alert-danger alert">No data found</div></td></tr>
+                }
+
             </tbody>
         </table>
 

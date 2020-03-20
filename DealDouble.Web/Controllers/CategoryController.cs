@@ -48,40 +48,82 @@ namespace DealDouble.Web.Controllers
         [HttpPost]
         public ActionResult Create(CategoryCRUDViewModel model)
         {
-            var newCategory = new Category();
-            newCategory.Name = model.Name;
-            newCategory.ParentCategoryID = model.ParentCategoryID;
-            newCategory.Description = model.Description;
-            CategoriesService.Instance.SaveCategory(newCategory);
-            return RedirectToAction("Index");
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var newCategory = new Category();
+                    newCategory.Name = model.Name;
+                    newCategory.ParentCategoryID = model.ParentCategoryID;
+                    newCategory.Description = model.Description;
+                    CategoriesService.Instance.SaveCategory(newCategory);
+                    return RedirectToAction("Index");
+                }
+                return RedirectToAction("Index");
+
+            }
+            catch
+            {
+                return RedirectToAction("Index");
+            }
+           
         }
         [HttpGet]
         public ActionResult Edit(int id)
         {
-            var model = new CategoryCRUDViewModel();
-            var category = CategoriesService.Instance.GetCategoryById(id);
-            model.ID = category.ID;
-            model.ParentCategoryID = category.ParentCategoryID;
-            model.ParentCategories = ParentCategorySevices.Instance.GetAllParentCategories();
-            model.Name = category.Name;
-            model.Description = category.Description;
-            return PartialView(model);
+            try
+            {
+                var model = new CategoryCRUDViewModel();
+                var category = CategoriesService.Instance.GetCategoryById(id);
+                model.ID = category.ID;
+                model.ParentCategoryID = category.ParentCategoryID;
+                model.ParentCategories = ParentCategorySevices.Instance.GetAllParentCategories();
+                model.Name = category.Name;
+                model.Description = category.Description;
+                return PartialView(model);
+            }
+            catch
+            {
+                return RedirectToAction("Index");
+            }
+          
         }
         [HttpPost]
         public ActionResult Edit(CategoryCRUDViewModel model)
         {
-            var editCategory = new Category();
-            editCategory.ID = model.ID;
-            editCategory.Name = model.Name;
-            editCategory.Description = model.Description;
-            CategoriesService.Instance.UpdateCategory(editCategory);
-            return RedirectToAction("Index");
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var editCategory = new Category();
+                    editCategory.ID = model.ID;
+                    editCategory.Name = model.Name;
+                    editCategory.ParentCategoryID = model.ParentCategoryID;
+                    editCategory.Description = model.Description;
+                    CategoriesService.Instance.UpdateCategory(editCategory);
+                    return RedirectToAction("Index");
+                }
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return RedirectToAction("Index");
+            }
+          
         }
         [HttpGet]
         public ActionResult Delete(int id)
         {
-            CategoriesService.Instance.DeleteCategory(id);
-            return RedirectToAction("Index");
+            try
+            {
+                CategoriesService.Instance.DeleteCategory(id);
+                return RedirectToAction("Index");
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+            
         }
     }
 }

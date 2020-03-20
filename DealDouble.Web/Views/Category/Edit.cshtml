@@ -8,14 +8,25 @@
     <div class="modal-body">
         <div class="col-lg-12 col-md-12 col-sm-12">
             <div class="row">
-                <div class="col-lg-4">
+                <div class="col-lg-5">
                     <input type="hidden" name="ID" value="@Model.ID" />
                     <label class="font-weight-bold">Name</label>
                     <input type="text" name="Name" class="form-control" value="@Model.Name" />
                 </div>
-                <div class="col-lg-4">
+                <div class="col-lg-5">
+                    <label class="font-weight-bold">Category</label>
+                    <select name="ParentCategoryID" class="form-control">
+                        <option disabled selected>Select SubCateogry</option>
+                        @foreach (var data in Model.ParentCategories)
+                        {
+                            var selected = data.ID == Model.ParentCategoryID ? "selected" : string.Empty;
+                            <option value="@data.ID" @selected>@data.ParentCategoryName</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-lg-5">
                     <label class="font-weight-bold">Description</label>
-                    <input type="text" name="Description" class="form-control" value="@Model.Description" />
+                    <textarea type="text" name="Description" class="form-control">@Model.Description</textarea>
                 </div>
             </div>
         </div>
@@ -26,6 +37,31 @@
     </div>
 </form>
 <script>
+    $("#editcategory").validate({
+        rules: {
+            Name: {
+                required: true,
+                minlength: 5,
+                maxlength: 30
+            },
+            Description: {
+                required: true,
+                minlength: 10,
+                maxlength: 150
+            }
+        },
+        messages: {
+            Name: {
+                required: "Name is required",
+                minlength: "Minimum length is 5",
+                maxlength: "Maximum lenth is 30"
+            },
+            Description: {
+                minlength: "Minimum length is 10",
+                maxlength: "Maximum lenth is 150"
+            }
+        }
+    })
     $("#btneditcategory").click(function () {
         $.ajax({
             method: 'Post',
@@ -33,7 +69,13 @@
             data: $("#editcategory").serialize()
         }).done(function (response) {
             $("#categoryCreateFrom").modal('toggle');
-            $("#listingArea").html(response);
+            window.setTimeout(function () {
+                $("#listingArea").html(response);
+            })
+            swal({
+                icon: "success",
+                title: "Data Update Successfully"
+            });
         }).fail(function (xhr, ajaxOptions, thrownError) {
             alert(xhr.status);
             console.log(thrownError);

@@ -10,7 +10,7 @@
 <div class="row">
 
     <div id="listingArea" class="col-lg-12">
-        <div class="col-md-12 mt-2">
+        <div class="col-md-12">
             <h4 class="font-weight-bold float-left">@ViewBag.Title</h4>
             <br />
             <hr />
@@ -76,7 +76,7 @@
                             if (Model.Pager.CurrentPage > 1)
                             {
                                 <li class="page-item">
-                                    <a class="page-link datalink" data-href="@Url.Action("Index", "Auction", new { pageNo = Model.Pager.CurrentPage - 1, pageSize = Model.PageSize })" aria-label="Previous">
+                                    <a class="page-link datalink" data-href="@Url.Action("Index", "Category", new { pageNo = Model.Pager.CurrentPage - 1, pageSize = Model.PageSize })" aria-label="Previous">
                                         <span aria-hidden="true">&laquo;</span>
                                     </a>
                                 </li>
@@ -84,12 +84,12 @@
                             for (var page = Model.Pager.StartPage; page <= Model.Pager.EndPage; page++)
                             {
                                 var activeClass = Model.Pager.CurrentPage == page ? "active bg-info" : string.Empty;
-                                <li class="page-item @activeClass"><a class="page-link datalink" data-href="@Url.Action("Index","Auction",new {pageNo = page, pageSize = Model.PageSize })">@page</a></li>
+                                <li class="page-item @activeClass"><a class="page-link datalink" data-href="@Url.Action("Index","Category",new {pageNo = page, pageSize = Model.PageSize })">@page</a></li>
                             }
                             if (Model.Pager.CurrentPage < Model.Pager.TotalPages)
                             {
                                 <li class="page-item">
-                                    <a class="page-link datalink" data-href="@Url.Action("Index", "Auction", new { pageNo = Model.Pager.CurrentPage + 1, pageSize = Model.PageSize })" aria-label="Next">
+                                    <a class="page-link datalink" data-href="@Url.Action("Index", "Category", new { pageNo = Model.Pager.CurrentPage + 1, pageSize = Model.PageSize })" aria-label="Next">
                                         <span aria-hidden="true">&raquo;</span>
                                     </a>
                                 </li>
@@ -101,18 +101,33 @@
             </div>
         </div>
         <script>
+            $(".datalink").click(function () {
+                var url = $(this).attr("data-href");
+                $.ajax({
+                    metod: "Get",
+                    url: url,
+                    data:{searchTearm:'@Model.SearchTearm', pageSize:'@Model.PageSize'}
+                }).done(function (response) {
+                    $("#listingArea").html(response);
+                    $("#pageSize option[selected]").removeAttr("selected");
+                    $("#pageSize option[value=" + @Model.PageSize + "]").attr("selected","selected");
+                }).fail(function (xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status);
+                    alert(thrownError);
+                })
+
+            });
             $('#pageSize').change(function () {
                 var pageSize = $(this).val();
                $.ajax({
                     method: 'Get',
                     url: '@Url.Action("Index","Category")',
-                    data: { searchTearm: '@Model.SearchTearm', pageSize:pageSize, pageNo:'@Model.PageNo' }
+                    data: { pageSize:pageSize }
                 }).done(function (response) {
-                    window.setTimeout(function () {
+       
                         $('#listingArea').html(response);
                         $("#pageSize option[selected]").removeAttr("selected");
                         $("#pageSize option[value=" + @Model.PageSize + "]").attr("selected", "selected");
-                    }, 200)
                    
 
                 }).fail(function (xhr, ajaxOptions, thrownError) {
@@ -131,6 +146,24 @@
                     window.setTimeout(function () {
                         $('#listingArea').html(response);
                     },200)
+                }).fail(function (xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status);
+                    console(thrownError);
+                })
+            })
+            $('#resetBtn').click(function () {
+                var pageSize = $(this).val();
+                $.ajax({
+                    method: 'Get',
+                    url: '@Url.Action("Index","Category")',
+                }).done(function (response) {
+                    window.setTimeout(function () {
+                        $('#listingArea').html(response);
+                        $("#pageSize option[selected]").removeAttr("selected");
+                        $("#pageSize option[value=" + @Model.PageSize + "]").attr("selected", "selected");
+                    }, 200)
+                   
+
                 }).fail(function (xhr, ajaxOptions, thrownError) {
                     alert(xhr.status);
                     console(thrownError);
@@ -167,20 +200,33 @@
         $(".deleteButton").click(function () {
 
             var dataId = $(this).attr("data-id")
-            if (confirm("Are you sure to delete this Auction !!")) {
+            swal({
+                title: "Are you sure to Delete this  ?",
+                icon: "warning",
+                dangerMode: true,
+                buttons: true,
+            })
+          .then((willDelete) => {
+              if (willDelete) {
                 $.ajax({
                     method: 'Get',
                     url: '@Url.Action("Delete","Category")',
                     data: { id: dataId }
                 }).done(function (response) {
-                    alert("Data Delete Successfully")
-                    $("#listingArea").html(response);
+                    setTimeout(function () {
+                        $("#listingArea").html(response);
+                    }, 100)
+
+                    swal("Your record Delete Successfully !", {
+                        icon: "success",
+                    });
 
                 }).fail(function (xhr, ajaxOptions, thrownError) {
                     alert(xhr.status);
                     alert(thrownError);
                 });
             }
+          });
         })
         </script>
     </div>

@@ -46,7 +46,7 @@ namespace DealDouble.Services
         {
             using (var context = new Context())
             {
-                var auctions = context.Auctions.Include(x => x.Category).Include(y => y.AuctionPictures).Include(z => z.AuctionPictures.Select(w => w.Picture)).AsQueryable();
+                var auctions = context.Auctions.Include(x => x.Category).Include(y => y.AuctionPictures).Include(z => z.AuctionPictures.Select(w => w.Picture)).Include(pCategory=>pCategory.Category.ParentCategories).AsQueryable();
                 if (categoryID.HasValue && categoryID.Value > 0)
                 {
                     auctions = auctions.Where(category => category.CategoryID == categoryID);

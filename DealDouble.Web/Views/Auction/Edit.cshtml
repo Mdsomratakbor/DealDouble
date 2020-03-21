@@ -34,16 +34,26 @@
                     <input type="number" name="ActualAmount" class="form-control" value="@Model.ActualAmount" />
                 </div>
                 <div class="col-lg-4">
-                    <label class="font-weight-bold">StartingTime</label>
-                    <input type="datetime" name="StartingTime" class="form-control" value="@Model.StartingTime" />
+                    <label class="font-weight-bold" for="StartingTime">StartingTime</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                        </div>
+                        <input class="form-control" id="date" autocomplete="off" name="StartingTime" placeholder="MM/DD/YYYY" type="text" value="@Model.StartingTime"/>
+                    </div>
                 </div>
                 <div class="col-lg-4">
-                    <label class="font-weight-bold">EndingTime</label>
-                    <input type="datetime" name="EndTime" class="form-control" value="@Model.EndTime" />
+                    <label class="font-weight-bold" for="EndTime">EndingTime</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                        </div>
+                        <input class="form-control" id="date1" autocomplete="off" name="EndTime" placeholder="MM/DD/YYYY" type="text" value="@Model.EndTime"/>
+                    </div>
                 </div>
                 <div class="col-lg-4">
                     <label class="font-weight-bold">Summary</label>
-                    <input type="text" class="form-control" name="Summary" />
+                    <input type="text" class="form-control" name="Summary" value="@Model.Summary"/>
                 </div>
                 <div class="col-lg-4">
                     <label class="font-weight-bold">Pictures</label>
@@ -72,6 +82,56 @@
 
 <script>
     RemovingImage();
+    $(document).ready(function () {
+        var date_input = $('#date'); //our date input has the name "date"
+        var container = $('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : "body";
+        date_input.datepicker({
+            format: 'mm/dd/yyyy',
+            container: container,
+            todayHighlight: true,
+            autoclose: true,
+        })
+        var date_input = $('#date1'); //our date input has the name "date"
+        var container = $('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : "body";
+        date_input.datepicker({
+            format: 'mm/dd/yyyy',
+            container: container,
+            todayHighlight: true,
+            autoclose: true,
+        })
+    })
+    $("#editAuction").validate({
+        rules: {
+            CategoryID: {
+                required: true,
+            },
+            Title: {
+                required: true,
+                minlength: 15,
+                maxlength: 150
+            },
+            Description: {
+                required: true,
+                minlength: 15,
+            }
+        },
+        messages: {
+            Title: {
+                required: "Title is required",
+                minlength: "Minimum length is 15",
+                maxlength: "Maximum lenth is 150"
+            },
+            CategoryID: {
+                required: 'Please select category'
+            },
+            Description: {
+                required: "Description is required",
+                minlength: "Minimum length is 15",
+            }
+
+        }
+    })
+ 
     $("#auctionPictures").change(function () {
         var element = this
         var formData = new FormData();
@@ -105,6 +165,7 @@
     });
     });
     $("#btneditAuction").click(function () {
+        if ($("#editAuction").valid()) {
         var imageIDs = [];
         $("#pictuerArea .image").each(function () {
             var imageID = $(this).attr("data-id");
@@ -116,14 +177,23 @@
             url: '@Url.Action("Edit","Auction")',
             data: $("#editAuction").serialize()
         }).done(function (response) {
-            $("#auctionCreateFrom").modal('toggle');
-            $("#listingArea").html(response);
+            window.setTimeout(function () {
+                $("#listingArea").html(response);
+                $("#auctionCreateFrom").modal('toggole');
+            },200)
+       
+
+            swal({
+                icon: "success",
+                title: "Data Save Successfully"
+            });
         }).fail(function (xhr, ajaxOptions, thrownError) {
             alert(xhr.status);
             console.log(thrownError);
-        });
+        })
+    }
 
-    })
+    });
 </script>
 
 

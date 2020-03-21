@@ -10,7 +10,7 @@
         {
             var i = 0;
             var firstSlider = Model.SliderImages.First();
-            <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel">
+            <div id="carouselExampleIndicators" class="carousel slide my-1" data-ride="carousel">
                 <ol class="carousel-indicators">
                     @foreach (var data in Model.SliderImages)
                     {
@@ -69,7 +69,7 @@
             </div>
             <div id="productsList" class="col-lg-12">
                 <div class="col-md-12">
-                    <div class="row mb-3 ">
+                    @*<div class="row mb-3 ">
                         @foreach (var auction in Model.PromotedAuction)
                         {
                             var picURL = auction.AuctionPictures != null && auction.AuctionPictures.Count > 0 ? "/Content/images/" + auction.AuctionPictures.First().Picture.URL : "http://placehold.it/700x400";
@@ -101,24 +101,30 @@
                                                     <i class="fa fa-money mr-1"></i> $@auction.ActualAmount
                                                 </label>
                                             </div>
-                                            <div class="col-5">
-                                                <div class="input-group itemCartHolder">
-                                                    <div class="input-group-append">
-                                                        <button data-id="" type="button" class="btnAddToCart btn btn-primary btn-sm" title="Add to Cart">
-                                                            <i class="fa fa-usd mr-1"></i>Bid Now
-                                                        </button>
+                                            @if (User.Identity.IsAuthenticated)
+                                            {
+                                                <div class="col-5">
+                                                    <div class="input-group itemCartHolder">
+                                                        <div class="input-group-append">
+                                                            <button data-id="" type="button" class="btnAddToCart btn btn-primary btn-sm">
+                                                                <i class="fa fa-usd mr-1"></i>Bid Now
+                                                            </button>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            }
+                                            
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         }
-                    </div>
-                    <div class="row mb-2">
+                    </div>*@
+                    <div class="row mb-1 h-100">
                         @foreach (var auction in Model.AllAuction)
                         {
+                            var description = auction.Description == null ? string.Empty : auction.Description.Length > 100 ? auction.Description.Substring(0, 100) : auction.Description;
+                            var auctionTitle = auction.Title == null ? string.Empty : auction.Title.Length > 30 ? auction.Title.Substring(0, 30) : auction.Title;
                             var picURL = auction.AuctionPictures != null && auction.AuctionPictures.Count > 0 ? "/Content/images/" + auction.AuctionPictures.First().Picture.URL : "http://placehold.it/700x400";
                             <div class="col-md-4 mt-2 p-0">
                                 <div class="card " relf-item="1">
@@ -127,17 +133,18 @@
                                     </div>
                                     <div class="card-body">
                                         <h5 class="card-title">
-                                            <a href="@Url.Action("Details","Auction", new {id = auction.AuctionID })">@auction.Title</a>
+                                            <a href="@Url.Action("Details","Auction", new {id = auction.AuctionID })">@auctionTitle ...</a>
                                         </h5>
-                                        <p class="card-text">
-                                            @auction.Description
+                                        <p class="card-text text-muted">
+                                            @description ...
                                         </p>
                                     </div>
                                     <ul class="list-group list-group-flush ">
-                                        <li class="list-group-item">
+                                        <li class="list-group-item font-italic">
                                             <i class="fa fa-tags mr-1"></i>
                                             <a href="@Url.Action("Details","Auction", new {id = auction.AuctionID })" class="card-link">
-                                                @auction.Category.Name
+                                                @auction.Category.ParentCategories.ParentCategoryName
+                                               
                                             </a>
                                             <i class="fa fa-angle-right mx-1"></i>
                                             <a href="/search/chairs" class="card-link">
@@ -148,7 +155,7 @@
                                     <div class="card-footer">
                                         <div class="row">
                                             <div class="col-7">
-                                                <label class="input-group-text border-0 bg-light" title="Product Price">
+                                                <label class="input-group-text border-0 bg-light font-weight-bold" title="Product Price">
                                                     <i class="fa fa-moneymr-1"></i> $@auction.ActualAmount
                                                 </label>
                                             </div>

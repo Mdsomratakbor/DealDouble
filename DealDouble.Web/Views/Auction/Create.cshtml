@@ -10,44 +10,53 @@
         <div class="col-lg-12 col-md-12 col-sm-12">
             <div class="row">
                 <div class="col-lg-4">
-                    <label class="font-weight-bold">Title</label>
+                    <label class="font-weight-bold" for="Title">Title</label>
                     <input type="text" class="form-control" name="Title" />
                 </div>
                 <div class="col-lg-4">
-                    <label class="font-weight-bold">Category</label>
+                    <label class="font-weight-bold" for="CategoryID">Category</label>
                     <select name="CategoryID" class="form-control">
+                        <option selected disabled>Please select category</option>
                         @foreach (var category in Model.Categories)
                         {
                             <option value="@category.ID">@category.Name</option>
                         }
                     </select>
                 </div>
-
                 <div class="col-lg-4">
-                    <label class="font-weight-bold">Description</label>
-                    <input type="text" class="form-control" name="Description" />
-                </div>
-
-                <div class="col-lg-4">
-                    <label class="font-weight-bold">ActualAmount</label>
+                    <label class="font-weight-bold" for="ActualAmount">ActualAmount</label>
                     <input type="number" class="form-control" name="ActualAmount" />
                 </div>
                 <div class="col-lg-4">
-                    <label class="font-weight-bold">StartingTime</label>
-                    <input type="datetime" class="form-control" name="StartingTime" />
+                    <label class="font-weight-bold" for="StartingTime">StartingTime</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                        </div>
+                        <input class="form-control" id="date" autocomplete="off" name="StartingTime" placeholder="MM/DD/YYYY" type="text" />
+                    </div>
                 </div>
                 <div class="col-lg-4">
-                    <label class="font-weight-bold">EndingTime</label>
-                    <input type="datetime" class="form-control" name="EndTime" />
+                    <label class="font-weight-bold" for="EndTime">EndingTime</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                        </div>
+                        <input class="form-control" id="date1" autocomplete="off" name="EndTime" placeholder="MM/DD/YYYY" type="text" />
+                    </div>
                 </div>
                 <div class="col-lg-4">
-                    <label class="font-weight-bold">Summary</label>
-                    <input type="text" class="form-control" name="Summary" />
+                    <label class="font-weight-bold" for="Description">Description</label>
+                    <textarea rows="2" name="Description" class="form-control"></textarea>
+                </div>
+                <div class="col-lg-4">
+                    <label class="font-weight-bold" for="Summary">Summary</label>
+                    <textarea class="form-control" name="Summary"></textarea>
                 </div>
                 <div class="col-lg-4">
 
-                    <label class="font-weight-bold">Pictures</label>
-                    <div class="input-group">                 
+                    <label class="font-weight-bold" for="AuctionPictures">Pictures</label>
+                    <div class="input-group">
                         <div class="custom-file">
                             <input type="file" id="auctionPictures" class="custom-file-input" name="AuctionPictures" multiple />
                             <label class="custom-file-label" for="auctionPictures">Choose file</label>
@@ -72,6 +81,24 @@
 </form>
 
 <script>
+    $(document).ready(function () {
+        var date_input = $('#date'); //our date input has the name "date"
+        var container = $('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : "body";
+        date_input.datepicker({
+            format: 'mm/dd/yyyy',
+            container: container,
+            todayHighlight: true,
+            autoclose: true,
+        })
+        var date_input = $('#date1'); //our date input has the name "date"
+        var container = $('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : "body";
+        date_input.datepicker({
+            format: 'mm/dd/yyyy',
+            container: container,
+            todayHighlight: true,
+            autoclose: true,
+        })
+    })
     $("#auctionPictures").change(function () {
         var element = this
         var formData = new FormData();
@@ -91,7 +118,6 @@
         }).done(function (responses) {
             if (responses.Success) {
                 for (var i = 0 ; i < responses.pictuerJSON.length; i++) {
-
                     var picResponse = responses.pictuerJSON[i];
                     AttachNewImage(picResponse.pictureURL, picResponse.ID)
                 }
@@ -106,10 +132,17 @@
     });
     $("#submitAuction").validate({
         rules: {
+            CategoryID:{
+                required: true,
+            },
             Title: {
                 required: true,
                 minlength: 15,
                 maxlength: 150
+            },
+            Description:{
+                required: true,
+                minlength: 15,
             }
         },
         messages: {
@@ -117,43 +150,53 @@
                 required: "Title is required",
                 minlength: "Minimum length is 15",
                 maxlength: "Maximum lenth is 150"
+            },
+            CategoryID: {
+                required:'Please select category'
+            },
+            Description:{
+                required: "Description is required",
+                minlength: "Minimum length is 15",
             }
+
         }
     })
 
     $("#saveAuction").click(function () {
-        //if (("#submitAuction").validate()) {
-        var imageIDs = [];
-        $("#pictuerArea .image").each(function () {
-            var imageID = $(this).attr("data-id");
-            imageIDs.push(imageID);
-        });
-        $("#pictueIDs").val(imageIDs.join());
-        $.ajax({
-            method: 'Post',
-            url: '@Url.Action("Create","Auction")',
-            data: $("#submitAuction").serialize()
-        }).done(function (response) {
-            if (response.Success == true) {
-                ReloadListing();
-                $("#auctionCreateFrom").modal('toggle');
-            }
-            else {
-                $("#formError").html(response.Error);
-                $("#formError").show();
+        if ($("#submitAuction").valid()) {
+            var imageIDs = [];
+            $("#pictuerArea .image").each(function () {
+                var imageID = $(this).attr("data-id");
+                imageIDs.push(imageID);
+            });
+            $("#pictueIDs").val(imageIDs.join());
+            $.ajax({
+                method: 'Post',
+                url: '@Url.Action("Create","Auction")',
+                data: $("#submitAuction").serialize()
+            }).done(function (response) {
+                if (response.Success == true) {
+                    ReloadListing();
+                    $("#listingArea").html(response);
+                    $('#auctionCreateFrom').modal('toggle');
+                    swal({
+                        icon: "success",
+                        title: "Data Save Successfully"
+                    });
+                }
+                else {
+                    $("#formError").html(response.Error);
+                    $("#formError").show();
 
-            }
+                }
 
-        }).fail(function (xhr, ajaxOptions, thrownError) {
-            alert(xhr.status);
-            console.log(thrownError);
-        })
-        //}
+            }).fail(function (xhr, ajaxOptions, thrownError) {
+                alert(xhr.status);
+                console.log(thrownError);
+            })
+        }
 
     });
 
 
 </script>
-
-
-

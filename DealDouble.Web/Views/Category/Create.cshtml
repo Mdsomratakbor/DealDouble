@@ -65,24 +65,26 @@
         }
     })
     $("#saveCategory").click(function () {
-        $.ajax({
-            method: 'Post',
-            url: '@Url.Action("Create","Category")',
-            data: $("#submitCategory").serialize()
-        }).done(function (response) {
-            $("#categoryCreateFrom").modal('toggle');
-            window.setTimeout(function () {
-                $("#listingArea").html(response);
+        if ($("#submitCategory").valid()) {
+            $.ajax({
+                method: 'Post',
+                url: '@Url.Action("Create","Category")',
+                data: $("#submitCategory").serialize()
+            }).done(function (response) {
+                $("#categoryCreateFrom").modal('toggle');
+                window.setTimeout(function () {
+                    $("#listingArea").html(response);
+                }, 200)
+                swal({
+                    icon: "success",
+                    title: "Data Save Successfully"
+                });
+
+            }).fail(function (xhr, ajaxOptions, thrownError) {
+                alert(xhr.status);
+                console.log(thrownError);
             })
-            swal({
-                icon: "success",
-                title: "Data Save Successfully"
-            });
-           
-        }).fail(function (xhr, ajaxOptions, thrownError) {
-            alert(xhr.status);
-            console.log(thrownError);
-        })
+        }
     });
 
 

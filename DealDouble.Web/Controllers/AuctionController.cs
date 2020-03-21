@@ -138,12 +138,17 @@ namespace DealDouble.Web.Controllers
             auction.ActualAmount = model.ActualAmount;
             auction.StartingTime = model.StartingTime;
             auction.EndTime = model.EndTime;
+            auction.Summary = model.Summary;
             auction.AuctionPictures = new List<AuctionPicture>();
             auction.CategoryID = model.CategoryID;
             if (model.AuctionPictures != null)
             {
                 var pictuerIDs = model.AuctionPictures.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(x => int.Parse(x)).ToList();
-                auction.AuctionPictures.AddRange(pictuerIDs.Select(x => new AuctionPicture {AuctionID = auction.AuctionID, PictureID = x}).ToList());
+                if(pictuerIDs != null && pictuerIDs.Count>0)
+                {
+                    auction.AuctionPictures.AddRange(pictuerIDs.Select(x => new AuctionPicture { AuctionID = auction.AuctionID, PictureID = x }).ToList());
+                }
+             
             }
             AuctionService.Instance.UpdateAuction(auction);
             return RedirectToAction("Index");

@@ -57,9 +57,9 @@
                         </div>
                         <div class="float-right">
                             <form class="form-inline" action="/search">
-                                <input name="q" type="search" placeholder="Search Auction" class="form-control mr-sm-2" required="">
+                                <input name="q" type="search" placeholder="Search Auction" class="form-control mr-sm-2" required="" id="searchText" value="@Model.SearchTearm">
                                 <div class="btn-group" role="group">
-                                    <button type="submit" class="btn btn-outline-success my-2 my-sm-0">Search</button>
+                                    <button type="button" class="btn btn-outline-success my-2 my-sm-0" id="btnSearch">Search</button>
                                     <button href="#" id="btnReset" type="button" class="btn btn-outline-secondary my-2 my-sm-0">Reset</button>
                                 </div>
                             </form>
@@ -219,6 +219,22 @@
 
 <script>
 
+    $('#btnSearch').click(function () {
+        var searchText = $('#searchText').val();
+        $.ajax({
+            method: 'Get',
+            url: '@Url.Action("Index","Home")',
+            data: { categoryID: '@Model.CategoryID', searchTearm: searchText, pageSize: '@Model.PageNo', pageSize: '@Model.PageSize' }
+        }).done(function (response) {
+            window.setTimeout(function () {
+                $('#listingArea').html(response)
+            }, 200)
+        }).fail(function (xhr, ajaxOptions, thrownError) {
+            alert(xhr.status);
+            console.log(thrownError);
+        })
+
+    })
     $('#selectCategories').change(function () {
         var categroy = $(this).val();
         $.ajax({

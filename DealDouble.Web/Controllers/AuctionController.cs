@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace DealDouble.Web.Controllers
 {
+    [Authorize(Roles ="Admin")]
     public class AuctionController : Controller
     {
                // GET: Auction

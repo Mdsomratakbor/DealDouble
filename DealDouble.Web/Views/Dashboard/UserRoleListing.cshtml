@@ -37,7 +37,7 @@
                     <button class="btn btn-md btn-danger" type="button" id="searchBtn"><i class="fa fa-search"></i></button>
                     <button class="btn btn-md btn-success" type="button" id="resetBtn"><i class="fa fa-refresh" aria-hidden="true"></i> Reset</button>
          
-                    <button id="createAuction" class="btn  btn-success float-righ" data-toggle="modal" data-target="#auctionCreateFrom"><i class="fa fa-plus"></i> New</button>
+                    <button id="createAuction" class="btn  btn-success float-righ" data-toggle="modal" data-target="#roleCreateFrom"><i class="fa fa-plus"></i> New</button>
                 </div>
             </div>
 
@@ -190,10 +190,10 @@
             $("#createAuction").click(function () {
                 $.ajax({
                     metod: "Get",
-                    url: "@Url.Action("Create", "Auction")",
+                    url: "@Url.Action("RoleCreate", "Dashboard")",
                 }).done(function (response) {
                     $("#contentArea").html(response);
-                    $("#auctionCreateFrom").modal('toggle');
+                    $("#roleCreateFrom").modal('toggle');
                 }).fail(function (xhr, ajaxOptions, thrownError) {
                     alert(xhr.status);
                     alert(thrownError);
@@ -210,7 +210,7 @@
                     data: { id: dataId }
                 }).done(function (response) {
                     $("#contentArea").html(response);
-                    $("#auctionCreateFrom").modal('toggle');
+                    $("#roleCreateFrom").modal('toggle');
                 }).fail(function (xhr, ajaxOptions, thrownError) {
                     alert(xhr.status);
                     alert(thrownError);
@@ -250,8 +250,9 @@
     </div>
 </div>
 <!-- Modal -->
-<div class="modal fade bd-example-modal-xl" id="auctionCreateFrom" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
+
+<div class="modal  fade bd-example-modal-lg" id="roleCreateFrom" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content" id="contentArea">
 
         </div>

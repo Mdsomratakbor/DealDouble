@@ -122,10 +122,13 @@
                             </div>*@
                         <div class="row mb-1 h-100">
                             @foreach (var auction in Model.AllAuction)
-                        {
-                            var description = auction.Description == null ? string.Empty : auction.Description.Length > 100 ? auction.Description.Substring(0, 100) : auction.Description;
-                            var auctionTitle = auction.Title == null ? string.Empty : auction.Title.Length > 30 ? auction.Title.Substring(0, 30) : auction.Title;
-                            var picURL = auction.AuctionPictures != null && auction.AuctionPictures.Count > 0 ? "/Content/images/" + auction.AuctionPictures.First().Picture.URL : "http://placehold.it/700x400";
+                            {
+                                var description = auction.Description == null ? string.Empty : auction.Description.Length > 100 ? auction.Description.Substring(0, 100) : auction.Description;
+                                var auctionTitle = auction.Title == null ? string.Empty : auction.Title.Length > 30 ? auction.Title.Substring(0, 30) : auction.Title;
+                                var picURL = auction.AuctionPictures != null && auction.AuctionPictures.Count > 0 ? "/Content/images/" + auction.AuctionPictures.First().Picture.URL : "http://placehold.it/700x400";
+
+                                var bidAmount = auction.ActualAmount + auction.Bids.Sum(x => x.BidAmount);
+
                                 <div class="col-md-4 mt-2 p-0">
                                     <div class="card " relf-item="1">
                                         <div class="card-header align-items-center">
@@ -156,13 +159,13 @@
                                             <div class="row">
                                                 <div class="col-7">
                                                     <label class="input-group-text border-0 bg-light font-weight-bold" title="Product Price">
-                                                        <i class="fa fa-moneymr-1"></i> $@auction.ActualAmount
+                                                        <i class="fa fa-moneymr-1"></i> $@bidAmount
                                                     </label>
                                                 </div>
                                                 <div class="col-5">
                                                     <div class="input-group itemCartHolder">
                                                         <div class="input-group-append">
-                                                            <button data-id="3" type="button" class="btnAddToCart btn btn-primary" title="Bid Now">
+                                                            <button  data-id="@auction.AuctionID" type="button" class="btnBids btn btn-primary" title="Bid Now">
                                                                 <i class="fa fa-usd mr-1"></i> Bid Now
                                                             </button>
                                                         </div>
@@ -279,5 +282,24 @@
             console.log(thrownError);
         })
 
+    });
+    $(".btnBids").click(function () {
+        var auctionId = $(this).attr('data-id');
+        $.ajax({
+            method:'Post',
+            url: "@Url.Action("AddBid","Bids")",
+            data:{Id:auctionId}
+    }).done(function (response) {
+        if (response.Success) {
+            window.location.reload();
+        }
+        else {
+            console.log(response.Message);
+            alert(response.Message);
+        }
+    }).fail(function (xhr, ajaxOptions, thrownError) {
+        alert(xhr.status);
+        console.log(thrownError);
+    })
     });
 </script>

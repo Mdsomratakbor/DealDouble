@@ -43,6 +43,27 @@ namespace DealDouble.Services
                 return contaxt.Bids.Count();
             }
         }
+        public int GetCommentCount()
+        {
+            using (var contaxt = new Context())
+            {
+                return contaxt.Comments.Count();
+            }
+        }
+        public int GetCategoryCount()
+        {
+            using (var contaxt = new Context())
+            {
+                return contaxt.Categories.Count();
+            }
+        }
+        public int GetRoleCount()
+        {
+            using (var contaxt = new Context())
+            {
+                return contaxt.Roles.Count();
+            }
+        }
 
         public List<Comment> GetCommentByUser(string userId, int entityId)
         {

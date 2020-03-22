@@ -1,6 +1,8 @@
-﻿using DealDouble.Entities;
+﻿using DealDouble.Database;
+using DealDouble.Entities;
 using DealDouble.Services;
 using DealDouble.Web.ViewModels;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using System;
@@ -59,6 +61,9 @@ namespace DealDouble.Web.Controllers
             model.AuctionCount = DashboardServices.Instance.GetAuctionCount();
             model.UserCount = DashboardServices.Instance.GetUserCount();
             model.BidCount = DashboardServices.Instance.GetBidCount();
+            model.CategoryCount = DashboardServices.Instance.GetCategoryCount();
+            model.RoleCount = DashboardServices.Instance.GetRoleCount();
+            model.CommentCount = DashboardServices.Instance.GetCommentCount();
 
             return View(model);
         }
@@ -195,8 +200,6 @@ namespace DealDouble.Web.Controllers
 
         }
 
-
-
         public async Task<ActionResult> UserComments(string userId, bool isPartial = false)
         {
             UserCommentsViewModel model = new UserCommentsViewModel();
@@ -216,5 +219,27 @@ namespace DealDouble.Web.Controllers
 
             return PartialView("_UserComments", model);
         }
+
+        [HttpGet]
+        public ActionResult RoleCreate()
+        {
+            return PartialView();
+        }
+        [HttpPost]
+        public async Task<ActionResult> RoleCreate(string name)
+        {
+            var roleManager = new RoleManager<Microsoft.AspNet.Identity.EntityFramework.IdentityRole>(new RoleStore<IdentityRole>(new Context()));
+
+
+            if (!roleManager.RoleExists(name))
+            {
+                var role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole();
+                role.Name = name;
+                roleManager.Create(role);
+
+            }
+            return RedirectToAction("Index");
+        }
+       
     }
 }

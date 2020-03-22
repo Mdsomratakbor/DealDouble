@@ -66,6 +66,7 @@ namespace DealDouble.Web.ViewModels
 
 
         public  List<AuctionPicture> AuctionPictures { get; set; }
+        public DealDoubleUser UserName { get;  set; }
     }
 
 }

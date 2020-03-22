@@ -627,6 +627,7 @@
     <Content Include="Views\SliderImage\Index.cshtml" />
     <Content Include="Views\SliderImage\Create.cshtml" />
     <Content Include="Views\SliderImage\Edit.cshtml" />
+    <Content Include="Views\Dashboard\RoleCreate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

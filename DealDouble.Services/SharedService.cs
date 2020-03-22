@@ -2,6 +2,7 @@
 using DealDouble.Entities;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -43,7 +44,7 @@ namespace DealDouble.Services
         {
             using (var context = new Context())
             {  
-                return context.Comments.Where(x=>x.EntityID == EntityID && x.RecordID == RecordID).ToList();
+                return context.Comments.Where(x=>x.EntityID == EntityID && x.RecordID == RecordID).Include(y=>y.Users).ToList();
             }
 
         }

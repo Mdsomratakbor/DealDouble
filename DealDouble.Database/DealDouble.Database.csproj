@@ -106,6 +106,10 @@
     <Compile Include="Migrations\202003191437092_addSliderImageName.designer.cs">
       <DependentUpon>202003191437092_addSliderImageName.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202003221509439_addcommentuser.cs" />
+    <Compile Include="Migrations\202003221509439_addcommentuser.designer.cs">
+      <DependentUpon>202003221509439_addcommentuser.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -152,6 +156,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202003191437092_addSliderImageName.resx">
       <DependentUpon>202003191437092_addSliderImageName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003221509439_addcommentuser.resx">
+      <DependentUpon>202003221509439_addcommentuser.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

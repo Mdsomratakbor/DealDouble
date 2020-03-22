@@ -12,6 +12,9 @@ namespace DealDouble.Web.ViewModels
         public int UserCount { get; set; }
         public int AuctionCount { get; set; }
         public int BidCount { get; set; }
+        public int CategoryCount { get;  set; }
+        public int RoleCount { get;  set; }
+        public int CommentCount { get;  set; }
     }
     public class UserViewModel : PageViewModel
     {

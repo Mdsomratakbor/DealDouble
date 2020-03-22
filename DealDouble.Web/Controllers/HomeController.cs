@@ -17,12 +17,25 @@ namespace DealDouble.Web.Controllers
             model.PageTitle = "Home Page";
             model.PageDescription = "This is home page";
             pageNo = pageNo.HasValue ? pageNo.Value > 0 ? pageNo.Value : 1 : 1;
-            pageSize = pageSize.HasValue ? pageSize.Value > 10 ? pageSize.Value : 10 : 10;
+            pageSize = pageSize.HasValue ? pageSize.Value > 9 ? pageSize.Value : 9 : 9;
             model.AllAuction = AuctionService.Instance.GetAllAuction(categoryID, searchTearm, pageNo.Value, pageSize.Value);
             model.Categories = CategoriesService.Instance.GetAllCategories();
             model.PromotedAuction = AuctionService.Instance.GetPromoAuction();
             model.SliderImages = SliderImageServices.Instance.GetAllSliderImage();
-            return View(model);
+            var totalpage = AuctionService.Instance.TotalItemsCount(categoryID, searchTearm);
+            model.Pager = new Pager(totalpage, pageNo, pageSize.Value);
+            model.SearchTearm = searchTearm;
+            model.PageSize = pageSize.Value;
+            model.PageNo = pageNo.Value;
+            if (Request.IsAjaxRequest())
+            {
+                return PartialView(model);
+            }
+            else
+            {
+                return View(model);
+            }
+            
         }
 
         public ActionResult About()

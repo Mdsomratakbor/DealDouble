@@ -2,205 +2,266 @@
 @{
     ViewBag.Title = "Home Page";
 }
-
-<div class="row">
-    <div class="col-lg-12">
-        <!--Slider Start-->
-        @if (Model.SliderImages != null && Model.SliderImages.Count > 0)
+<div id="listingArea">
+    <div class="row">
+        <div class="col-lg-12">
+            <!--Slider Start-->
+            @if (Model.SliderImages != null && Model.SliderImages.Count > 0)
         {
             var i = 0;
             var firstSlider = Model.SliderImages.First();
-            <div id="carouselExampleIndicators" class="carousel slide my-1" data-ride="carousel">
-                <ol class="carousel-indicators">
-                    @foreach (var data in Model.SliderImages)
+                <div id="carouselExampleIndicators" class="carousel slide my-1" data-ride="carousel">
+                    <ol class="carousel-indicators">
+                        @foreach (var data in Model.SliderImages)
                     {
                         var active = data == firstSlider ? "active" : string.Empty;
-                        <li data-target="#carouselExampleIndicators" data-slide-to="@i" class="@active"></li>
+                            <li data-target="#carouselExampleIndicators" data-slide-to="@i" class="@active"></li>
                         i++;
                     }
 
-                </ol>
-                <div class="carousel-inner" role="listbox">
-                    @foreach (var data in Model.SliderImages)
+                    </ol>
+                    <div class="carousel-inner" role="listbox">
+                        @foreach (var data in Model.SliderImages)
                     {
                         var active = data == firstSlider ? "active" : string.Empty;
-                        <div class="carousel-item @active">
-                            <img class="d-block img-fluid" src="/Content/images/@data.ImageName" alt="First slide">
-                        </div>
-                    }                  
-                </div>
-                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Previous</span>
-                </a>
-                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Next</span>
-                </a>
-            </div>
-        }
-        <!--Slider End-->
-
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="border p-2">
-                    <div class="float-left">
-                        <select id="sltCategories" class="form-control">
-                            <option value="0" disabled selected>All Categories</option>
-                            @foreach (var category in Model.Categories)
-                            {
-                                <option data-url="#" value="@category.ID">
-                                    @category.Name
-                                </option>
-                            }
-                        </select>
-                    </div>
-                    <div class="float-right">
-                        <form class="form-inline" action="/search">
-                            <input name="q" type="search" placeholder="Search Auction" class="form-control mr-sm-2" required="">
-                            <div class="btn-group" role="group">
-                                <button type="submit" class="btn btn-outline-success my-2 my-sm-0">Search</button>
-                                <a href="/search" class="btn btn-outline-secondary my-2 my-sm-0">Reset</a>
+                            <div class="carousel-item @active">
+                                <img class="d-block img-fluid" src="/Content/images/@data.ImageName" alt="First slide">
                             </div>
-                        </form>
+                    }
                     </div>
-                    <div class="clearfix"></div>
+                    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
                 </div>
-            </div>
-            <div id="productsList" class="col-lg-12">
-                <div class="col-md-12">
-                    @*<div class="row mb-3 ">
-                        @foreach (var auction in Model.PromotedAuction)
-                        {
-                            var picURL = auction.AuctionPictures != null && auction.AuctionPictures.Count > 0 ? "/Content/images/" + auction.AuctionPictures.First().Picture.URL : "http://placehold.it/700x400";
-                            <div class="col-md-4 mt-2 p-0">
-                                <div class="card">
-                                    <div class="card-header align-items-center">
-                                        <a href="@Url.Action("Details","Auction",new { id= auction.AuctionID })"><img class="card-img-top img-fluid" src="@picURL" alt="" style="height:350px;"></a>
-                                    </div>
-                                    <div class="card-body">
-                                        <h5 class="card-title">
-                                            <a href="@Url.Action("Details","Auction", new {id = auction.AuctionID })">@auction.Title</a>
-                                        </h5>
-                                        <p class="card-text">
-                                            @auction.Description
-                                        </p>
-                                    </div>
-                                    <ul class="list-group list-group-flush ">
-                                        <li class="list-group-item">
-                                            <i class="fa fa-tags mr-1"></i>
-                                            <a href="#" class="card-link">
-                                                @auction.Category.Name
-                                            </a>
-                                        </li>
-                                    </ul>
-                                    <div class="card-footer">
-                                        <div class="row">
-                                            <div class="col-7">
-                                                <label class="input-group-text border-0 bg-light" title="Product Price">
-                                                    <i class="fa fa-money mr-1"></i> $@auction.ActualAmount
-                                                </label>
+        }
+            <!--Slider End-->
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="border p-2">
+                        <div class="float-left">
+                            <select id="selectCategories" class="form-control">
+                                <option value="0" disabled selected>All Categories</option>
+                                @foreach (var category in Model.Categories)
+                            {
+                                    <option data-url="#" value="@category.ID">
+                                        @category.Name
+                                    </option>
+                            }
+                            </select>
+                        </div>
+                        <div class="float-right">
+                            <form class="form-inline" action="/search">
+                                <input name="q" type="search" placeholder="Search Auction" class="form-control mr-sm-2" required="">
+                                <div class="btn-group" role="group">
+                                    <button type="submit" class="btn btn-outline-success my-2 my-sm-0">Search</button>
+                                    <button href="#" id="btnReset" type="button" class="btn btn-outline-secondary my-2 my-sm-0">Reset</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <div id="productsList" class="col-lg-12">
+                    <div class="col-md-12">
+                        @*<div class="row mb-3 ">
+                                @foreach (var auction in Model.PromotedAuction)
+                                {
+                                    var picURL = auction.AuctionPictures != null && auction.AuctionPictures.Count > 0 ? "/Content/images/" + auction.AuctionPictures.First().Picture.URL : "http://placehold.it/700x400";
+                                    <div class="col-md-4 mt-2 p-0">
+                                        <div class="card">
+                                            <div class="card-header align-items-center">
+                                                <a href="@Url.Action("Details","Auction",new { id= auction.AuctionID })"><img class="card-img-top img-fluid" src="@picURL" alt="" style="height:350px;"></a>
                                             </div>
-                                            @if (User.Identity.IsAuthenticated)
-                                            {
-                                                <div class="col-5">
-                                                    <div class="input-group itemCartHolder">
-                                                        <div class="input-group-append">
-                                                            <button data-id="" type="button" class="btnAddToCart btn btn-primary btn-sm">
-                                                                <i class="fa fa-usd mr-1"></i>Bid Now
-                                                            </button>
-                                                        </div>
+                                            <div class="card-body">
+                                                <h5 class="card-title">
+                                                    <a href="@Url.Action("Details","Auction", new {id = auction.AuctionID })">@auction.Title</a>
+                                                </h5>
+                                                <p class="card-text">
+                                                    @auction.Description
+                                                </p>
+                                            </div>
+                                            <ul class="list-group list-group-flush ">
+                                                <li class="list-group-item">
+                                                    <i class="fa fa-tags mr-1"></i>
+                                                    <a href="#" class="card-link">
+                                                        @auction.Category.Name
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                            <div class="card-footer">
+                                                <div class="row">
+                                                    <div class="col-7">
+                                                        <label class="input-group-text border-0 bg-light" title="Product Price">
+                                                            <i class="fa fa-money mr-1"></i> $@auction.ActualAmount
+                                                        </label>
                                                     </div>
+                                                    @if (User.Identity.IsAuthenticated)
+                                                    {
+                                                        <div class="col-5">
+                                                            <div class="input-group itemCartHolder">
+                                                                <div class="input-group-append">
+                                                                    <button data-id="" type="button" class="btnAddToCart btn btn-primary btn-sm">
+                                                                        <i class="fa fa-usd mr-1"></i>Bid Now
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    }
+
                                                 </div>
-                                            }
-                                            
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                        }
-                    </div>*@
-                    <div class="row mb-1 h-100">
-                        @foreach (var auction in Model.AllAuction)
+                                }
+                            </div>*@
+                        <div class="row mb-1 h-100">
+                            @foreach (var auction in Model.AllAuction)
                         {
                             var description = auction.Description == null ? string.Empty : auction.Description.Length > 100 ? auction.Description.Substring(0, 100) : auction.Description;
                             var auctionTitle = auction.Title == null ? string.Empty : auction.Title.Length > 30 ? auction.Title.Substring(0, 30) : auction.Title;
                             var picURL = auction.AuctionPictures != null && auction.AuctionPictures.Count > 0 ? "/Content/images/" + auction.AuctionPictures.First().Picture.URL : "http://placehold.it/700x400";
-                            <div class="col-md-4 mt-2 p-0">
-                                <div class="card " relf-item="1">
-                                    <div class="card-header align-items-center">
-                                        <a href="@Url.Action("Details","Auction",new { id= auction.AuctionID })"><img class="card-img-top img-fluid" src="@picURL" alt="" style="height:350px;"></a>
-                                    </div>
-                                    <div class="card-body">
-                                        <h5 class="card-title">
-                                            <a href="@Url.Action("Details","Auction", new {id = auction.AuctionID })">@auctionTitle ...</a>
-                                        </h5>
-                                        <p class="card-text text-muted">
-                                            @description ...
-                                        </p>
-                                    </div>
-                                    <ul class="list-group list-group-flush ">
-                                        <li class="list-group-item font-italic">
-                                            <i class="fa fa-tags mr-1"></i>
-                                            <a href="@Url.Action("Details","Auction", new {id = auction.AuctionID })" class="card-link">
-                                                @auction.Category.ParentCategories.ParentCategoryName
-                                               
-                                            </a>
-                                            <i class="fa fa-angle-right mx-1"></i>
-                                            <a href="/search/chairs" class="card-link">
-                                                @auction.Category.Name
-                                            </a>
-                                        </li>
-                                    </ul>
-                                    <div class="card-footer">
-                                        <div class="row">
-                                            <div class="col-7">
-                                                <label class="input-group-text border-0 bg-light font-weight-bold" title="Product Price">
-                                                    <i class="fa fa-moneymr-1"></i> $@auction.ActualAmount
-                                                </label>
-                                            </div>
-                                            <div class="col-5">
-                                                <div class="input-group itemCartHolder">
-                                                    <div class="input-group-append">
-                                                        <button data-id="3" type="button" class="btnAddToCart btn btn-primary" title="Bid Now">
-                                                            <i class="fa fa-usd mr-1"></i> Bid Now
-                                                        </button>
+                                <div class="col-md-4 mt-2 p-0">
+                                    <div class="card " relf-item="1">
+                                        <div class="card-header align-items-center">
+                                            <a href="@Url.Action("Details","Auction",new { id= auction.AuctionID })"><img class="card-img-top img-fluid" src="@picURL" alt="" style="height:350px;"></a>
+                                        </div>
+                                        <div class="card-body">
+                                            <h5 class="card-title">
+                                                <a href="@Url.Action("Details","Auction", new {id = auction.AuctionID })">@auctionTitle ...</a>
+                                            </h5>
+                                            <p class="card-text text-muted">
+                                                @description ...
+                                            </p>
+                                        </div>
+                                        <ul class="list-group list-group-flush ">
+                                            <li class="list-group-item font-italic">
+                                                <i class="fa fa-tags mr-1"></i>
+                                                <a href="@Url.Action("Details","Auction", new {id = auction.AuctionID })" class="card-link">
+                                                    @auction.Category.ParentCategories.ParentCategoryName
+
+                                                </a>
+                                                <i class="fa fa-angle-right mx-1"></i>
+                                                <a href="/search/chairs" class="card-link">
+                                                    @auction.Category.Name
+                                                </a>
+                                            </li>
+                                        </ul>
+                                        <div class="card-footer">
+                                            <div class="row">
+                                                <div class="col-7">
+                                                    <label class="input-group-text border-0 bg-light font-weight-bold" title="Product Price">
+                                                        <i class="fa fa-moneymr-1"></i> $@auction.ActualAmount
+                                                    </label>
+                                                </div>
+                                                <div class="col-5">
+                                                    <div class="input-group itemCartHolder">
+                                                        <div class="input-group-append">
+                                                            <button data-id="3" type="button" class="btnAddToCart btn btn-primary" title="Bid Now">
+                                                                <i class="fa fa-usd mr-1"></i> Bid Now
+                                                            </button>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
                         }
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="offset-4">
+
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination">
+                                    @if (Model.Pager != null)
+                                    {
+                                        if (Model.Pager.CurrentPage > 1)
+                                        {
+                                            <li class="page-item">
+                                                <a class="page-link datalink" data-href="@Url.Action("Index", "Home", new { pageNo = Model.Pager.CurrentPage - 1, pageSize = Model.PageSize })" aria-label="Previous">
+                                                    <span aria-hidden="true">&laquo;</span>
+                                                </a>
+                                            </li>
+                                        }
+                                        for (var page = Model.Pager.StartPage; page <= Model.Pager.EndPage; page++)
+                                        {
+                                            var activeClass = Model.Pager.CurrentPage == page ? "active bg-info" : string.Empty;
+                                            <li class="page-item @activeClass"><a class="page-link datalink" data-href="@Url.Action("Index","Home",new {pageNo = page, pageSize = Model.PageSize })">@page</a></li>
+                                        }
+                                        if (Model.Pager.CurrentPage < Model.Pager.TotalPages)
+                                        {
+                                            <li class="page-item">
+                                                <a class="page-link datalink" data-href="@Url.Action("Index", "Home", new { pageNo = Model.Pager.CurrentPage + 1, pageSize = Model.PageSize })" aria-label="Next">
+                                                    <span aria-hidden="true">&raquo;</span>
+                                                </a>
+                                            </li>
+                                        }
+                                    }
+
+                                </ul>
+                            </nav>
+                        </div>
                     </div>
                 </div>
-                <nav>
-                    <ul class="pagination justify-content-center">
-
-                        <li class="page-item disabled">
-                            <span class="page-link disabled">Previous</span>
-                        </li>
-                        <li class="page-item active">
-                            <a href="/search">
-                                <span class="page-link">1</span>
-                            </a>
-                        </li>
-                        <li class="page-item ">
-                            <a href="/search?pageno=2">
-                                <span class="page-link">2</span>
-                            </a>
-                        </li>
-                        <li class="page-item">
-                            <a href="/search?pageno=2">
-                                <span class="page-link">Next</span>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
             </div>
+            <!-- /.row -->
         </div>
-        <!-- /.row -->
+        <!-- /.col-lg-9 -->
     </div>
-    <!-- /.col-lg-9 -->
 </div>
+
+<script>
+
+    $('#selectCategories').change(function () {
+        var categroy = $(this).val();
+        $.ajax({
+            method: 'Get',
+            url: '@Url.Action("Index","Home")',
+            data: { categoryID: categroy, searchTearm: '@Model.SearchTearm', pageSize: '@Model.PageNo', pageSize: '@Model.PageSize' }
+        }).done(function (response) {
+            window.setTimeout(function () {
+                $('#listingArea').html(response)
+            }, 200)
+        }).fail(function (xhr, ajaxOptions, thrownError) {
+            alert(xhr.status);
+            console.log(thrownError);
+        })
+
+    })
+    $(".datalink").click(function () {
+        var url = $(this).attr("data-href");
+        $.ajax({
+            metod: "Get",
+            url: url,
+            data:{categoryID:'@Model.CategoryID', searchTearm:'@Model.SearchTearm', pageSize:'@Model.PageSize'}
+        }).done(function (response) {
+            $("#listingArea").html(response);
+            @*$("#pageSize option[selected]").removeAttr("selected");
+            $("#pageSize option[value=" + @Model.PageSize + "]").attr("selected","selected");*@
+            $("#selectCategories option[selected]").removeAttr("selected");
+            $("#selectCategories option[value=" + @Model.CategoryID + "]").attr("selected", "selected");
+        }).fail(function (xhr, ajaxOptions, thrownError) {
+            alert(xhr.status);
+            console.log(thrownError);
+        })
+    });
+    $("#btnReset").click(function () {
+        $.ajax({
+            metod: "Get",
+            url: '@Url.Action("Index","Home")',
+        }).done(function (response) {
+            $("#listingArea").html(response);
+        }).fail(function (xhr, ajaxOptions, thrownError) {
+            alert(xhr.status);
+            console.log(thrownError);
+        })
+
+    });
+</script>

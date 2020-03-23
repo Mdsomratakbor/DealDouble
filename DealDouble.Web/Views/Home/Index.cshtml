@@ -67,6 +67,8 @@
                         <div class="clearfix"></div>
                     </div>
                 </div>
+                @if (Model.AllAuction.Count > 0)
+                {
                 <div id="productsList" class="col-lg-12">
                     <div class="col-md-12">
                         @*<div class="row mb-3 ">
@@ -132,11 +134,11 @@
                                 <div class="col-md-4 mt-2 p-0">
                                     <div class="card " relf-item="1">
                                         <div class="card-header align-items-center">
-                                            <a href="@Url.Action("Details","Auction",new { id= auction.AuctionID })"><img class="card-img-top img-fluid" src="@picURL" alt="" style="height:350px;"></a>
+                                            <a href="@Url.Action("Details", "Auction", new { id = auction.AuctionID })"><img class="card-img-top img-fluid" src="@picURL" alt="" style="height:350px;"></a>
                                         </div>
                                         <div class="card-body">
                                             <h5 class="card-title">
-                                                <a href="@Url.Action("Details","Auction", new {id = auction.AuctionID })">@auctionTitle ...</a>
+                                                <a href="@Url.Action("Details", "Auction", new { id = auction.AuctionID })">@auctionTitle ...</a>
                                             </h5>
                                             <p class="card-text text-muted">
                                                 @description ...
@@ -145,7 +147,7 @@
                                         <ul class="list-group list-group-flush ">
                                             <li class="list-group-item font-italic">
                                                 <i class="fa fa-tags mr-1"></i>
-                                                <a href="@Url.Action("Details","Auction", new {id = auction.AuctionID })" class="card-link">
+                                                <a href="@Url.Action("Details", "Auction", new { id = auction.AuctionID })" class="card-link">
                                                     @auction.Category.ParentCategories.ParentCategoryName
 
                                                 </a>
@@ -175,7 +177,7 @@
                                         </div>
                                     </div>
                                 </div>
-                        }
+                            }
                         </div>
                     </div>
                     <div class="row">
@@ -196,7 +198,7 @@
                                         for (var page = Model.Pager.StartPage; page <= Model.Pager.EndPage; page++)
                                         {
                                             var activeClass = Model.Pager.CurrentPage == page ? "active bg-info" : string.Empty;
-                                            <li class="page-item @activeClass"><a class="page-link datalink" data-href="@Url.Action("Index","Home",new {pageNo = page, pageSize = Model.PageSize })">@page</a></li>
+                                            <li class="page-item @activeClass"><a class="page-link datalink" data-href="@Url.Action("Index", "Home", new { pageNo = page, pageSize = Model.PageSize })">@page</a></li>
                                         }
                                         if (Model.Pager.CurrentPage < Model.Pager.TotalPages)
                                         {
@@ -213,6 +215,13 @@
                         </div>
                     </div>
                 </div>
+                }
+                else
+                {
+                    <div class="alert alert-danger">
+                        <span>No data found</span>
+                    </div>
+                }
             </div>
             <!-- /.row -->
         </div>

@@ -88,6 +88,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommentServices.cs" />
     <Compile Include="BidsServices.cs" />
     <Compile Include="SliderImageServices.cs" />
     <Compile Include="ParentCategorySevices.cs" />

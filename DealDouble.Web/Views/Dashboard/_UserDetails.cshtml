@@ -1,28 +1,32 @@
 ﻿@model DealDouble.Web.ViewModels.UserDetailsViewModel
 @if (Model.User != null && Model != null)
 {
-    <from>
+    <from >
         <div class="tab-content" id="nav-tabContent">
             <div class="tab-pane fade show active p-2" id="info" role="tabpanel" aria-labelledby="nav-home-tab">
                 <div class="form-group row mt-2">
                     <label class="col-md-3 col-form-label">Full Name</label>
-                    <input class="col-md-8 form-control" type="text" value="@Model.User.FullName" disabled />
-                </div>
-                <div class="form-group row">
-                    <label class="col-md-3 col-form-label">Country</label>
-                    <input class="col-md-8 form-control" type="text" value="@Model.User.Country" disabled />
-                </div>
-                <div class="form-group row">
-                    <label class="col-md-3 col-form-label">Address</label>
-                    <input class="col-md-8 form-control" type="text" value="@Model.User.Address" disabled />
+                    <input class="col-md-8 form-control" type="text" value="@Model.User.FullName" disabled/>
                 </div>
                 <div class="form-group row">
                     <label class="col-md-3 col-form-label">Email</label>
-                    <input class="col-md-8 form-control" type="email" value="@Model.User.Email" disabled />
+                    <input class="col-md-8 form-control" type="email" value="@Model.User.Email" disabled/>
                 </div>
                 <div class="form-group row">
+                    <label class="col-md-3 col-form-label">Country</label>
+                    <input class="col-md-8 form-control" type="text" value="@Model.User.Country" disabled/>
+                </div>
+                <div class="form-group row">
+                    <label class="col-md-3 col-form-label">City</label>
+                    <input class="col-md-8 form-control" type="text" value="@Model.User.City" disabled/>
+                </div>  
+                <div class="form-group row">
+                    <label class="col-md-3 col-form-label">Address</label>
+                    <input class="col-md-8 form-control" type="text" value="@Model.User.Address" disabled/>
+                </div>             
+                <div class="form-group row">
                     <label class="col-md-3 col-form-label">User Name</label>
-                    <input class="col-md-8 form-control" type="text" value="@Model.User.UserName" disabled />
+                    <input class="col-md-8 form-control" type="text" value="@Model.User.UserName" disabled/>
                 </div>
 
                 <div class="float-right p-4">

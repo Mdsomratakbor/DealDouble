@@ -44,7 +44,7 @@ namespace DealDouble.Services
         {
             using (var context = new Context())
             {  
-                return context.Comments.Where(x=>x.EntityID == EntityID && x.RecordID == RecordID).Include(y=>y.Users).ToList();
+                return context.Comments.Where(x=>x.EntityID == EntityID && x.RecordID == RecordID).ToList();
             }
 
         }

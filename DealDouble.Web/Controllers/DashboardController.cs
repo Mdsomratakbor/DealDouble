@@ -8,6 +8,9 @@ using Microsoft.AspNet.Identity.Owin;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -145,10 +148,10 @@ namespace DealDouble.Web.Controllers
             {
                 var user = await UserManager.FindByIdAsync(userId);
                 var role = await RoleManager.FindByIdAsync(roleId);
-                if(user!= null && role != null)
+                if (user != null && role != null)
                 {
-                        await UserManager.AddToRolesAsync(userId, role.Name);                  
-                   
+                    await UserManager.AddToRolesAsync(userId, role.Name);
+
                 }
 
             }
@@ -226,7 +229,7 @@ namespace DealDouble.Web.Controllers
             return PartialView();
         }
         [HttpPost]
-        public async Task<ActionResult> RoleCreate(string name)
+        public ActionResult RoleCreate(string name)
         {
             var roleManager = new RoleManager<Microsoft.AspNet.Identity.EntityFramework.IdentityRole>(new RoleStore<IdentityRole>(new Context()));
 
@@ -240,6 +243,83 @@ namespace DealDouble.Web.Controllers
             }
             return RedirectToAction("Index");
         }
-       
+
+        public ActionResult CommentList(string searchTearm, int? pageNo, int? pageSize)
+        {
+            CommentsListViewModels model = new CommentsListViewModels();
+            pageNo = pageNo.HasValue ? pageNo.Value > 0 ? pageNo.Value : 1 : 1;
+            pageSize = pageSize.HasValue ? pageSize.Value > 10 ? pageSize.Value : 10 : 10;
+            model.Comments = CommentServices.Instance.GetAllComments(searchTearm, pageNo.Value, pageSize.Value);
+            model.Auctions = AuctionService.Instance.GetAllAuction();
+            model.Users = UserManager.Users.ToList();
+            model.PageTitle = "Comments List";
+            var totalComments = CommentServices.Instance.GetTotalComments(searchTearm);
+            model.PageDescription = "All Comments";
+            model.Pager = new Pager(totalComments, pageNo.Value, pageSize.Value);
+            model.SearchTearm = searchTearm;
+            model.PageSize = pageSize.Value;
+            model.PageNo = pageNo.Value;
+            if (Request.IsAjaxRequest())
+            {
+                return PartialView(model);
+            }
+            return View(model);
+        }
+
+        public JsonResult CommentDelete(int id)
+        {
+            JsonResult result = new JsonResult();
+            result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+            var success = CommentServices.Instance.DeleteComment(id);
+            if (success)
+            {
+                result.Data = new { Success = true };
+            }
+            else
+            {
+                result.Data = new { Success = false, Message = "There is some problem" };
+            }
+            return result;
+        }
+
+        [HttpGet]
+        public async  Task<ActionResult> MailSend(string id)
+        {
+            MailSendViewModel model = new MailSendViewModel();
+            var user = await UserManager.FindByIdAsync(id);
+            model.UserName = user.UserName;
+            model.Email = user.Email;
+            return View(model);
+        }
+        [ValidateInput(false)]
+        [HttpPost]
+        public ActionResult MailSend(MailSendViewModel model)
+        {
+            var result =  SendMail(model);
+            return View(model);
+        }
+        public bool SendMail(MailSendViewModel model)
+        {
+            try
+            {
+                string senderMail = System.Configuration.ConfigurationManager.AppSettings["senderMail"].ToString();
+                string senderPassword = System.Configuration.ConfigurationManager.AppSettings["senderPassword"].ToString();
+                SmtpClient client = new SmtpClient("smtp.gmail.com",587);
+                client.EnableSsl = true;
+                client.Timeout = 100000;
+                client.DeliveryMethod = SmtpDeliveryMethod.Network;
+                client.UseDefaultCredentials = false;
+                client.Credentials = new NetworkCredential(senderMail, senderPassword);
+                MailMessage mailMessage = new MailMessage(senderMail, model.Email, model.Subject, model.BodyText);
+                mailMessage.IsBodyHtml = true;
+                mailMessage.BodyEncoding = UTF8Encoding.UTF8;
+                client.Send(mailMessage);
+                return true;
+            }
+            catch(Exception ex)
+            {
+                return false;
+            }
+        }
     }
 }

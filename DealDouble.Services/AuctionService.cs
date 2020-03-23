@@ -26,10 +26,10 @@ namespace DealDouble.Services
 
         public int TotalItemsCount(int? categoryID, string searchTearm)
         {
-            using (var context  = new Context())
+            using (var context = new Context())
             {
                 var auctions = context.Auctions.AsQueryable();
-                if(categoryID > 0)
+                if (categoryID > 0)
                 {
                     auctions = auctions.Where(x => x.CategoryID == categoryID);
                 }
@@ -46,7 +46,7 @@ namespace DealDouble.Services
         {
             using (var context = new Context())
             {
-                var auctions = context.Auctions.Include(x => x.Category).Include(y => y.AuctionPictures).Include(z => z.AuctionPictures.Select(w => w.Picture)).Include(pCategory=>pCategory.Category.ParentCategories).Include(bid=>bid.Bids).AsQueryable();
+                var auctions = context.Auctions.Include(x => x.Category).Include(y => y.AuctionPictures).Include(z => z.AuctionPictures.Select(w => w.Picture)).Include(pCategory => pCategory.Category.ParentCategories).Include(bid => bid.Bids).AsQueryable();
                 if (categoryID.HasValue && categoryID.Value > 0)
                 {
                     auctions = auctions.Where(category => category.CategoryID == categoryID);
@@ -83,11 +83,11 @@ namespace DealDouble.Services
                     context.SaveChanges();
                     return "Data Save Successfull";
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
-                    return  ex.Message;
+                    return ex.Message;
                 }
-             
+
             }
         }
         public void UpdateAuction(Auction auction)
@@ -118,6 +118,13 @@ namespace DealDouble.Services
             using (var contaxt = new Context())
             {
                 return auctionIds.Select(x => contaxt.Auctions.Find(x)).ToList();
+            }
+        }
+        public List<Auction> GetAllAuction()
+        {
+            using (var contaxt = new Context())
+            {
+                return contaxt.Auctions.ToList();
             }
         }
     }

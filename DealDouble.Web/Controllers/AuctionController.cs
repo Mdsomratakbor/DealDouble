@@ -9,11 +9,11 @@ using System.Web.Mvc;
 
 namespace DealDouble.Web.Controllers
 {
-    [Authorize(Roles ="Admin")]
+   
     public class AuctionController : Controller
     {
-               // GET: Auction
-
+        // GET: Auction
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public ActionResult Index(int? categoryID, string searchTearm, int? pageNo, int? pageSize)
         {
@@ -45,6 +45,7 @@ namespace DealDouble.Web.Controllers
            
             
         }
+        [Authorize(Roles = "Admin")]
         public PartialViewResult Listing(int? categoryId, string search, int? pageNo)
         {
             var pageSize = 5;
@@ -63,7 +64,7 @@ namespace DealDouble.Web.Controllers
 
             return PartialView(auctionsModel);
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public ActionResult Create()
         {
@@ -71,6 +72,7 @@ namespace DealDouble.Web.Controllers
             model.Categories = CategoriesService.Instance.GetAllCategories();
             return PartialView(model);
         }
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public JsonResult Create(AuctionCrudeViewModel model)
         {
@@ -111,7 +113,7 @@ namespace DealDouble.Web.Controllers
             }
            
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public ActionResult Edit(int id)
         {
@@ -129,6 +131,7 @@ namespace DealDouble.Web.Controllers
             model.Summary = auction.Summary;
             return PartialView(model);
         }
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public ActionResult Edit(AuctionCrudeViewModel model)
         {
@@ -154,6 +157,7 @@ namespace DealDouble.Web.Controllers
             AuctionService.Instance.UpdateAuction(auction);
             return RedirectToAction("Index");
         }
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public ActionResult Delete(int id)
         {

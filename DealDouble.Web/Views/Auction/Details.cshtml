@@ -171,24 +171,42 @@
         var ratingStart = $(this).attr("data-value");
         $("#ratingStar").val(ratingStart);
     })
-    $("#btnComment").click(function () {
-        $.ajax({
-            method: 'Post',
-            url: "@Url.Action("LeavComment", "Shared")",
-            data: $("#commentFrom").serialize()
-        }).done(function (response) {
-            if (response.Success) {
-                window.location.reload();
-            }
-            else {
-                alert("error");
-                console.log(response.Message);
-            }
-        }).fail(function (xhr, ajaxOptions, thrownError) {
-            alert(xhr.status);
-            console.log(thrownError);
-        });
 
+    $("#commentFrom").validate({
+        rules: {
+            Text: {
+                required: true,
+                minlength: 15,
+            }
+        },
+        messages: {
+            Text: {
+                required: "Text is required",
+                minlength: "Minimum length is 15"
+            }
+
+        }
+    })
+
+    $("#btnComment").click(function () {
+        if ($("#commentFrom").valid()) {
+            $.ajax({
+                method: 'Post',
+                url: "@Url.Action("LeavComment", "Shared")",
+                data: $("#commentFrom").serialize()
+            }).done(function (response) {
+                if (response.Success) {
+                    window.location.reload();
+                }
+                else {
+                    alert("error");
+                    console.log(response.Message);
+                }
+            }).fail(function (xhr, ajaxOptions, thrownError) {
+                alert(xhr.status);
+                console.log(thrownError);
+            });
+        }
     })
     $("#btnBid").click(function () {
         $.ajax({

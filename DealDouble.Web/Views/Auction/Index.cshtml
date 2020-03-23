@@ -109,7 +109,7 @@
                             if (Model.Pager.CurrentPage > 1)
                             {
                         <li class="page-item">
-                            <a class="page-link datalink" data-href="@Url.Action("Index", "Auction", new { pageNo = Model.Pager.CurrentPage - 1, pageSize = Model.PageSize })" aria-label="Previous">
+                            <a class="page-link datalink" style="cursor:pointer" data-href="@Url.Action("Index", "Auction", new { pageNo = Model.Pager.CurrentPage - 1, pageSize = Model.PageSize })" aria-label="Previous">
                                 <span aria-hidden="true">&laquo;</span>
                             </a>
                         </li>
@@ -117,12 +117,12 @@
                             for (var page = Model.Pager.StartPage; page <= Model.Pager.EndPage; page++)
                             {
                                 var activeClass = Model.Pager.CurrentPage == page ? "active bg-info" : string.Empty;
-                        <li class="page-item @activeClass"><a class="page-link datalink" data-href="@Url.Action("Index","Auction",new {pageNo = page, pageSize = Model.PageSize })">@page</a></li>
+                        <li class="page-item @activeClass"><a class="page-link datalink" style="cursor:pointer" data-href="@Url.Action("Index","Auction",new {pageNo = page, pageSize = Model.PageSize })">@page</a></li>
                             }
                             if (Model.Pager.CurrentPage < Model.Pager.TotalPages)
                             {
                         <li class="page-item">
-                            <a class="page-link datalink" data-href="@Url.Action("Index", "Auction", new { pageNo = Model.Pager.CurrentPage + 1, pageSize = Model.PageSize })" aria-label="Next">
+                            <a class="page-link datalink" style="cursor:pointer" data-href="@Url.Action("Index", "Auction", new { pageNo = Model.Pager.CurrentPage + 1, pageSize = Model.PageSize })" aria-label="Next">
                                 <span aria-hidden="true">&raquo;</span>
                             </a>
                         </li>

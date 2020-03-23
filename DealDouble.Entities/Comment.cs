@@ -17,7 +17,6 @@ namespace DealDouble.Entities
         public DateTime TimeStamp { get; set; }
         public int EntityID { get; set; }
         public int RecordID { get; set; }
-        public virtual List<DealDoubleUser> Users { get; set; }
 
 
     }

@@ -223,6 +223,7 @@
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\AuctionsViewModels.cs" />
     <Compile Include="ViewModels\BaseViewModels.cs" />
+    <Compile Include="ViewModels\CommentsViewModels.cs" />
     <Compile Include="ViewModels\CategoriesViewModels.cs" />
     <Compile Include="ViewModels\DashboardViewModels.cs" />
     <Compile Include="ViewModels\ParentCategoryViewModels.cs" />
@@ -237,11 +238,13 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\css\dataTables.bootstrap.css" />
+    <Content Include="Content\css\editor.css" />
     <Content Include="Content\css\jquery.dataTables.css" />
     <Content Include="Content\css\jquery.dataTables.min.css" />
     <Content Include="Content\css\shop-homepage.css" />
     <Content Include="Content\css\registration-from.css" />
     <Content Include="Content\css\custom-css.css" />
+    <Content Include="Content\css\login-css.css" />
     <Content Include="Content\Dashboard\css\dashboard.css" />
     <Content Include="Content\font-awesome\css\font-awesome.css" />
     <Content Include="Content\font-awesome\css\font-awesome.min.css" />
@@ -412,6 +415,7 @@
     <Content Include="Content\vendor\bootstrap\js\bootstrap.bundle.min.js" />
     <Content Include="Content\vendor\bootstrap\js\bootstrap.js" />
     <Content Include="Content\vendor\bootstrap\js\bootstrap.min.js" />
+    <Content Include="Content\vendor\jquery\editor.js" />
     <Content Include="Content\vendor\jquery\jquery.dataTables.js" />
     <Content Include="Content\vendor\jquery\jquery.dataTables.min.js" />
     <Content Include="Content\vendor\jquery\jquery.js" />
@@ -628,6 +632,8 @@
     <Content Include="Views\SliderImage\Create.cshtml" />
     <Content Include="Views\SliderImage\Edit.cshtml" />
     <Content Include="Views\Dashboard\RoleCreate.cshtml" />
+    <Content Include="Views\Dashboard\CommentList.cshtml" />
+    <Content Include="Views\Dashboard\MailSend.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -238,9 +238,9 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\css\dataTables.bootstrap.css" />
-    <Content Include="Content\css\editor.css" />
     <Content Include="Content\css\jquery.dataTables.css" />
     <Content Include="Content\css\jquery.dataTables.min.css" />
+    <Content Include="Content\css\richtext.min.css" />
     <Content Include="Content\css\shop-homepage.css" />
     <Content Include="Content\css\registration-from.css" />
     <Content Include="Content\css\custom-css.css" />
@@ -415,11 +415,11 @@
     <Content Include="Content\vendor\bootstrap\js\bootstrap.bundle.min.js" />
     <Content Include="Content\vendor\bootstrap\js\bootstrap.js" />
     <Content Include="Content\vendor\bootstrap\js\bootstrap.min.js" />
-    <Content Include="Content\vendor\jquery\editor.js" />
     <Content Include="Content\vendor\jquery\jquery.dataTables.js" />
     <Content Include="Content\vendor\jquery\jquery.dataTables.min.js" />
     <Content Include="Content\vendor\jquery\jquery.js" />
     <Content Include="Content\vendor\jquery\jquery.min.js" />
+    <Content Include="Content\vendor\jquery\jquery.richtext.min.js" />
     <Content Include="Content\vendor\jquery\jquery.slim.js" />
     <Content Include="Content\vendor\jquery\jquery.slim.min.js" />
     <Content Include="Content\vendor\jquery\jquery.validate.min.js" />

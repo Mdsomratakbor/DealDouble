@@ -281,22 +281,38 @@ namespace DealDouble.Web.Controllers
             }
             return result;
         }
-
+        [ValidateInput(false)]
         [HttpGet]
         public async  Task<ActionResult> MailSend(string id)
         {
             MailSendViewModel model = new MailSendViewModel();
             var user = await UserManager.FindByIdAsync(id);
-            model.UserName = user.UserName;
-            model.Email = user.Email;
-            return View(model);
+            if(user != null)
+            {
+                model.UserName = user.UserName;
+                model.Email = user.Email;
+                return View(model);
+
+            }
+            else
+            {
+                return RedirectToAction("CommentList");
+            }
+            
         }
         [ValidateInput(false)]
         [HttpPost]
         public ActionResult MailSend(MailSendViewModel model)
         {
             var result =  SendMail(model);
-            return View(model);
+            if (result)
+            {
+                return RedirectToAction("CommentList");
+            }
+            else
+            {
+                return View();
+            }
         }
         public bool SendMail(MailSendViewModel model)
         {
@@ -304,12 +320,12 @@ namespace DealDouble.Web.Controllers
             {
                 string senderMail = System.Configuration.ConfigurationManager.AppSettings["senderMail"].ToString();
                 string senderPassword = System.Configuration.ConfigurationManager.AppSettings["senderPassword"].ToString();
-                SmtpClient client = new SmtpClient("smtp.gmail.com",587);
+                SmtpClient client = new SmtpClient("smtp.gmail.com", 587 );
                 client.EnableSsl = true;
                 client.Timeout = 100000;
                 client.DeliveryMethod = SmtpDeliveryMethod.Network;
                 client.UseDefaultCredentials = false;
-                client.Credentials = new NetworkCredential(senderMail, senderPassword);
+                client.Credentials = new NetworkCredential(senderMail.Trim(), senderPassword.Trim());
                 MailMessage mailMessage = new MailMessage(senderMail, model.Email, model.Subject, model.BodyText);
                 mailMessage.IsBodyHtml = true;
                 mailMessage.BodyEncoding = UTF8Encoding.UTF8;

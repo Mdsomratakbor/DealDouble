@@ -6,8 +6,8 @@
         Layout = "~/Views/Shared/_DashboardLayout.cshtml";
     }
 }
-<link href="~/Content/css/editor.css" rel="stylesheet" />
-<script src="~/Content/vendor/jquery/editor.js"></script>
+<link href="~/Content/css/richtext.min.css" rel="stylesheet" />
+<script src="~/Content/vendor/jquery/jquery.richtext.min.js"></script>
 <div class="row">
     <div class="col-md-12">
         <div class="card" id="form_container">
@@ -37,7 +37,7 @@
                             <input type="text" class="form-control" name="Subject" />
                         </div>
                         
-                        <textarea  rows="4" name="BodyText"></textarea>
+                        <textarea id="txtEditor"  rows="4" name="BodyText"></textarea>
                     </div>
                     <button class="btn btn-success btn-sm float-right my-3" id="btnMail"><i class="fa fa-send"></i>Send</button>
                 </div>
@@ -48,7 +48,7 @@
 
 <script>
     $(document).ready(function () {
-        $("#txtEditor").Editor();
+        $("#txtEditor").richText();
     });
     $("#frmMail").validate({
         rules: {
@@ -78,13 +78,14 @@
                 method: 'post',
                 url: '@Url.Action("MailSend","Dashboard")',
                 data: $("#frmMail").serialize()
-            }).done(function () {
-                setTimeout(function () {
-                    window.location.reload();
-                }, 100)
-                swal("Your record Delete Successfully !", {
-                    icon: "success",
-                });
+            }).done(function (response) {
+                    swal("Mail Send Successfully !", {
+                        icon: "success",
+                    });
+                    setTimeout(function (response) {
+                        $("#listingArea").html(response);
+                    }, 1000)
+
             }).fail(function (xhr, ajaxOptions, thrownError) {
                 alert(xhr.status);
                 alert(thrownError);

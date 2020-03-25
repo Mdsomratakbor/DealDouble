@@ -244,6 +244,7 @@ namespace DealDouble.Web.Controllers
             return RedirectToAction("Index");
         }
 
+        
         public ActionResult CommentList(string searchTearm, int? pageNo, int? pageSize)
         {
             CommentsListViewModels model = new CommentsListViewModels();

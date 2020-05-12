@@ -45,7 +45,7 @@
                 <div class="col-lg-12">
                     <div class="border p-2">
                         <div class="float-left">
-                            <select id="selectCategories" class="form-control">
+                            <select id="selectCategories" class="form-control">                                
                                 <option value="0" disabled selected>All Categories</option>
                                 @foreach (var category in Model.Categories)
                             {
@@ -230,7 +230,6 @@
 </div>
 
 <script>
-
     $('#btnSearch').click(function () {
         var searchText = $('#searchText').val();
         $.ajax({
@@ -248,15 +247,18 @@
 
     })
     $('#selectCategories').change(function () {
+        debugger
         var categroy = $(this).val();
         $.ajax({
             method: 'Get',
             url: '@Url.Action("Index","Home")',
             data: { categoryID: categroy, searchTearm: '@Model.SearchTearm', pageSize: '@Model.PageNo', pageSize: '@Model.PageSize' }
         }).done(function (response) {
-            window.setTimeout(function () {
-                $('#listingArea').html(response)
-            }, 200)
+            //window.setTimeout(function () {
+            //    $("#listingArea").html(response)
+            //}, 200)
+            $("#selectCategories option[selected]").removeAttr("selected");
+            $("#selectCategories option[value=" + categroy + "]").attr("select", "selected");
         }).fail(function (xhr, ajaxOptions, thrownError) {
             alert(xhr.status);
             console.log(thrownError);

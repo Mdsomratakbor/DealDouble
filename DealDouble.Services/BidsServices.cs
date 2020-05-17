@@ -33,47 +33,5 @@ namespace DealDouble.Services
                 return context.SaveChanges() > 0;
             }
         }
-        //public List<Auction> GetPromoAuction()
-        //{
-        //    using (var context = new Context())
-        //    {
-        //        return context.Auctions.Take(4).ToList();
-        //    }
-        //}
-        //public Category GetCategoryById(int id)
-        //{
-
-        //    using (var context = new Context())
-        //    {
-        //        return context.Categories.Find(id);
-        //    }
-        //}
-        //public void SaveCategory(Category category)
-        //{
-        //    using (var context = new Context())
-        //    {
-        //        context.Categories.Add(category);
-        //        context.SaveChanges();
-        //    }
-        //}
-        //public void UpdateCategory(Category category)
-        //{
-        //    using (var context = new Context())
-        //    {
-        //        context.Entry(category).State = System.Data.Entity.EntityState.Modified;
-        //        context.SaveChanges();
-        //    }
-
-        // }
-        //public void DeleteCategory(int id)
-        //{
-        //    using (var context = new Context())
-        //    {
-        //        var category = context.Categories.Find(id);
-        //        context.Entry(category).State = System.Data.Entity.EntityState.Modified;
-        //        context.Categories.Remove(category);
-        //        context.SaveChanges();
-        //    }
-        //}
     }
 }

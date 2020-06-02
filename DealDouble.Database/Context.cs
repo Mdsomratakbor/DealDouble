@@ -11,7 +11,17 @@ namespace DealDouble.Database
         {
            System.Data.Entity.Database.SetInitializer<Context>(new DealDoubleDBInitializer());
         }
-       
+        //protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        //{
+        //    base.OnModelCreating(modelBuilder); // This needs to go before the other rules!
+
+        //    modelBuilder.Entity<DealDoubleUser>().ToTable("User");
+        //    modelBuilder.Entity<IdentityRole>().ToTable("Role");
+        //    modelBuilder.Entity<IdentityUserRole>().ToTable("UserRole");
+        //    modelBuilder.Entity<IdentityUserClaim>().ToTable("UserClaim");
+        //    modelBuilder.Entity<IdentityUserLogin>().ToTable("UserLogin");
+        //}
+
         public DbSet<AuctionPicture> AuctionPictures { get; set; }
         public DbSet<Picture> Pictures { get; set; }
         public DbSet<Category> Categories { get; set; }
